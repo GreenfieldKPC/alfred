@@ -14,6 +14,8 @@ import { TakenComponent } from './taken/taken.component';
 import { PostedComponent } from './posted/posted.component';
 import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
+import { AlertModule } from 'ngx-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { JobComponent } from './job/job.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AlertModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
