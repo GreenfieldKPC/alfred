@@ -3,6 +3,59 @@
 </p>
 <header>
   <div class="container">
+    <form [formGroup]="profileForm">
+    
+      <label>
+        First Name:
+        <input type="text" formControlName="firstName">
+      </label>
+    <br>
+      <label>
+        Last Name:
+        <input type="text" formControlName="lastName">
+      </label>
+      <br>
+      <label>
+        Phone #
+        <input type="text" formControlName="phone">
+      </label>
+      <br>
+      <label>
+        Email:
+        <input type="text" formControlName="email">
+      </label>
+      <br>
+      <label>
+        Address:
+        <input type="text" formControlName="address">
+      </label>
+      <br>
+      <label>
+        City:
+        <input type="text" formControlName="city">
+      </label>
+      <br>
+      <label>
+        State:
+        <input type="text" formControlName="state">
+      </label>
+      <br>
+      <label>
+        Zipcode:
+        <input type="text" formControlName="zipcode">
+      </label>
+      <br>
+      <label>
+        Country:
+        <input type="text" formControlName="country">
+      </label>
+      <br>
+      <label>
+        Apt/Unit/Bldg#:
+        <input type="text" formControlName="aptNumber">
+      </label>
+    
+    </form>
     <button routerLink="/login">Submit</button>
   </div>
 </header>
