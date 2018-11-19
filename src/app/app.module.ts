@@ -1,3 +1,5 @@
+import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -31,12 +33,14 @@ import { AlertModule } from 'ngx-bootstrap';
     MessageComponent,
     JobComponent
   ],
-  imports: [
-    BrowserModule,
+  imports:[
+ CommonModule,
+NgtUniversalModule,
+ 
+    
     AppRoutingModule,
     AlertModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }
