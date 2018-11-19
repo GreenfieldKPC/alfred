@@ -1,3 +1,32 @@
-<p>
-  sign-up works!
-</p>
+<header>
+  <div class="container">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <strong>Sign-Up</strong>
+      <br>
+      <input type="text" formControlName="username" placeholder="Username">
+      <br>
+      <input type="text" formControlName="password" placeholder="Password">
+      <br>
+        <input type="text" formControlName="firstName" placeholder="First Name">
+      <br>
+        <input type="text" formControlName="lastName" placeholder="Last Name">
+      <br>
+        <input type="text" formControlName="phone" placeholder="Phone #">
+      <br>
+        <input type="text" formControlName="email" placeholder="Email">
+      <br>
+        <input type="text" formControlName="address" placeholder="Address">
+        <input type="text" formControlName="aptNumber" placeholder="Apt/Unit/Bldg#">
+      <br>
+        <input type="text" formControlName="city" placeholder="City">
+        <input type="text" formControlName="state" placeholder="State">
+      <br>
+        <input type="text" formControlName="zipcode" placeholder="Zipcode">
+        <input type="text" formControlName="country" placeholder="Country">
+      <br>
+  <button type="submit" routerLink="/login">Submit</button>
+  
+</form>
+
+  </div>
+</header>

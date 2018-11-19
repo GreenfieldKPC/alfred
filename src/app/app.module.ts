@@ -17,6 +17,7 @@ import { PostedComponent } from './posted/posted.component';
 import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
 import { AlertModule } from 'ngx-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ NgtUniversalModule,
  
     
     AppRoutingModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [],
 })
