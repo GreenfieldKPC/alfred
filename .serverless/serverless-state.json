@@ -108,7 +108,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/alfred/production/1542664445893-2018-11-19T21:54:05.893Z/alfred.zip"
+                "S3Key": "serverless/alfred/production/1542666544253-2018-11-19T22:29:04.253Z/alfred.zip"
               },
               "FunctionName": "alfred-production-api",
               "Handler": "lambda.universal",
@@ -127,14 +127,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "ApiLambdaVersion8KmgDA9nTZ4c1WqvwrLaDoP7QQkZm50LxjdRNYUR4": {
+          "ApiLambdaVersion9qykWWzEug5BZq7sjYXWjtndM3Tz5rAoVvVkWtmY4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "TfZUrVVDxb2QxLFnIiqbfI5gcP2w1K8jhsQYiWhn8Zo="
+              "CodeSha256": "E2CNwCwHtO+rQUjC/D/a+y4oIFP0Dt+rK+Y8J4Byg7w="
             }
           },
           "ApiGatewayRestApi": {
@@ -244,7 +244,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1542664445910": {
+          "ApiGatewayDeployment1542666544272": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -300,7 +300,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersion8KmgDA9nTZ4c1WqvwrLaDoP7QQkZm50LxjdRNYUR4"
+              "Ref": "ApiLambdaVersion9qykWWzEug5BZq7sjYXWjtndM3Tz5rAoVvVkWtmY4"
             }
           },
           "ServiceEndpoint": {
@@ -367,7 +367,7 @@
     "artifact": "/Users/constancecrutchfield/Documents/Immersion_sr/alfred/.serverless/alfred.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/alfred/production/1542664445893-2018-11-19T21:54:05.893Z",
+    "artifactDirectoryName": "serverless/alfred/production/1542666544253-2018-11-19T22:29:04.253Z",
     "artifact": "alfred.zip"
   }
 }
