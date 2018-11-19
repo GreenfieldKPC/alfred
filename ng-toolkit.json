@@ -1,0 +1,17 @@
+{
+  "serverless": {
+    "provider": "aws",
+    "project": "alfred",
+    "skipInstall": false,
+    "directory": ".",
+    "serverless": {
+      "aws": {},
+      "gcloud": {}
+    }
+  },
+  "universal": {
+    "project": "alfred",
+    "skipInstall": false,
+    "directory": "."
+  }
+}

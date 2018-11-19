@@ -1,3 +1,5 @@
+import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -32,13 +34,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     MessageComponent,
     JobComponent
   ],
-  imports: [
-    BrowserModule,
+  imports:[
+ CommonModule,
+NgtUniversalModule,
+ 
+    
     AppRoutingModule,
     AlertModule.forRoot(),
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }
