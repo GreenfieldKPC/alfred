@@ -1,28 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-
+import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
-  profileForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    phone: new FormControl(''),
-    email: new FormControl(''),
-    address: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    zipcode: new FormControl(''),
-    country: new FormControl(''),
-    aptNumber: new FormControl(''),
-
-  })
-  constructor() { }
+export class SignUpComponent {
+  profileForm: FormGroup;
+  signupSuccess = false;
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-  }
+    this.profileForm = this.formBuilder.group({
+      username: [''],
+      password: [''],
+      firstName: [''],
+      lastName: [''],
+      phone: [''],
+      email: [''],
+      address: [''],
+      city: [''],
+      state: [''],
+      zipcode: [''],
+      country: [''],
+      aptNumber: [''],
 
+    })
+  }
+  onSubmit() {
+    // this.profileForm.setValue({
+    // });
+    
+    console.log(this.profileForm.value);
+    console.log(this.signupSuccess);
+    this.signupSuccess = true;
+  }
 }
