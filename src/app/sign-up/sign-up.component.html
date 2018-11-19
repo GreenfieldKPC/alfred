@@ -3,41 +3,26 @@
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
       <strong>Sign-Up</strong>
       <br>
-      Username:
-      <input type="text" formControlName="username">
+      <input type="text" formControlName="username" placeholder="Username">
       <br>
-      Password:
-      <input type="text" formControlName="password">
+      <input type="text" formControlName="password" placeholder="Password">
       <br>
-        First Name:
-        <input type="text" formControlName="firstName">
+        <input type="text" formControlName="firstName" placeholder="First Name">
       <br>
-        Last Name:
-        <input type="text" formControlName="lastName">
+        <input type="text" formControlName="lastName" placeholder="Last Name">
       <br>
-        Phone #
-        <input type="text" formControlName="phone">
+        <input type="text" formControlName="phone" placeholder="Phone #">
       <br>
-        Email:
-        <input type="text" formControlName="email">
+        <input type="text" formControlName="email" placeholder="Email">
       <br>
-        Address:
-        <input type="text" formControlName="address">
+        <input type="text" formControlName="address" placeholder="Address">
+        <input type="text" formControlName="aptNumber" placeholder="Apt/Unit/Bldg#">
       <br>
-        City:
-        <input type="text" formControlName="city">
+        <input type="text" formControlName="city" placeholder="City">
+        <input type="text" formControlName="state" placeholder="State">
       <br>
-        State:
-        <input type="text" formControlName="state">
-      <br>
-        Zipcode:
-        <input type="text" formControlName="zipcode">
-      <br>
-        Country:
-        <input type="text" formControlName="country">
-      <br>
-        Apt/Unit/Bldg#:
-        <input type="text" formControlName="aptNumber">
+        <input type="text" formControlName="zipcode" placeholder="Zipcode">
+        <input type="text" formControlName="country" placeholder="Country">
       <br>
   <button type="submit" routerLink="/login">Submit</button>
   
