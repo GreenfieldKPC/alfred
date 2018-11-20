@@ -111,14 +111,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiLambdaVersionaKZaGnC3b8Rf50UgklnIGNqMNPKwOTVcvA6XNCIL40": {
+    "ApiLambdaVersionGoAXBEvK63LrdazjBTb9o1NWd9c2lxgrmZtWXew": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "BUJ6Hk1Nxyc6mb6Gckzx/N7MUugCU8VGL5kgUakVbNA="
+        "CodeSha256": "aUXou+tybkG9t+dxxsTGuiXxKnNzplafl2upsCedPyQ="
       }
     },
     "ApiGatewayRestApi": {
@@ -284,7 +284,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionaKZaGnC3b8Rf50UgklnIGNqMNPKwOTVcvA6XNCIL40"
+        "Ref": "ApiLambdaVersionGoAXBEvK63LrdazjBTb9o1NWd9c2lxgrmZtWXew"
       }
     },
     "ServiceEndpoint": {
