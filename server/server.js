@@ -1,5 +1,9 @@
-var express = require('express')
-const db = require('../models')
+var express = require('express');
+const db = require('../models');
+const googleMapsClient = require('@google/maps').createClient({
+  key: 'your API key here',
+  Promise: Promise
+});
 const hostname = 'localhost';
 const port = 8080;
 const app = express();

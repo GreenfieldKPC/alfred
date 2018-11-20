@@ -17,7 +17,10 @@ import { PostedComponent } from './posted/posted.component';
 import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
 import { AlertModule } from 'ngx-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+
 
 @NgModule({
   declarations: [
@@ -35,14 +38,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     JobComponent
   ],
   imports:[
- CommonModule,
-NgtUniversalModule,
- 
-    
+    CommonModule,
+    NgtUniversalModule,
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyDaXjBhM9uS_rV_LlWJIQQsqK2bk_3cto8' }),
+    FormsModule,
+    NgbModule.forRoot(),
     AppRoutingModule,
     AlertModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    GoogleMapsAPIWrapper
+  ],
 })
 export class AppModule { }
