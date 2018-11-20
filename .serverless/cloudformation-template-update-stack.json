@@ -92,7 +92,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/alfred/production/1542669014315-2018-11-19T23:10:14.315Z/alfred.zip"
+          "S3Key": "serverless/alfred/production/1542674607626-2018-11-20T00:43:27.626Z/alfred.zip"
         },
         "FunctionName": "alfred-production-api",
         "Handler": "lambda.universal",
@@ -228,7 +228,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1542669014333": {
+    "ApiGatewayDeployment1542674607665": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
