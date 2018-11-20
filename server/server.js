@@ -7,7 +7,7 @@ const hostname = 'localhost';
 const port = 8080;
 const app = express();
 
-app.use(express.static('dist/alfred'))
+app.use(express.static('dist/browser'))
 
 app.get('/', (req, res, next) => {
   res.statusCode = 200;
