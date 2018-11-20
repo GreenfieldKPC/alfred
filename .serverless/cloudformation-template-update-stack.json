@@ -92,7 +92,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/alfred/production/1542669014315-2018-11-19T23:10:14.315Z/alfred.zip"
+          "S3Key": "serverless/alfred/production/1542677934769-2018-11-20T01:38:54.769Z/alfred.zip"
         },
         "FunctionName": "alfred-production-api",
         "Handler": "lambda.universal",
@@ -111,14 +111,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "ApiLambdaVersionaKZaGnC3b8Rf50UgklnIGNqMNPKwOTVcvA6XNCIL40": {
+    "ApiLambdaVersionGoAXBEvK63LrdazjBTb9o1NWd9c2lxgrmZtWXew": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "BUJ6Hk1Nxyc6mb6Gckzx/N7MUugCU8VGL5kgUakVbNA="
+        "CodeSha256": "aUXou+tybkG9t+dxxsTGuiXxKnNzplafl2upsCedPyQ="
       }
     },
     "ApiGatewayRestApi": {
@@ -228,7 +228,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1542669014333": {
+    "ApiGatewayDeployment1542677934808": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -284,7 +284,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionaKZaGnC3b8Rf50UgklnIGNqMNPKwOTVcvA6XNCIL40"
+        "Ref": "ApiLambdaVersionGoAXBEvK63LrdazjBTb9o1NWd9c2lxgrmZtWXew"
       }
     },
     "ServiceEndpoint": {
