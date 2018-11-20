@@ -1,17 +1,14 @@
 var express = require('express');
+const db = require('../models');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
   Promise: Promise
 });
-const {
-  db,
-  auth
-} = require('./database.js')
 const hostname = 'localhost';
 const port = 8080;
 const app = express();
 
-app.use(express.static('dist/alfred'))
+app.use(express.static('dist/browser'))
 
 app.get('/', (req, res, next) => {
   res.statusCode = 200;
