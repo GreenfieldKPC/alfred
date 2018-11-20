@@ -1,4 +1,8 @@
-var express = require('express')
+var express = require('express');
+const googleMapsClient = require('@google/maps').createClient({
+  key: 'your API key here',
+  Promise: Promise
+});
 const {
   db,
   auth
