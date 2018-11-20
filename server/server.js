@@ -4,7 +4,7 @@ const {
   auth
 } = require('./database.js')
 const hostname = 'localhost';
-const port = 4200;
+const port = 8080;
 const app = express();
 
 app.use(express.static('dist/browser'))
