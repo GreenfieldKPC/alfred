@@ -1,8 +1,5 @@
 var express = require('express')
-const {
-  db,
-  auth
-} = require('./database.js')
+const db = require('../models')
 const hostname = 'localhost';
 const port = 8080;
 const app = express();
