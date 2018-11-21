@@ -2,7 +2,7 @@ import { NgtUniversalModule } from '@ng-toolkit/universal';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SplashComponent } from './splash/splash.component';
@@ -38,6 +38,7 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
     JobComponent
   ],
   imports:[
+    HttpClientModule,
     CommonModule,
     NgtUniversalModule,
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyDaXjBhM9uS_rV_LlWJIQQsqK2bk_3cto8' }),
