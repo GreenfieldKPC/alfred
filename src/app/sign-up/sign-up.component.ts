@@ -29,8 +29,6 @@ export class SignUpComponent {
     })
   }
   onSubmit(e) {
-    // this.profileForm.setValue({
-    // });
     this.username = e;
     console.log(this.profileForm.value);
     this.signupSuccess = true;

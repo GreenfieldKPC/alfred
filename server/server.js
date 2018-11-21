@@ -19,7 +19,7 @@ app.get('/', (req, res,) => {
   res.end('connected');
 });
 
-
+//*****  HANDELING SIGN UP******//
 app.post('/signup',(req,res) =>{
 console.log(req.body)
 var  picture;
@@ -48,7 +48,7 @@ db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last
 })
 
 
-
+//********* HANDELING LOGIN********//
 app.post("/login", (req, res) => {
   console.log(req.body);
  const username = req.body.username;
@@ -67,3 +67,10 @@ app.listen(port, hostname, () => {
   // connect to the DB
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+
+//*********HANDELING ADDING A JOB***** *//
+
+app.post("/add",(req,res) =>{
+  console.log(req.body); 
+})
