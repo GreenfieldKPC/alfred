@@ -18,7 +18,6 @@ interface Location {
   viewport?: Object;
   zoom: number;
   address_level_1?: string;
-  address_level_2?: string;
   address_country?: string;
   address_zip?: string;
   address_state?: string;
@@ -77,11 +76,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-<<<<<<< HEAD
-    // adding to create new pull
-=======
     
->>>>>>> ee46109f0872f1de944f78d15d4a3a1a463fc859
   }
 
 }
