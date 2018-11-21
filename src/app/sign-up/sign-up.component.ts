@@ -10,7 +10,7 @@ export class SignUpComponent {
   profileForm: FormGroup;
   signupSuccess = false;
   constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
-
+  username: string;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -28,10 +28,10 @@ export class SignUpComponent {
 
     })
   }
-  onSubmit() {
+  onSubmit(e) {
     // this.profileForm.setValue({
     // });
-    
+    this.username = e;
     console.log(this.profileForm.value);
     this.signupSuccess = true;
     this.http.post("/signup", this.profileForm.value).subscribe((data) => {

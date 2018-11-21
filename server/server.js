@@ -47,26 +47,21 @@ db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last
 })
 })
 
+
+
 app.post("/login", (req, res) => {
   console.log(req.body);
  const username = req.body.username;
  const password = req.body.password;
- db.users.find({
-   where: {
-     username: username,
-     password:password
-   }
- }).then(function (user) {
-   if (!user) {
-     res.send(false);
-     res.end()
-   }else{
-   res.send(true);
-   res.end()
-   }
- });
-
+db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND password = '${password}';`).then((user) =>{
+  if (user[0][0] ===undefined || user[0][0].id === undefined) {
+    res.send(false);
+  }else{
+      res.send(true);
+    }
+  });
 })
+   
 
 app.listen(port, hostname, () => {
   // connect to the DB
