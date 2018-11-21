@@ -1,4 +1,5 @@
 var express = require('express');
+const session = require('express-session');
 const db = require('../models');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
@@ -7,17 +8,21 @@ const googleMapsClient = require('@google/maps').createClient({
 const hostname = 'localhost';
 const port = 8080;
 const app = express();
-const axios = require('axios');
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json())
 app.use(express.static('dist/browser'))
 
-app.get('/', (req, res,) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('connected');
-});
+// **********SETTING UP INTIAL SESSION********//
+app.use(session({
+  secret: 'hackerman',
+  resave: true,
+  saveUninitialized: true,
+  username: null,
+  cookie: {
+    path: '/',
+  },
+}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signup',(req,res) =>{
@@ -57,20 +62,32 @@ db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND pass
   if (user[0][0] ===undefined || user[0][0].id === undefined) {
     res.send(false);
   }else{
+    return req.session.regenerate(() => {
+      req.session.user = username;
       res.send(true);
+    });
     }
   });
 })
    
+//*********HANDELING ADDING A JOB***** *//
+
+app.post("/add",(req,res) =>{
+  console.log(req.body); 
+  console.log(req.session)
+})
+
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req,res) => {
+  req.session.destroy();
+  res.send(true);
+})
+
+
+
+
 
 app.listen(port, hostname, () => {
   // connect to the DB
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-
-//*********HANDELING ADDING A JOB***** *//
-
-app.post("/add",(req,res) =>{
-  console.log(req.body); 
-})
