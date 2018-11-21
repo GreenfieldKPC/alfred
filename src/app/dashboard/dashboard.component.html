@@ -4,11 +4,11 @@
 <pre>{{ userChores | json }}</pre>
 <header>
   <div class="container">
-    <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
+    <!-- <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
       [zoomControl]="true" [(fitBounds)]='location.viewport'>
       <agm-marker *ngFor="let chore of userChores" [(latitude)]="chore.marker.lat" [(longitude)]="chore.marker.lng" [markerDraggable]="chore.marker.draggable"
         (dragEnd)='markerDragEnd($event)'></agm-marker>
-    </agm-map>
+    </agm-map> -->
     <button routerLink="/navbar">Navbar</button>
     <button routerLink="/add">Post my chores</button>
   </div>
