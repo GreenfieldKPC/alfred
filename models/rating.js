@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Rating = sequelize.define('Rating', {
+  const rating = sequelize.define('Rating', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     to: DataTypes.INTEGER,
     from: DataTypes.INTEGER
   }, {});
-  Rating.associate = function(models) {
+  rating.associate = function(models) {
     // associations can be defined here
   };
-  return Rating;
+  return rating;
 };

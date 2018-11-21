@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Jobs = sequelize.define('Jobs', {
+  const jobs = sequelize.define('Jobs', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     time_started: DataTypes.DATE,
     completed: DataTypes.BOOLEAN
   }, {});
-  Jobs.associate = function(models) {
+  jobs.associate = function(models) {
     // associations can be defined here
   };
-  return Jobs;
+  return jobs;
 };
