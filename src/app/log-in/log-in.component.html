@@ -1,4 +1,4 @@
-<header>
+<!-- <header>
   <div class="container">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <strong>Log In</strong><br>
@@ -7,4 +7,18 @@
       <button type="submit" routerLink="/dashboard">Login</button>
     </form>
   </div>
-</header>
+</header> -->
+<div class="card mt-5" style="margin:auto;width: 600px;">
+  <div class="card-body">
+    <h5 class="card-title">Login</h5>
+    <div class="form-group">
+      <label for="user">Username</label>
+      <input type="text" class="form-control" id="user" placeholder="Username" [(ngModel)]="username">
+    </div>
+    <div class="form-group">
+      <label for="user">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="tryLogin()">Login</button>
+  </div>
+</div>
