@@ -41,15 +41,31 @@ db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last
       });
     } else {
       console.log('succes');
-      res.json(201, {
-        response: {
-          code: 201,
-          message: 'USER HAS BEEN ADDED'
-        }
-      });
+      res.end("user added");
     }
 
 })
+})
+
+app.post("/login", (req, res) => {
+  console.log(req.body);
+ const username = req.body.username;
+ const password = req.body.password;
+ db.users.find({
+   where: {
+     username: username,
+     password:password
+   }
+ }).then(function (user) {
+   if (!user) {
+     res.send(false);
+     res.end()
+   }else{
+   res.send(true);
+   res.end()
+   }
+ });
+
 })
 
 app.listen(port, hostname, () => {

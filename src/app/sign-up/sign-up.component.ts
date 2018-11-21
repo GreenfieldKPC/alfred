@@ -33,7 +33,6 @@ export class SignUpComponent {
     // });
     
     console.log(this.profileForm.value);
-    console.log(this.signupSuccess);
     this.signupSuccess = true;
     this.http.post("/signup", this.profileForm.value).subscribe((data) => {
         console.log(data);
