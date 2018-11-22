@@ -36,7 +36,7 @@ app.use(session({
 }));
 
 // passport config
-var User = require('../models/users');
+var User = require('../models').Users;
 passport.use(new LocalStrategy(function(username, password, done) {
   User.findOne({ where: { username: username } }).then(function (err, user) {
     if (err) { return done(err); }
@@ -67,9 +67,6 @@ passport.deserializeUser((function(id, done) {
   }
 ));
 
-// app.get('/', (req, res,) => {
-//   res.render('index', { user: req.user });
-// });
 
 app.get('/sign-up', function (req, res) {
   res.render('sign-up', {});
