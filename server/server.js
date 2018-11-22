@@ -32,35 +32,35 @@ app.use(express.static('dist/browser'))
 
 // passport config
 var User = require('../models/users');
-// passport.use(new LocalStrategy(function(username, password, done) {
-//   User.findOne({ where: { username: username } }).then(function (err, user) {
-//     if (err) { return done(err); }
-//     if (!user) {
-//       console.log('Incorrect username.');
-//       return done(null, false, { message: 'Incorrect username.' });
-//     } else if (password != user.password) {
-//       console.log('Incorrect password');
-//       return done(null, false, { message: 'Incorrect password.' });
-//     } else {
-//       console.log('ok');
-//       done(null, user);
-//     }
-//   });
-//   }));
+passport.use(new LocalStrategy(function(username, password, done) {
+  User.findOne({ where: { username: username } }).then(function (err, user) {
+    if (err) { return done(err); }
+    if (!user) {
+      console.log('Incorrect username.');
+      return done(null, false, { message: 'Incorrect username.' });
+    } else if (password != user.password) {
+      console.log('Incorrect password');
+      return done(null, false, { message: 'Incorrect password.' });
+    } else {
+      console.log('ok');
+      done(null, user);
+    }
+  });
+  }));
 
-// passport.serializeUser((function(user, cb) {
-//   console.log(user);
-//   done(null, user.id);
-// }));
+passport.serializeUser((function(user, done) {
+  console.log(user);
+  done(null, user.id);
+}));
 
-// passport.deserializeUser((function(id, cb) {
-//   User.findById(id).then(function (user) {
-//     done(null, user);
-//   }).catch(function (e) {
-//     done(e, false);
-//   });
-//   }
-// ));
+passport.deserializeUser((function(id, done) {
+  User.findById(id).then(function (user) {
+    done(null, user);
+  }).catch(function (e) {
+    done(e, false);
+  });
+  }
+));
 
 // app.get('/', (req, res,) => {
 //   res.render('index', { user: req.user });
@@ -91,7 +91,7 @@ app.post('/signup', (req, res) => {
   if (req.body.info === undefined) {
     info = "N/A"
   }
-  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
+  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${Number(req.body.phone)}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
     function (err) {
       if (err) {
         return res.json(400, {
@@ -115,18 +115,16 @@ app.post('/signup', (req, res) => {
 
 app.get('/login', function (req, res) {
   res.render('login', { user: req.user });
-  res.end();
 });
 
-app.post('/login', passport.authenticate('local'), function (req, res) {
-  res.redirect('/');
-  res.end();
-});
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
 
 app.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
-  res.end();
 });
 
 app.listen(port, hostname, () => {
