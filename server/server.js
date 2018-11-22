@@ -1,5 +1,4 @@
 var express = require('express');
-const session = require('express-session');
 const db = require('../models');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
@@ -15,13 +14,11 @@ const logger = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const expressSession = require('express-session');
 const request = require('request');
 const axios = require('axios');
 app.use(require('cookie-parser')());
 app.use(bodyParser.json())
 app.use(require('body-parser').urlencoded({ extended: false }));
-app.use(expressSession({ secret: 'mySecretKey', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'ejs');
