@@ -11,15 +11,12 @@ module.exports = {
       username:{ type: 
         Sequelize.STRING
       },
-        password:{ 
-          type: Sequelize.STRING
-        },
-       name_first:{
-         type: Sequelize.STRING,
-       },
-         name_last: {
-          type: Sequelize.STRING,
-             },
+      name_first:{
+        type: Sequelize.STRING,
+      },
+      name_last: {
+        type: Sequelize.STRING,
+      },
       phone: {
         type: Sequelize.NUMERIC
       },
@@ -35,6 +32,9 @@ module.exports = {
       area: {
         type: Sequelize.INTEGER
       },
+      hashed_password: {
+        type: Sequelize.STRING,
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
