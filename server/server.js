@@ -41,7 +41,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
     var generateHash = function (password) {
       return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
     };
-    const userPassword = generateHash(password);
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
     console.log('user////',user[0]);
@@ -138,7 +137,7 @@ app.post('/signUp', function (req, res, done) {
   }).then(() => {
     db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
       if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-        db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+        db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
           function (err) {
             if (err) {
               return res.json(400, {
