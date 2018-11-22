@@ -17,11 +17,11 @@ module.exports = {
        name_first:{
          type: Sequelize.STRING,
        },
-             name_last: {
-               type: Sequelize.STRING,
+         name_last: {
+          type: Sequelize.STRING,
              },
       phone: {
-        type: Sequelize.BIGINT
+        type: Sequelize.NUMERIC
       },
       email: {
         type: Sequelize.STRING
