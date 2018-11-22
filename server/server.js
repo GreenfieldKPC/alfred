@@ -34,7 +34,7 @@ app.use(session({
   },
 }));
 
-// passport config
+// ************ passport config *********//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
     // hash password
