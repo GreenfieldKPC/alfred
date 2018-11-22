@@ -14,8 +14,7 @@ import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent, 
-  children: [{ path: '', component: SplashComponent }] },
+  { path: '', component: SplashComponent },
   { path: 'login', component: LogInComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'dashboard', component: DashboardComponent },
@@ -34,3 +33,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export const routingComponents = [SplashComponent,LogInComponent,SignUpComponent,DashboardComponent,NavbarComponent,AddComponent,ProfileComponent,TakenComponent,PostedComponent, MessageComponent , JobComponent];
