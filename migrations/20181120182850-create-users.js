@@ -34,10 +34,7 @@ module.exports = {
       },
       hashed_password: {
         type: Sequelize.STRING,
-      },
-      salt: {
-        type: Sequelize.STRING,
-      },
+      }
     });
   },
   down: (queryInterface, Sequelize) => {

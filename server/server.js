@@ -13,6 +13,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const bCrypt = require('bcrypt-nodejs');
 
 app.use(require('cookie-parser')());
 app.use(bodyParser.json())
@@ -35,13 +36,19 @@ app.use(session({
 
 // passport config
 var User = require('../models').Users;
-passport.use(new LocalStrategy(function(username, password, done) {
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
+passport.use(new LocalStrategy(function (username, password, done) {
+    // hash password
+    var generateHash = function (password) {
+      return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+    };
+    const userPassword = generateHash(password);
+
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
     console.log('user////',user[0]);
     if (!user[0][0]) {
       console.log('Incorrect username.');
       return done(null, false, { message: 'Incorrect username.' });
-    } else if (password != user[0][0].password) {
+    } else if (bCrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
       console.log('Incorrect password');
       return done(null, false, { message: 'Incorrect password.' });
     } else {
@@ -112,32 +119,53 @@ app.get("/logOUt", (req, res) => {
 
 
 //*****  HANDELING SIGN UP******//
-app.post('/signUp',(req,res) =>{
-console.log(req.body)
-var  picture;
-var  info;
-if(req.body.picture === undefined){
-  picture = "non.png"
-}
-if(req.body.info === undefined){
-info = "N/A"
-}
-  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
-    function (err) {
-      if(err){
-      return res.json(400, {
-        response: {
-          code: 400,
-          message: 'An error appeared.'
-        }
-      });
-    } else {
-      console.log('succes');
-      res.end("user added");
-    }
+app.post('/signUp', function (req, res, done) {
+      console.log(req.body)
+      var picture;
+      var info;
+      if (req.body.picture === undefined) {
+        picture = "non.png"
+      }
+      if (req.body.info === undefined) {
+        info = "N/A"
+      }
+      // hash password
+      var generateHash = function (password) {
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
+      };
 
-})
-})
+      var userPassword = generateHash(req.body.password);
+
+  db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}','${userPassword}')`)
+        .then((newUser) => {
+          if (!newUser) {
+            return res.json(400, {
+              response: {
+                code: 400,
+                message: 'An error appeared.'
+              }
+            });
+          }
+          if (newUser) {
+            console.log('succes');
+            res.end("user added");
+          }
+        });
+  }
+)
+// function (err) {
+//   if (err) {
+//     return res.json(400, {
+//       response: {
+//         code: 400,
+//         message: 'An error appeared.'
+//       }
+//     });
+//   } else {
+//     console.log('succes');
+//     res.end("user added");
+//   }
+// })
 
 
 //********* HANDELING LOGIN********//
