@@ -25,7 +25,7 @@ app.use(session({
 }));
 
 //*****  HANDELING SIGN UP******//
-app.post('/signup',(req,res) =>{
+app.post('/signUp',(req,res) =>{
 console.log(req.body)
 var  picture;
 var  info;
