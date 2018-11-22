@@ -108,7 +108,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/alfred/production/1542677934769-2018-11-20T01:38:54.769Z/alfred.zip"
+                "S3Key": "serverless/alfred/production/1542674607626-2018-11-20T00:43:27.626Z/alfred.zip"
               },
               "FunctionName": "alfred-production-api",
               "Handler": "lambda.universal",
@@ -244,7 +244,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1542677934808": {
+          "ApiGatewayDeployment1542674607665": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -367,7 +367,7 @@
     "artifact": "/Users/hoahuynh/Documents/immersion/alfred/.serverless/alfred.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/alfred/production/1542677934769-2018-11-20T01:38:54.769Z",
+    "artifactDirectoryName": "serverless/alfred/production/1542674607626-2018-11-20T00:43:27.626Z",
     "artifact": "alfred.zip"
   }
 }

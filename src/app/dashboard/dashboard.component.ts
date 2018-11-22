@@ -225,10 +225,10 @@ zipcode: "70119"
 */
     this.http.get('/user').subscribe((user) =>{
       console.log(user);
-      if(user.areas) {
-        this.findLocation(user.areas);
+      // if(user.areas) {
+      //   this.findLocation(user.areas);
 
-      } 
+      // } 
     })
     
   }
