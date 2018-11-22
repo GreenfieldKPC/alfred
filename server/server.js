@@ -8,22 +8,16 @@ const googleMapsClient = require('@google/maps').createClient({
 const hostname = 'localhost';
 const port = 8080;
 const app = express();
-const flash = require('connect-flash');
 const passport = require('passport');
 const request = require('request');
-const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressSession = require('express-session');
 const axios = require('axios');
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(expressSession({ secret: 'mySecretKey' }));
 app.use(passport.initialize());
 app.use(passport.session());
 // app.use('/public', express.static(__dirname + '/public'));
-app.use(flash());
-app.use(session({ secret: 'keyboard cat' }))
 app.set('view engine', 'ejs');
 app.set('view options', { layout: false });
 
@@ -47,13 +41,14 @@ app.post('/signUp',(req,res) =>{
 console.log(req.body)
 var  picture;
 var  info;
+// const phone = Number(req.body.phone);
 if(req.body.picture === undefined){
   picture = "non.png"
 }
 if(req.body.info === undefined){
 info = "N/A"
 }
-db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
+  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
     function (err) {
       if(err){
       return res.json(400, {
