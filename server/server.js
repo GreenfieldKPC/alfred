@@ -10,12 +10,10 @@ const app = express();
 const path = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const logger = require('morgan');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const request = require('request');
-const axios = require('axios');
+
 app.use(require('cookie-parser')());
 app.use(bodyParser.json())
 app.use(require('body-parser').urlencoded({ extended: false }));
