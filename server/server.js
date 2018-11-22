@@ -41,7 +41,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
     var generateHash = function (password) {
       return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
     };
-    const userPassword = generateHash(password);
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
     console.log('user////',user[0]);
@@ -90,7 +89,10 @@ app.post('/login', function (req, res, next) {
       if (err) { return next(err); }
       // Redirect if it succeeds
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end();
+      return req.session.regenerate(() => {
+        req.session.user = user;
+        res.end();
+      });;
     });
   })(req, res, next);
 }
@@ -163,19 +165,6 @@ app.post('/signUp', function (req, res, done) {
   })
   }
 )
-// function (err) {
-//   if (err) {
-//     return res.json(400, {
-//       response: {
-//         code: 400,
-//         message: 'An error appeared.'
-//       }
-//     });
-//   } else {
-//     console.log('succes');
-//     res.end("user added");
-//   }
-// })
 
 
 //********* HANDELING LOGIN********//
@@ -204,6 +193,22 @@ app.post("/add",(req,res) =>{
   console.log(req.session)
 })
 
+//********* get user jobs ******/
+app.post('/jobsTaken', (req, res) => {
+  const q = `SELECT * from jobs WHERE doer = ${req.body.session.user.id}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data);
+    res.end(data);
+  });
+});
+
+app.post('/jobsPosted', (req, res) => {
+  const q = `SELECT * from jobs WHERE poster = ${req.query.session.user.id}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data);
+    res.end(data);
+  });
+});
 
 app.listen(port, hostname, () => {
   // connect to the DB
