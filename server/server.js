@@ -29,10 +29,8 @@ app.use(session({ secret: 'keyboard cat' }))
 app.set('view engine', 'ejs');
 app.set('view options', { layout: false });
 
-// app.use(express.static('dist/browser'))
-app.use(express.static(path.join(__dirname + 'dist/browser')));
-
-// app.use(express.static('dist/browser'))
+app.use(express.static('dist/browser'))
+// app.use(express.static(path.join(__dirname + 'dist/browser')));
 
 // passport config
 var User = require('../models/users');
@@ -41,7 +39,7 @@ var User = require('../models/users');
 // passport.deserializeUser(User.deserializeUser());
 
 // app.get('/', (req, res,) => {
-//   // res.render('index', { user: req.user });
+//   res.render('index', { user: req.user });
 // });
 
 app.get('/sign-up', function (req, res) {
