@@ -84,10 +84,6 @@ app.get('/sign-up', function (req, res) {
 //   });
 // });
 
-app.get('/login', function (req, res) {
-  res.render('login', { user: req.user });
-});
-
 app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user) {
     if (err) { return next(err); }
