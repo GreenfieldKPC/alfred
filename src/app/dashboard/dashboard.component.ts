@@ -84,6 +84,7 @@ export class DashboardComponent implements OnInit {
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
+    
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
       console.log(this.geocoder);
@@ -205,6 +206,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.http.get('/user').subscribe((user) =>{
+      console.log(user)
+    })
     
   }
 
