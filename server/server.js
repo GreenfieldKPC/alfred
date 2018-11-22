@@ -29,13 +29,29 @@ app.post('/signUp',(req,res) =>{
 console.log(req.body)
 var  picture;
 var  info;
+var area_id;
 if(req.body.picture === undefined){
   picture = "non.png"
 }
 if(req.body.info === undefined){
 info = "N/A"
 }
-db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}',${req.body.zipcode})`,
+ db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
+   if (area[0][0] === undefined || area[0][0].id === undefined){
+   db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
+      db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
+       area_id = area[0][0].id
+      });
+   })
+   }else{
+     area_id = area[0][0].id
+   }
+ })
+
+
+ db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
+   if ((user[0][0] === undefined || user[0][0].id === undefined)){
+db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}',${area_id})`,
     function (err) {
       if(err){
       return res.json(400, {
@@ -49,6 +65,13 @@ db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last
       res.end("user added");
     }
 
+}).then((data) => {
+  console.log(data[0])
+})
+   
+   }else{
+     res.end("user exists");
+   }
 })
 })
 
