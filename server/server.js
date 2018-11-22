@@ -77,17 +77,6 @@ app.get('/sign-up', function (req, res) {
   res.render('sign-up', {});
 });
 
-// app.post('/sign-up', function (req, res) {
-//   User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
-//     if (err) {
-//       return res.render("sign-up", { info: "Sorry. That username already exists. Try again." })
-//     }
-
-//     passport.authenticate('local')(req, res, function () {
-//       res.redirect('/');
-//     });
-//   });
-// });
 
 app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user) {
@@ -136,21 +125,42 @@ app.post('/signUp', function (req, res, done) {
 
       var userPassword = generateHash(req.body.password);
 
-  db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}','${userPassword}')`)
-        .then((newUser) => {
-          if (!newUser) {
-            return res.json(400, {
-              response: {
-                code: 400,
-                message: 'An error appeared.'
-              }
-            });
-          }
-          if (newUser) {
-            console.log('succes');
-            res.end("user added");
-          }
+  db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
+    if (area[0][0] === undefined || area[0][0].id === undefined) {
+      db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
+        db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
+          area_id = area[0][0].id
         });
+      })
+    } else {
+      area_id = area[0][0].id
+    }
+  }).then(() => {
+    db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
+      if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+        db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+          function (err) {
+            if (err) {
+              return res.json(400, {
+                response: {
+                  code: 400,
+                  message: 'An error appeared.'
+                }
+              });
+            } else {
+              console.log('succes');
+              res.end("user added");
+            }
+
+          }).then((data) => {
+            console.log(data[0])
+          })
+
+      } else {
+        res.end("user exists");
+      }
+    })
+  })
   }
 )
 // function (err) {
@@ -184,7 +194,10 @@ db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND pass
     }
   });
 })
-   
+// ***************************************//
+
+
+
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
   console.log(req.body); 
