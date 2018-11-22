@@ -29,14 +29,11 @@ export class SignUpComponent {
     })
   }
   onSubmit(e) {
-    // this.profileForm.setValue({
-    // });
     this.username = e;
     console.log(this.profileForm.value);
-    console.log(this.signupSuccess);
     this.signupSuccess = true;
-    this.http.post("/signup", this.profileForm.value).subscribe((data) => {
-        console.log(data);
+    this.http.post("/signUp", this.profileForm.value).subscribe((data) => {
+      console.log(data);
     })
   }
 }

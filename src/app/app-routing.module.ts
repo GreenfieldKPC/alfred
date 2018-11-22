@@ -33,3 +33,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+export const routingComponents = [SplashComponent,LogInComponent,SignUpComponent,DashboardComponent,NavbarComponent,AddComponent,ProfileComponent,TakenComponent,PostedComponent, MessageComponent , JobComponent];

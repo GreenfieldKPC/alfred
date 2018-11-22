@@ -1,4 +1,5 @@
 var express = require('express');
+const session = require('express-session');
 const db = require('../models');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
@@ -23,12 +24,19 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(expressSession({ secret: 'mySecretKey', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(session({ secret: 'keyboard cat' }))
 app.set('view engine', 'ejs');
 app.set('view options', { layout: false });
-
 app.use(express.static('dist/browser'))
-// app.use(express.static(path.join(__dirname + 'dist/browser')));
+// **********SETTING UP INTIAL SESSION********//
+app.use(session({
+  secret: 'hackerman',
+  resave: true,
+  saveUninitialized: true,
+  username: null,
+  cookie: {
+    path: '/',
+  },
+}));
 
 // passport config
 var User = require('../models/users');
@@ -81,37 +89,6 @@ app.get('/sign-up', function (req, res) {
 //     });
 //   });
 // });
-app.post('/signup', (req, res) => {
-  console.log(req.body)
-  var picture;
-  var info;
-  if (req.body.picture === undefined) {
-    picture = "non.png"
-  }
-  if (req.body.info === undefined) {
-    info = "N/A"
-  }
-  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${Number(req.body.phone)}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
-    function (err) {
-      if (err) {
-        return res.json(400, {
-          response: {
-            code: 400,
-            message: 'An error appeared.'
-          }
-        });
-      } else {
-        console.log('succes');
-        res.json(201, {
-          response: {
-            code: 201,
-            message: 'USER HAS BEEN ADDED'
-          }
-        });
-      }
-
-    })
-});
 
 app.get('/login', function (req, res) {
   res.render('login', { user: req.user });
@@ -122,10 +99,69 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }));
 
-app.get('/logout', function (req, res) {
-  req.logout();
-  res.redirect('/');
-});
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
+// app.get('/logout', function (req, res) {
+//   req.logout();
+//   res.redirect('/');
+// });
+
+
+//*****  HANDELING SIGN UP******//
+app.post('/signUp',(req,res) =>{
+console.log(req.body)
+var  picture;
+var  info;
+if(req.body.picture === undefined){
+  picture = "non.png"
+}
+if(req.body.info === undefined){
+info = "N/A"
+}
+  db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username}','${req.body.password}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${req.body.zipcode}')`,
+    function (err) {
+      if(err){
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error appeared.'
+        }
+      });
+    } else {
+      console.log('succes');
+      res.end("user added");
+    }
+
+})
+})
+
+
+//********* HANDELING LOGIN********//
+app.post("/login", (req, res) => {
+  console.log(req.body);
+ const username = req.body.username;
+ const password = req.body.password;
+db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND password = '${password}';`).then((user) =>{
+  if (user[0][0] ===undefined || user[0][0].id === undefined) {
+    res.send(false);
+  }else{
+    return req.session.regenerate(() => {
+      req.session.user = username;
+      res.send(true);
+    });
+    }
+  });
+})
+   
+//*********HANDELING ADDING A JOB*******//
+app.post("/add",(req,res) =>{
+  console.log(req.body); 
+  console.log(req.session)
+})
+
 
 app.listen(port, hostname, () => {
   // connect to the DB
