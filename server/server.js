@@ -8,7 +8,6 @@ const hostname = 'localhost';
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
-// var flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const logger = require('morgan');
@@ -24,7 +23,6 @@ app.use(require('body-parser').urlencoded({ extended: false }));
 app.use(expressSession({ secret: 'mySecretKey', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(flash());
 app.use(session({ secret: 'keyboard cat' }))
 app.set('view engine', 'ejs');
 app.set('view options', { layout: false });
@@ -34,9 +32,35 @@ app.use(express.static('dist/browser'))
 
 // passport config
 var User = require('../models/users');
-// passport.use(User.createStrategy());
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+// passport.use(new LocalStrategy(function(username, password, done) {
+//   User.findOne({ where: { username: username } }).then(function (err, user) {
+//     if (err) { return done(err); }
+//     if (!user) {
+//       console.log('Incorrect username.');
+//       return done(null, false, { message: 'Incorrect username.' });
+//     } else if (password != user.password) {
+//       console.log('Incorrect password');
+//       return done(null, false, { message: 'Incorrect password.' });
+//     } else {
+//       console.log('ok');
+//       done(null, user);
+//     }
+//   });
+//   }));
+
+// passport.serializeUser((function(user, cb) {
+//   console.log(user);
+//   done(null, user.id);
+// }));
+
+// passport.deserializeUser((function(id, cb) {
+//   User.findById(id).then(function (user) {
+//     done(null, user);
+//   }).catch(function (e) {
+//     done(e, false);
+//   });
+//   }
+// ));
 
 // app.get('/', (req, res,) => {
 //   res.render('index', { user: req.user });
