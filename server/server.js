@@ -92,11 +92,15 @@ app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user) {
     if (err) { return next(err); }
     // Redirect if it fails
-    if (!user) { return $location.url('/login') }
+    if (!user) { 
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      return res.end();
+    }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       // Redirect if it succeeds
-      return $location.url('/');
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      return res.end();
     });
   })(req, res, next);
 }

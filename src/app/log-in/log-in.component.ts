@@ -17,7 +17,7 @@ export class LogInComponent {
 
   tryLogin() {
       this.http.post("/login", {username: this.username, password: this.password}).subscribe((data) => {
-        console.log(data);
+        console.log(data, 'login line 20');
         if (data === false) {
           this.router.navigateByUrl('/');
 
