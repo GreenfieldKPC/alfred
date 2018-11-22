@@ -70,7 +70,7 @@ db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND pass
   });
 })
    
-//*********HANDELING ADDING A JOB***** *//
+//*********HANDELING ADDING A JOB*******//
 
 app.post("/add",(req,res) =>{
   console.log(req.body); 
