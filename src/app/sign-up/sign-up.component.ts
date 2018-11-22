@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -9,7 +11,11 @@ import { HttpClient } from '@angular/common/http'
 export class SignUpComponent {
   profileForm: FormGroup;
   signupSuccess = false;
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private http: HttpClient,
+    private router: Router
+    ) { }
   username: string;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
@@ -34,6 +40,7 @@ export class SignUpComponent {
     this.signupSuccess = true;
     this.http.post("/signUp", this.profileForm.value).subscribe((data) => {
       console.log(data);
+      this.router.navigateByUrl('/login');
     })
   }
 }
