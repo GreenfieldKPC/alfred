@@ -13,6 +13,45 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(express.static('dist/browser'))
 
+//***********setting up passport ************//
+// var User = require('../models').Users;
+// passport.use(new LocalStrategy(function (username, password, done) {
+//   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
+//     console.log('user////', user[0]);
+//     if (!user[0][0]) {
+//       console.log('Incorrect username.');
+//       return done(null, false, {
+//         message: 'Incorrect username.'
+//       });
+//     } else if (password != user[0][0].password) {
+//       console.log('Incorrect password');
+//       return done(null, false, {
+//         message: 'Incorrect password.'
+//       });
+//     } else {
+//       console.log('ok');
+//       done(null, user[0][0]);
+//     }
+//   });
+// }));
+
+// passport.serializeUser((function (user, done) {
+//   console.log(user);
+//   done(null, user.id);
+// }));
+
+// passport.deserializeUser((function (id, done) {
+//   User.findById(id).then(function (user) {
+//     done(null, user);
+//   }).catch(function (e) {
+//     done(e, false);
+//   });
+// }));
+
+//********************************************* */
+
+
+
 // **********SETTING UP INTIAL SESSION********//
 app.use(session({
   secret: 'hackerman',
@@ -23,6 +62,9 @@ app.use(session({
     path: '/',
   },
 }));
+// *********************************//
+
+
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp',(req,res) =>{
@@ -46,34 +88,37 @@ info = "N/A"
    }else{
      area_id = area[0][0].id
    }
+ }).then(() =>{
+    db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
+      if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+        db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}')`,
+          function (err) {
+            if (err) {
+              return res.json(400, {
+                response: {
+                  code: 400,
+                  message: 'An error appeared.'
+                }
+              });
+            } else {
+              console.log('succes');
+              res.end("user added");
+            }
+
+          }).then((data) => {
+          console.log(data[0])
+        })
+
+      } else {
+        res.end("user exists");
+      }
+    })
+
  })
 
+})
+// **********************************//
 
- db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
-   if ((user[0][0] === undefined || user[0][0].id === undefined)){
-db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}',${area_id})`,
-    function (err) {
-      if(err){
-      return res.json(400, {
-        response: {
-          code: 400,
-          message: 'An error appeared.'
-        }
-      });
-    } else {
-      console.log('succes');
-      res.end("user added");
-    }
-
-}).then((data) => {
-  console.log(data[0])
-})
-   
-   }else{
-     res.end("user exists");
-   }
-})
-})
 
 
 //********* HANDELING LOGIN********//
@@ -87,26 +132,46 @@ db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND pass
   }else{
     return req.session.regenerate(() => {
       req.session.user = username;
-      res.send(true);
+      res.send('true');
     });
     }
   });
 })
+// ***************************************//
+
+
+
+
    
 //*********HANDELING ADDING A JOB*******//
-
 app.post("/add",(req,res) =>{
   console.log(req.body); 
   console.log(req.session)
 })
+// ****************************************//
+
+
+
 
 // *************** HANDELING LOGOUt******//
 app.get("/logOUt", (req,res) => {
   req.session.destroy();
   res.send(true);
 })
+//**************************************//
 
+// ***************getting user data for intial map******//
+app.get('/user',(req,res)=>{
+  var userProfile;
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}'`).then((user)=>{
+    userProfile = user[0][0];
+    db.sequelize.query(` SELECT * FROM areas WHERE id = '${userProfile.area}'`).then((area) => {
+      userProfile.area = area[0][0].city;
+      res.send(userProfile)
 
+    })
+  })
+})
 
 
 
