@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
       draggable: true
     },
     
-    zoom: 14
+    zoom: 10
   };
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
