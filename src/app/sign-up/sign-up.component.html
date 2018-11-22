@@ -1,32 +1,58 @@
 <header>
-  <div class="container">
+  <div class="container" class="card mt-5" style="margin:auto;width: 600px;">
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-      <strong>Sign-Up</strong>
-      <br>
-      <input type="text" formControlName="username" placeholder="Username">
-      <br>
-      <input type="text" formControlName="password" placeholder="Password">
-      <br>
-        <input type="text" formControlName="firstName" placeholder="First Name">
-      <br>
-        <input type="text" formControlName="lastName" placeholder="Last Name">
-      <br>
-        <input type="text" formControlName="phone" placeholder="Phone #">
-      <br>
-        <input type="text" formControlName="email" placeholder="Email">
-      <br>
-        <input type="text" formControlName="address" placeholder="Address">
-        <input type="text" formControlName="aptNumber" placeholder="Apt/Unit/Bldg#">
-      <br>
-        <input type="text" formControlName="city" placeholder="City">
-        <input type="text" formControlName="state" placeholder="State">
-      <br>
-        <input type="text" formControlName="zipcode" placeholder="Zipcode">
-        <input type="text" formControlName="country" placeholder="Country">
-      <br>
-  <button type="submit">Submit</button>
-  
-</form>
+      <div class="class-body">
 
+        <h5 class="card-title">Sign-Up</h5>
+        <div class="form-group">
+          <label for="user">Username</label>
+          <input type="text" class="form-control" formControlName="username" placeholder="Username">
+
+        </div>
+        <div class="form-group">
+          <label for="user">Password</label>
+          <input type="text" class="form-control" formControlName="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <label for="user">First Name</label>
+          <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+        </div>
+        <div class="form-group">
+          <label for="user">Last Name</label>
+          <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+        </div>
+        <div class="form-group">
+          <label for="user">Phone #</label>
+          <input type="text" class="form-control" formControlName="phone" placeholder="Phone #">
+        </div>
+        <div class="form-group">
+          <label for="user">Email</label>
+          <input type="text" class="form-control" formControlName="email" placeholder="Email">
+        </div>
+        <div class="form-group">
+          <label for="user">Address</label>
+          <input type="text" formControlName="address" placeholder="Address">
+          <label for="user">Apt/Unit/Bldg#</label>
+          <input type="text" formControlName="aptNumber" placeholder="Apt/Unit/Bldg#">
+        </div>
+        <div class="form-group">
+          <label for="user">City</label>
+          <input type="text" formControlName="city" placeholder="City">
+          <label for="user">State</label>
+          <input type="text" formControlName="state" placeholder="State">
+        </div>
+        <div class="form-group">
+          <label for="user">Zipcode</label>
+          <input type="text" formControlName="zipcode" placeholder="Zipcode">
+          <label for="user">Country</label>
+          <input type="text" formControlName="country" placeholder="Country">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+
+    </form>
+    <br>
+    <button routerLink="/login" class="btn btn-primary">Already Have A Account Click Here To Log IN</button>
   </div>
 </header>

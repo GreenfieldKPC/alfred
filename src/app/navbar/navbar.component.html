@@ -1,4 +1,4 @@
-<p>
+<!-- <p>
   navbar
 </p>
 <header>
@@ -11,8 +11,29 @@
         <li><a routerLink="/add">Post new chore</a></li>
         <li><a routerLink="/help">Update Info</a></li>
         <li><a routerLink="/help">Help</a></li>
-        <li><a routerLink="/logout">Logout</a></li>
+        <li><a (click)="logout()">Logout</a></li>
       </ul>
     </nav>
   </div>
-</header>
+</header> -->
+<nav class="navbutton">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="navbar-toggler-icon">=</span>
+      </button>
+      <!-- <a class="navbar-brand" href="">Alfred</a> -->
+    </div>
+  </div>
+</nav>
+<div class="collapse" id="navbar">
+  <ul class="nav navbar-nav">
+    <li><a class="btn btn-info" href="/dashboard">Home</a></li>
+    <li><a class="btn btn-info" routerLink="/profile">Profile</a></li>
+    <li><a class="btn btn-info" routerLink="/job">My Chores</a></li>
+    <li><a class="btn btn-info" routerLink="/add">Post new chore</a></li>
+    <li><a class="btn btn-info" routerLink="/help">Update Info</a></li>
+    <li><a class="btn btn-info" routerLink="/help">Help</a></li>
+    <li><a class="btn btn-info" (click)="logout()">Logout</a></li>
+  </ul>
+</div>

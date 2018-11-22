@@ -1,4 +1,5 @@
 var express = require('express');
+const session = require('express-session');
 const db = require('../models');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
@@ -7,12 +8,12 @@ const googleMapsClient = require('@google/maps').createClient({
 const hostname = 'localhost';
 const port = 8080;
 const app = express();
-var flash = require('connect-flash');
-var passport = require('passport');
-var request = require('request');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var path = require('path');
+const flash = require('connect-flash');
+const passport = require('passport');
+const request = require('request');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const path = require('path');
 const expressSession = require('express-session');
 const axios = require('axios');
 app.use(require('cookie-parser')());
@@ -30,15 +31,19 @@ app.use(express.static(__dirname + 'dist/browser'));
 app.use(bodyParser.json())
 app.use(express.static('dist/browser'))
 
-app.get('/', (req, res,) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.render('index');
-  res.end('connected');
-});
+// **********SETTING UP INTIAL SESSION********//
+app.use(session({
+  secret: 'hackerman',
+  resave: true,
+  saveUninitialized: true,
+  username: null,
+  cookie: {
+    path: '/',
+  },
+}));
 
-
-app.post('/signup',(req,res) =>{
+//*****  HANDELING SIGN UP******//
+app.post('/signUp',(req,res) =>{
 console.log(req.body)
 var  picture;
 var  info;
@@ -59,16 +64,46 @@ db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last
       });
     } else {
       console.log('succes');
-      res.json(201, {
-        response: {
-          code: 201,
-          message: 'USER HAS BEEN ADDED'
-        }
-      });
+      res.end("user added");
     }
 
 })
 })
+
+
+//********* HANDELING LOGIN********//
+app.post("/login", (req, res) => {
+  console.log(req.body);
+ const username = req.body.username;
+ const password = req.body.password;
+db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND password = '${password}';`).then((user) =>{
+  if (user[0][0] ===undefined || user[0][0].id === undefined) {
+    res.send(false);
+  }else{
+    return req.session.regenerate(() => {
+      req.session.user = username;
+      res.send(true);
+    });
+    }
+  });
+})
+   
+//*********HANDELING ADDING A JOB*******//
+
+app.post("/add",(req,res) =>{
+  console.log(req.body); 
+  console.log(req.session)
+})
+
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req,res) => {
+  req.session.destroy();
+  res.send(true);
+})
+
+
+
+
 
 app.listen(port, hostname, () => {
   // connect to the DB
