@@ -1,5 +1,4 @@
 var express = require('express');
-const session = require('express-session');
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
@@ -8,11 +7,18 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise: Promise
 });
 const hostname = 'localhost';
-const port = 8080;
+const port = process.env.PORT || 8080;
 const app = express();
-const bodyParser = require('body-parser');
+const path = require('path');
 const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+const bodyParser = require('body-parser');
 app.use(bodyParser.json())
+app.use(require('body-parser').urlencoded({ extended: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.set('view engine', 'ejs');
+app.set('view options', { layout: false });
 app.use(express.static('dist/browser'))
 app.use(passport.initialize());
 //***********setting up passport ************//
@@ -66,9 +72,35 @@ app.use(session({
     path: '/',
   },
 }));
-// *********************************//
 
+// ************ passport config *********//
+var User = require('../models').Users;
+passport.use(new LocalStrategy(function (username, password, done) {
+    // hash password
+    var generateHash = function (password) {
+      return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    };
+    const userPassword = generateHash(password);
 
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
+    console.log('user////',user[0]);
+    if (!user[0][0]) {
+      console.log('Incorrect username.');
+      return done(null, false, { message: 'Incorrect username.' });
+    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
+      console.log('Incorrect password');
+      return done(null, false, { message: 'Incorrect password.' });
+    } else {
+      console.log('ok');
+      done(null, user[0][0]);
+    }
+  });
+  }));
+
+passport.serializeUser((function(user, done) {
+  console.log(user);
+  done(null, user.id);
+}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp',(req,res) =>{
@@ -160,38 +192,11 @@ app.post('/login', function (req, res, next) {
 
 
 
-
-   
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
   console.log(req.body); 
   console.log(req.session)
 })
-// ****************************************//
-
-
-
-
-// *************** HANDELING LOGOUt******//
-app.get("/logOUt", (req,res) => {
-  req.session.destroy();
-  res.send(true);
-})
-//**************************************//
-
-// ***************getting user data for intial map******//
-app.get('/user',(req,res)=>{
-  var userProfile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}'`).then((user)=>{
-    userProfile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE id = '${userProfile.area}'`).then((area) => {
-      userProfile.area = area[0][0].city;
-      res.send(userProfile)
-
-    })
-  })
-})
-
 
 
 app.listen(port, hostname, () => {
