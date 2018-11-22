@@ -9,6 +9,8 @@
       <agm-marker *ngFor="let chore of userChores" [(latitude)]="chore.marker.lat" [(longitude)]="chore.marker.lng" [markerDraggable]="chore.marker.draggable"
         (dragEnd)='markerDragEnd($event)'></agm-marker>
     </agm-map>
-    <button routerLink="/add">Post my chores</button>
+<button routerLink="/navbar" class="btn btn-primary">Navbar</button>
+<button routerLink="/add" class="btn btn-primary">Post my chores</button>
+<button class="btn btn-primary" (click)="logOut()">Log Out</button>
   </div>
 </header>

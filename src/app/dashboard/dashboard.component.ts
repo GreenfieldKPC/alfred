@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, Input, NgZone } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
-
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http'
 declare var google: any;
 
 interface Marker {
@@ -64,7 +65,7 @@ export class DashboardComponent implements OnInit {
     zoom: 14
   };
   @ViewChild(AgmMap) map: AgmMap;
-  constructor(public mapsApiLoader: MapsAPILoader,
+  constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
     private wrapper: GoogleMapsAPIWrapper) {
     this.mapsApiLoader = mapsApiLoader;
@@ -73,6 +74,15 @@ export class DashboardComponent implements OnInit {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
     });
+  }
+
+  logOut() {
+    this.http.get("/logOut").subscribe((data) => {
+      console.log(data);
+        this.router.navigateByUrl('/');
+    })
+
+
   }
 
   ngOnInit() {
