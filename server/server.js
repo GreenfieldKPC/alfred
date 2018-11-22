@@ -91,16 +91,16 @@ if(req.body.info === undefined){
 info = "N/A"
 }
  db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
-   if (area[0][0] === undefined || area[0][0].id === undefined){
-   db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
-      db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
-       area_id = area[0][0].id
-      });
-   })
-   }else{
-     area_id = area[0][0].id
-   }
- }).then(() =>{
+    if (area[0][0] === undefined || area[0][0].id === undefined){
+    db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
+        db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
+        area_id = area[0][0].id
+        });
+    })
+    }else{
+      area_id = area[0][0].id
+    }
+  }).then(() =>{
     db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
       if ((user[0][0] === undefined || user[0][0].id === undefined)) {
         db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}')`,
@@ -152,8 +152,6 @@ db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND pass
 
 
 
-
-   
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
   console.log(req.body); 
