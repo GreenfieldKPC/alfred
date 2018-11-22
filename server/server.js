@@ -38,17 +38,17 @@ app.use(session({
 // passport config
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function(username, password, done) {
-  User.findOne({ where: { username: username } }).then(function (err, user) {
-    if (err) { return done(err); }
-    if (!user) {
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
+    console.log('user////',user[0]);
+    if (!user[0][0]) {
       console.log('Incorrect username.');
       return done(null, false, { message: 'Incorrect username.' });
-    } else if (password != user.password) {
+    } else if (password != user[0][0].password) {
       console.log('Incorrect password');
       return done(null, false, { message: 'Incorrect password.' });
     } else {
       console.log('ok');
-      done(null, user);
+      done(null, user[0][0]);
     }
   });
   }));
@@ -88,10 +88,19 @@ app.get('/login', function (req, res) {
   res.render('login', { user: req.user });
 });
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login'
-}));
+app.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user) {
+    if (err) { return next(err); }
+    // Redirect if it fails
+    if (!user) { return $location.url('/login') }
+    req.logIn(user, function (err) {
+      if (err) { return next(err); }
+      // Redirect if it succeeds
+      return $location.url('/');
+    });
+  })(req, res, next);
+}
+);
 
 // *************** HANDELING LOGOUt******//
 app.get("/logOUt", (req, res) => {
