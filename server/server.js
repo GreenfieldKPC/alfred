@@ -37,13 +37,8 @@ app.use(session({
 // ************ passport config *********//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
-    // hash password
-    var generateHash = function (password) {
-      return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
-    };
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
-    console.log('user////',user[0]);
     if (!user[0][0]) {
       console.log('Incorrect username.');
       return done(null, false, { message: 'Incorrect username.' });
@@ -58,7 +53,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
   }));
 
 passport.serializeUser((function(user, done) {
-  console.log(user);
   done(null, user.id);
 }));
 
@@ -70,43 +64,6 @@ passport.deserializeUser((function(id, done) {
   });
   }
 ));
-
-
-app.get('/sign-up', function (req, res) {
-  res.render('sign-up', {});
-});
-
-
-app.post('/login', function (req, res, next) {
-  passport.authenticate('local', function (err, user) {
-    if (err) { return next(err); }
-    // Redirect if it fails
-    if (!user) { 
-      res.writeHead(401, { 'Content-Type': 'application/json' });
-      return res.end();
-    }
-    req.logIn(user, function (err) {
-      if (err) { return next(err); }
-      // Redirect if it succeeds
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      return req.session.regenerate(() => {
-        req.session.user = user;
-        res.end();
-      });;
-    });
-  })(req, res, next);
-}
-);
-
-// *************** HANDELING LOGOUt******//
-app.get("/logOUt", (req, res) => {
-  req.session.destroy();
-  res.send(true);
-})
-// app.get('/logout', function (req, res) {
-//   req.logout();
-//   res.redirect('/');
-// });
 
 
 //*****  HANDELING SIGN UP******//
@@ -138,7 +95,6 @@ app.post('/signUp', function (req, res, done) {
       area_id = area[0][0].id
     }
   }).then(() => {
-    console.log(area_id, 'area id');
     db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
       if ((user[0][0] === undefined || user[0][0].id === undefined)) {
         db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
@@ -169,23 +125,42 @@ app.post('/signUp', function (req, res, done) {
 
 
 //********* HANDELING LOGIN********//
-app.post("/login", (req, res) => {
-  console.log(req.body);
- const username = req.body.username;
- const password = req.body.password;
-db.sequelize.query(` SELECT * FROM users WHERE username = '${username}' AND password = '${password}';`).then((user) =>{
-  if (user[0][0] ===undefined || user[0][0].id === undefined) {
-    res.send(false);
-  }else{
-    return req.session.regenerate(() => {
-      req.session.user = username;
-      res.send(true);
-    });
+
+app.post('/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user) {
+    if (err) { return next(err); }
+    // Redirect if it fails
+    if (!user) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      return res.end();
     }
-  });
-})
+    req.logIn(user, function (err) {
+      if (err) { return next(err); }
+      // Redirect if it succeeds
+      return req.session.regenerate(() => {
+        // need username and id on session
+        req.session.user = user.username;
+        req.session.userId = user.id;
+        res.end();
+      });;
+    });
+  })(req, res, next);
+}
+);
 // ***************************************//
 
+
+app.get('/sign-up', function (req, res) {
+  res.render('sign-up', {});
+});
+
+
+
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
 
 
 //*********HANDELING ADDING A JOB*******//
@@ -199,7 +174,7 @@ app.get("/job/jobsTaken", (req, res) => {
   const q = `SELECT * from jobs WHERE doer = ${req.body.session.user.id}`
   db.sequelize.query(q).then((data) => {
     console.log(data);
-    res.end(data);
+    res.end();
   });
 });
 
@@ -211,13 +186,33 @@ app.post("/job/jobsPosted", (req, res) => {
   });
 });
 
-//********* get take job ******/
+//********* take job ******/
 app.patch("/dashboard/takeChore", (req, res) => {
-  const q = `UPDATE jobs SET doer=${req.session.user.id} WHERE id=${req.body.choreId}`
-  db.sequelize.query(q).then((data) => {
+  console.log(req.body, '///', req.session.userId);
+  const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
+  db.sequelize.query(q, function (err) {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error addding job to your profile.'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
     console.log(data);
-    res.end(data);
-  });
+    // add check for doer id not assigned already
+    // update this to return true of false!
+    res.send(true);
+
+    // if (data[0].length) {
+    //   res.end(true);
+    // } else {
+    //   res.end(false);
+    // }
+  }).catch((err) => console.log(err));
 });
 
 app.listen(port, hostname, () => {

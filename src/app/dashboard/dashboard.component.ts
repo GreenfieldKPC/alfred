@@ -114,11 +114,15 @@ export class DashboardComponent implements OnInit {
     this.findLocation(full_address);
   }
 
-  takeChore(chore) {
-    this.http.patch("/dashboard/takeChore", {choreId: chore.id}).subscribe((data) => {
-      console.log(data);
+  takeChore() {
+    this.http.patch("/dashboard/takeChore", {choreId: 1}).subscribe((data) => {
+      console.log(data, 'dashboard');
       // update job with doer of current user id
-      // this.router.navigateByUrl('/');
+      if(data = false) {
+        alert("Sorry, couldn't add to My Chores!");
+      } else {
+        alert("Added to My Chores!");
+      }
     })
   }
 
