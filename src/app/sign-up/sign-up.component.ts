@@ -40,7 +40,7 @@ export class SignUpComponent {
     this.signupSuccess = true;
     this.http.post("/signUp", this.profileForm.value).subscribe((data) => {
       console.log(data);
-      this.router.navigateByUrl('/login');
     })
+    this.router.navigateByUrl('/login');
   }
 }

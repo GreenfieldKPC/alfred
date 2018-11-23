@@ -75,8 +75,9 @@ export class DashboardComponent implements OnInit {
       draggable: true
     },
     
-    zoom: 14
+    zoom: 10
   };
+  user: any;
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
@@ -204,10 +205,31 @@ export class DashboardComponent implements OnInit {
 
 
   }
-
+  kd() {
+    console.log(this.user);
+  }
   ngOnInit() {
+    /*
+    address: "2539 Columbus Street"
+aptNumber: ""
+city: "New Orleans"
+country: ""
+email: "add"
+firstName: "kda"
+lastName: "kda"
+password: "ball"
+phone: "1234"
+state: "LA"
+username: "kd"
+zipcode: "70119"
+*/
     this.http.get('/user').subscribe((user) =>{
-      console.log(user)
+      console.log(user);
+      this.user = user;
+      // if(user.areas) {
+      //   this.findLocation(user.areas);
+
+      // } 
     })
     
   }
