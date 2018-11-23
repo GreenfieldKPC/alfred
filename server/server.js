@@ -205,7 +205,7 @@ app.get('/user', (req,res) =>{
      profile = user[0][0];
      console.log(user);
       db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-       profile.area = area.city;
+       profile.area = area[0][0].city;
        res.send(profile);
        res.end();
      })
