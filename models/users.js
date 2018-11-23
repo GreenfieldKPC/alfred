@@ -1,5 +1,4 @@
 'use strict';
-const passportLocalSequelize = require('passport-local-sequelize');
 // const bcrypt = require('bcrypt-nodejs');
 
 module.exports = (sequelize, DataTypes) => {
@@ -16,13 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     picture: DataTypes.STRING,
     info: DataTypes.STRING,
-    area: DataTypes.INTEGER,
-    hashed_password: DataTypes.STRING,
+    id_area: DataTypes.INTEGER,
+    hashed_password: DataTypes.STRING
   }, {});
-  passportLocalSequelize.attachToUser(users, {
-    usernameField: 'username',
-    hashField: 'hashed_password',
-  });
+  
   // users.plugin(passportLocalSequelize);
   users.associate = function(models) {
     // associations can be defined here
