@@ -195,15 +195,13 @@ app.post('/login', function (req, res, next) {
 
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
- 
-
+ console.log(req.body);
 
 })
 app.get('/user', (req,res) =>{
    let profile;
    db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
      profile = user[0][0];
-     console.log(user);
       db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
        profile.area = area[0][0].city;
        res.send(profile);
