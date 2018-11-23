@@ -14,6 +14,7 @@ declare var google: any;
 //   label?: string;
 //   draggable: boolean;
 // }
+
 interface Marker {
     lat: number;
     lng: number;
@@ -78,6 +79,11 @@ export class DashboardComponent implements OnInit {
     zoom: 10
   };
   user: any;
+  obj = {
+    lat: 12,
+    lng: 12,
+  }
+  test2: string = '2539 Columbus Street, New Orleans, LA';
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
@@ -91,20 +97,17 @@ export class DashboardComponent implements OnInit {
       console.log(this.geocoder);
     });
   }
+  
   // getlatlng(address: string) {
-  //   console.log("Address" + address);
+    
   //   this.geocoder = new google.maps.Geocoder();
-  //   return Observable.create(observer => {
-  //     this.geocoder.geocode({ "address": address}, function(results, status){
-  //       if (status === google.maps.GeocoderStatus.OK) {
-  //         observer.next(results[0].geometry.location);
-  //         observer.complete();
-  //       } else {
-  //         console.log('Error - ', results, ' & Status - ', status);
-  //         observer.next({});
-  //         observer.complete();
-  //       }
-  //     })
+  //   this.geocoder.geocode({"address" : address}, (result, status) => {
+  //     if (status === google.maps.GeocoderStatus.OK) {
+  //       console.log(result[0].geometry.location);
+  //       this.obj.lat = result[0].geometry.location.lat();
+  //       this.obj.lng = result[0].geometry.location.lng();
+  //       console.log(this.obj);
+  //     }
   //   })
   // }
   updateOnMap() {
