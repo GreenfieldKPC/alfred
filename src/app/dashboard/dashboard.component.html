@@ -13,7 +13,9 @@
     </agm-map>
 <button routerLink="/navbar" class="btn btn-primary">Navbar</button>
 <button routerLink="/add" class="btn btn-primary">Post my chores</button>
-<button class="btn btn-primary" (click)="logOut()">Log Out</button>
+<!-- need to pass selected chore to this click function -->
+<button class="btn btn-primary" (click)='takeChore(chore)'>Add to My Chores</button>
+<button (chore)={id:1} class="btn btn-primary" (click)="logOut()">Log Out</button>
   </div>
 </header>
 

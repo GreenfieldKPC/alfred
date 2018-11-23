@@ -113,6 +113,15 @@ export class DashboardComponent implements OnInit {
 
     this.findLocation(full_address);
   }
+
+  takeChore(chore) {
+    this.http.patch("/dashboard/takeChore", {choreId: chore.id}).subscribe((data) => {
+      console.log(data);
+      // update job with doer of current user id
+      // this.router.navigateByUrl('/');
+    })
+  }
+
   findLocation(address) {
     if (!this.geocoder) this.geocoder = new google.maps.Geocoder()
     this.geocoder.geocode({

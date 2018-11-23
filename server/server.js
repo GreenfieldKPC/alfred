@@ -211,6 +211,15 @@ app.post("/job/jobsPosted", (req, res) => {
   });
 });
 
+//********* get take job ******/
+app.patch("/dashboard/takeChore", (req, res) => {
+  const q = `UPDATE jobs SET doer=${req.session.user.id} WHERE id=${req.body.choreId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data);
+    res.end(data);
+  });
+});
+
 app.listen(port, hostname, () => {
   // connect to the DB
   console.log(`Server running at http://${hostname}:${port}/`);
