@@ -29,12 +29,12 @@ module.exports = {
       info: {
         type: Sequelize.STRING
       },
-      area: {
+      id_area: {
         type: Sequelize.INTEGER
       },
-      hashed_password: {
-        type: Sequelize.STRING,
-      }
+       hashed_password: {
+         type: Sequelize.STRING
+       },
     });
   },
   down: (queryInterface, Sequelize) => {
