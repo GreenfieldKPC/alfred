@@ -149,7 +149,7 @@ info = "N/A"
 
     })
     }else{
-      area_id = area[0][0].id
+      area_id = area[0][0].id;
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
           db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
@@ -206,6 +206,18 @@ app.post('/login', function (req, res, next) {
 });
 // ***************************************//
 
+
+app.get('/sign-up', function (req, res) {
+  res.render('sign-up', {});
+});
+
+
+
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
 
 
 //*********HANDELING ADDING A JOB*******//
