@@ -8,9 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING
-      },
       poster: {
         type: Sequelize.INTEGER
       },
@@ -24,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       created_at: {
-        type: Sequelize.DATE
+        type: Sequelize.NUMERIC
       },
       payment: {
         type: Sequelize.INTEGER
@@ -47,9 +44,6 @@ module.exports = {
        lon: {
          type: Sequelize.STRING
        },
-      time_started: {
-        type: Sequelize.DATE
-      },
       completed: {
         type: Sequelize.BOOLEAN
       },

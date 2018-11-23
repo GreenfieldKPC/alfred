@@ -19,10 +19,6 @@ export class AddComponent{
   choreForm: FormGroup;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  latlng: LatLng = {
-    lat: 12,
-    lng: 12
-  };
   constructor(public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router
   ) { 
@@ -40,36 +36,38 @@ export class AddComponent{
       address: [''],
       city: [''],
       zipcode: [''],
-      suggestedPay: ['$'],
+      suggestedPay: [''],
       startTime:['']
     })
     this.selectedCategory = e;
   }
   getlatlng(address: string) {
-
-    this.geocoder = new google.maps.Geocoder();
-    this.geocoder.geocode({ "address": address }, (result, status) => {
-      if (status === google.maps.GeocoderStatus.OK) {
-        this.latlng.lat = result[0].geometry.location.lat();
-        this.latlng.lng = result[0].geometry.location.lng();
-      }
-    })
-    return this.latlng;
-  }
+    return new Promise((resolve,reject) =>{
+      this.geocoder = new google.maps.Geocoder();
+      this.geocoder.geocode({ "address": address }, (result, status) => {
+        if (status === google.maps.GeocoderStatus.OK) {
+          this.choreForm.value.lat = result[0].geometry.location.lat();
+          this.choreForm.value.lng = result[0].geometry.location.lng();
+        }
+        resolve();
+      })
+    });
+  }   
   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
-     var cordanits = this.getlatlng(addr);
-    this.choreForm.value.cordanits = cordanits
-    
-    console.log(this.choreForm.value);
-    this.http.post("/add",this.choreForm.value).subscribe((data) => {
-      console.log(data);
-      if (data === false) {
-        this.router.navigateByUrl('/dashboard');
+    this.getlatlng(addr).then(() => {
+      console.log(JSON.stringify(this.choreForm.value));
+      this.http.post("/add", this.choreForm.value).subscribe((data) => {
+        console.log(data);
+        if (data === false) {
+          this.router.navigateByUrl('/dashboard');
 
-      } else {
-      }
-    })  
+        } else {
+        }
+      }) 
+      
+    })
+ 
   }
 }
