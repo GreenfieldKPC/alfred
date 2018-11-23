@@ -121,38 +121,60 @@ info = "N/A"
    db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
       db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
        area_id = area[0][0].id
-      });
-   })
-   }else{
-     area_id = area[0][0].id
-   }
- }).then(() => {
-   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
-     if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-       db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
-         function (err) {
-           if (err) {
-             return res.json(400, {
-               response: {
-                 code: 400,
-                 message: 'An error appeared.'
-               }
-             });
-           } else {
-             res.end("user added");
-           }
+      }).then(() => {
+        db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
+          if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+            db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+              function (err) {
+                if (err) {
+                  return res.json(400, {
+                    response: {
+                      code: 400,
+                      message: 'An error appeared.'
+                    }
+                  });
+                } else {
+                  console.log('succes');
+                  res.end("user added");
+                }
 
-         }).then((data) => {
-       })
+              }).then((data) => {})
 
-     } else {
-       res.end("user exists");
-     }
-   })
+          } else {
+            res.end("user exists");
+          }
+        })
 
- })
+      })
 
-})
+    })
+    }else{
+      area_id = area[0][0].id
+      db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
+        if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+            function (err) {
+              if (err) {
+                return res.json(400, {
+                  response: {
+                    code: 400,
+                    message: 'An error appeared.'
+                  }
+                });
+              } else {
+                console.log('succes');
+                res.end("user added");
+              }
+
+            }).then((data) => {})
+
+        } else {
+          res.end("user exists");
+        }
+      })
+    }
+  })
+  })
 // **********************************//
 
 
@@ -188,16 +210,18 @@ app.post('/login', function (req, res, next) {
 
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
- 
-
-
+ console.log(req.body);
+ var addressString = req.body.address +" " + req.body.city + " " + req.body.zipcode
+ console.log(addressString.split(" ").join("+"))
+console.log(req.session)
 })
 app.get('/user', (req,res) =>{
+  console.log(req.session)
    let profile;
    db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
      profile = user[0][0];
       db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-       profile.area = area.city;
+       profile.area = area[0][0].city;
        res.send(profile);
        res.end();
      })

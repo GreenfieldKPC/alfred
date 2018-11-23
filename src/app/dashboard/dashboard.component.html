@@ -3,7 +3,7 @@
 </p>
 <app-navbar></app-navbar>
 <pre>{{ user| json}}</pre>
-<button class="btn btn-primary" (click)="kd()">kd</button>
+<button class="btn btn-primary" (click)="getlatlng(test2)">kd</button>
 <header>
   <div class="container">
     <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
