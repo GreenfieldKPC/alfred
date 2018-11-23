@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http'
 
@@ -11,10 +11,16 @@ export class LogInComponent {
 
   username = '';
   password = '';
-
+  loggedIn: boolean = false;
   constructor(private router: Router, private http: HttpClient) {
   }
-
+  @Output() logEvent = new EventEmitter<boolean>();
+  sendlog(cb) {
+    this.loggedIn = true;
+    this.logEvent.emit(this.loggedIn);
+    
+    cb();
+  }
   tryLogin() {
       this.http.post("/login", {username: this.username, password: this.password}).subscribe((data) => {
         console.log(data, 'login line 20');
@@ -22,7 +28,10 @@ export class LogInComponent {
           this.router.navigateByUrl('/');
 
         }else{
-          this.router.navigateByUrl('/dashboard');
+          this.sendlog(() => {
+            this.router.navigateByUrl('/dashboard');
+          })
+          // this.router.navigateByUrl('/dashboard');
         }
       })
     

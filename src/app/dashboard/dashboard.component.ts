@@ -43,6 +43,8 @@ interface Location {
 
 
 export class DashboardComponent implements OnInit {
+  lat: number;
+  lng: number;
   public userChores = [
     {
     marker: {
@@ -83,6 +85,7 @@ export class DashboardComponent implements OnInit {
     lat: 12,
     lng: 12,
   }
+  test: any;
   test2: string = '2539 Columbus Street, New Orleans, LA';
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
@@ -103,8 +106,8 @@ export class DashboardComponent implements OnInit {
     this.geocoder = new google.maps.Geocoder();
     this.geocoder.geocode({"address" : address}, (result, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
-        this.location.lat = result[0].geometry.location.lat();
-        this.location.lng = result[0].geometry.location.lng();
+        this.lat = result[0].geometry.location.lat();
+        this.lng = result[0].geometry.location.lng();
       }
     })
     this.map.triggerResize();
@@ -207,15 +210,14 @@ export class DashboardComponent implements OnInit {
 
 
   }
-  
+  testing() {}
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{
       console.log(user);
       this.user = user;
-      if(user.area) {
-        this.getlatlng(user.area);
-
-      } 
+      console.log(this.user.area);
+      this.getlatlng(this.user.area);
+      
     })
     
   }
