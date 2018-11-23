@@ -20,7 +20,9 @@ export class AddComponent{
     this.choreForm = this.formBuilder.group({
       // category: [''],
       description: [''],
-      location: [''],
+      address: [''],
+      city: [''],
+      zipcode: [''],
       suggestedPay: ['$'],
       startTime:['']
     })
