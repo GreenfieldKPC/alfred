@@ -229,8 +229,7 @@ zipcode: "70119"
     this.http.get('/user').subscribe((user) =>{
       console.log(user);
       this.user = user;
-      // if(user.areas) {
-      //   this.findLocation(user.areas);
+       console.log(this.user.area);
 
       // } 
     })
