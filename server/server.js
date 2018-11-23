@@ -138,9 +138,10 @@ app.post('/signUp', function (req, res, done) {
       area_id = area[0][0].id
     }
   }).then(() => {
+    console.log(area_id, 'area id');
     db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
       if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-        db.sequelize.query(`INSERT INTO users (username, password, name_first, name_last, phone, email, picture, info, area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.password}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+        db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username.toLowerCase()}','${req.body.firstName}','${req.body.lastName}',${req.body.phone},'${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
           function (err) {
             if (err) {
               return res.json(400, {
@@ -194,7 +195,7 @@ app.post("/add",(req,res) =>{
 })
 
 //********* get user jobs ******/
-app.post('/jobsTaken', (req, res) => {
+app.get("/job/jobsTaken", (req, res) => {
   const q = `SELECT * from jobs WHERE doer = ${req.body.session.user.id}`
   db.sequelize.query(q).then((data) => {
     console.log(data);
@@ -202,7 +203,7 @@ app.post('/jobsTaken', (req, res) => {
   });
 });
 
-app.post('/jobsPosted', (req, res) => {
+app.post("/job/jobsPosted", (req, res) => {
   const q = `SELECT * from jobs WHERE poster = ${req.query.session.user.id}`
   db.sequelize.query(q).then((data) => {
     console.log(data);

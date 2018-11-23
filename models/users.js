@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     picture: DataTypes.STRING,
     info: DataTypes.STRING,
-    area: DataTypes.INTEGER,
+    id_area: DataTypes.INTEGER,
     hashed_password: DataTypes.STRING,
   }, {});
   passportLocalSequelize.attachToUser(users, {

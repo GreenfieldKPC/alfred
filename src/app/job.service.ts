@@ -10,10 +10,10 @@ export class JobService {
   // private _url: string = '';
 
   constructor(private http: HttpClient) { }
-  getUserJobsTaken() {
-    return this.http.get(this._url + '/jobsTaken');
-  }
-  getUserJobsPosted() {
-    return this.http.get(this._url + '/jobsPosted');
-  }
+  // getUserJobsTaken() {
+  //   return this.http.get(this._url + '/jobsTaken');
+  // }
+  // getUserJobsPosted() {
+  //   return this.http.get(this._url + '/jobsPosted');
+  // }
 }
