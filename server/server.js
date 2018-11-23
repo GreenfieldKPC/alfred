@@ -78,9 +78,8 @@ app.use(session({
 // ************ passport config *********//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
-  
+
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
-  
     if (!user[0][0]) {
      
       return done(null, false, { message: 'Incorrect username.' });
@@ -95,7 +94,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
   }));
 
 passport.serializeUser((function(user, done) {
- 
   done(null, user.id);
 }));
 
@@ -197,7 +195,8 @@ app.post('/login', function (req, res, next) {
         return next(err);
       }
       return req.session.regenerate(() => {
-        req.session.user = req.body.username;
+        req.session.user = user.username;
+        req.session.userId = user.id;
         res.send('true');
       });;
 
@@ -206,6 +205,18 @@ app.post('/login', function (req, res, next) {
 });
 // ***************************************//
 
+
+app.get('/sign-up', function (req, res) {
+  res.render('sign-up', {});
+});
+
+
+
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
 
 app.get('/sign-up', function (req, res) {
   res.render('sign-up', {});
@@ -239,6 +250,52 @@ app.get('/user', (req,res) =>{
      })
    })
 })
+
+//********* get user jobs ******/
+app.get("/job/jobsTaken", (req, res) => {
+  const q = `SELECT * from jobs WHERE doer = ${req.body.session.user.id}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data);
+    res.end();
+  });
+});
+
+app.post("/job/jobsPosted", (req, res) => {
+  const q = `SELECT * from jobs WHERE poster = ${req.query.session.user.id}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data);
+    res.end(data);
+  });
+});
+
+//********* take job ******/
+app.patch("/dashboard/takeChore", (req, res) => {
+  console.log(req.body, '///', req.session.userId);
+  const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
+  db.sequelize.query(q, function (err) {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error addding job to your profile.'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    console.log(data);
+    // add check for doer id not assigned already
+    // update this to return true of false!
+    res.send(true);
+
+    // if (data[0].length) {
+    //   res.end(true);
+    // } else {
+    //   res.end(false);
+    // }
+  }).catch((err) => console.log(err));
+});
 
 app.listen(port, hostname, () => {
   // connect to the DB
