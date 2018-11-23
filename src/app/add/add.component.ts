@@ -50,15 +50,18 @@ export class AddComponent{
     this.geocoder = new google.maps.Geocoder();
     this.geocoder.geocode({ "address": address }, (result, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
-        console.log(result[0].geometry.location);
         this.latlng.lat = result[0].geometry.location.lat();
         this.latlng.lng = result[0].geometry.location.lng();
-        console.log(this.latlng);
       }
     })
+    return this.latlng;
   }
   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
+    var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
+     var cordanits = this.getlatlng(addr);
+    this.choreForm.value.cordanits = cordanits
+    
     console.log(this.choreForm.value);
     this.http.post("/add",this.choreForm.value).subscribe((data) => {
       console.log(data);
