@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     created_at: DataTypes.DATE,
     payment: DataTypes.INTEGER,
+    id_area: DataTypes.INTEGER,
     address: DataTypes.STRING,
+    zip: DataTypes.INTEGER,
+    lat: DataTypes.STRING,
+    lon: DataTypes.STRING,
     time_started: DataTypes.DATE,
     completed: DataTypes.BOOLEAN
   }, {});

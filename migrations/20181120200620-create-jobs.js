@@ -29,23 +29,30 @@ module.exports = {
       payment: {
         type: Sequelize.INTEGER
       },
+       id_area: {
+         type: Sequelize.INTEGER
+       },
+
       address: {
         type: Sequelize.STRING
       },
+       zip: {
+         type: Sequelize.INTEGER
+       },
+        lat: {
+          type: Sequelize.STRING
+        }, address: {
+        type: Sequelize.STRING
+      },
+       lon: {
+         type: Sequelize.STRING
+       },
       time_started: {
         type: Sequelize.DATE
       },
       completed: {
         type: Sequelize.BOOLEAN
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: (queryInterface, Sequelize) => {
