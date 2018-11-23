@@ -268,7 +268,7 @@ app.post("/job/jobsPosted", (req, res) => {
   });
 });
 
-//********* take job ******/
+//********* User take job ******/
 app.patch("/dashboard/takeChore", (req, res) => {
   console.log(req.body, '///', req.session.userId);
   const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
@@ -287,13 +287,12 @@ app.patch("/dashboard/takeChore", (req, res) => {
     console.log(data);
     // add check for doer id not assigned already
     // update this to return true of false!
-    res.send(true);
-
-    // if (data[0].length) {
-    //   res.end(true);
-    // } else {
-    //   res.end(false);
-    // }
+    // res.send(true);
+    if (data[1].rowCount > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
   }).catch((err) => console.log(err));
 });
 
