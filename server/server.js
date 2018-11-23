@@ -21,24 +21,27 @@ app.set('view engine', 'ejs');
 app.set('view options', { layout: false });
 app.use(express.static('dist/browser'))
 app.use(passport.initialize());
+
+
+
 //***********setting up passport ************//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-    console.log('user////', user[0]);
+  
     if (!user[0][0]) {
-      console.log('Incorrect username.');
+     
       return done(null, false, {
         message: 'Incorrect username.'
       });
     } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-      console.log('Incorrect password');
+      
       return done(null, false, {
         message: 'Incorrect password.'
       });
     } else {
-      console.log('ok');
+     
       done(null, user[0][0]);
     }
   });
@@ -46,7 +49,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
 
 
 passport.serializeUser((function (user, done) {
-  console.log(user);
+
   done(null, user.id);
 }));
 
@@ -83,28 +86,28 @@ passport.use(new LocalStrategy(function (username, password, done) {
     const userPassword = generateHash(password);
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function(user) {
-    console.log('user////',user[0]);
+  
     if (!user[0][0]) {
-      console.log('Incorrect username.');
+     
       return done(null, false, { message: 'Incorrect username.' });
     } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-      console.log('Incorrect password');
+     
       return done(null, false, { message: 'Incorrect password.' });
     } else {
-      console.log('ok');
+     
       done(null, user[0][0]);
     }
   });
   }));
 
 passport.serializeUser((function(user, done) {
-  console.log(user);
+ 
   done(null, user.id);
 }));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp',(req,res) =>{
-console.log(req.body)
+
 var  picture;
 var  info;
 var area_id;
@@ -147,7 +150,6 @@ info = "N/A"
            }
 
          }).then((data) => {
-         console.log(data[0])
        })
 
      } else {
@@ -164,7 +166,6 @@ info = "N/A"
 
 //********* HANDELING LOGIN********//
 app.post('/login', function (req, res, next) {
-  console.log(req)
   passport.authenticate('local', function (err, user) {
     if (err) {
       return next(err);
@@ -194,10 +195,21 @@ app.post('/login', function (req, res, next) {
 
 //*********HANDELING ADDING A JOB*******//
 app.post("/add",(req,res) =>{
-  console.log(req.body); 
-  console.log(req.session)
+ 
 })
-
+app.get('/user', (req,res) =>{
+   let profile;
+   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+     profile = user[0][0];
+     
+      db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].area}';`).then((area) => {
+        console.log(area);
+        profile.area = area[0][0].city;
+        res.send(profile);
+        res.end();
+      })
+   })
+})
 
 app.listen(port, hostname, () => {
   // connect to the DB
