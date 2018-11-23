@@ -257,6 +257,24 @@ app.post("/add", (req, res) => {
     })
   });
 })
+
+//************************************************//
+app.get('/jobs', (req,res) =>{
+  let profile;
+ db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+       profile = user[0][0];
+ }).then(() =>{
+    db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
+      res.send(jobs[0])
+    });
+ })
+
+
+})
+
+
+
+
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
