@@ -131,9 +131,9 @@ export class DashboardComponent implements OnInit {
     this.findLocation(full_address);
   }
 
-  takeChore(job) {
-    console.log(job);
-    this.http.patch("/dashboard/takeChore", {choreId:job.id}).subscribe((data) => {
+
+  takeChore(chore) {
+    this.http.patch("/dashboard/takeChore", {choreId: chore.id}).subscribe((data) => {
       console.log(data, 'dashboard');
       // update job with doer of current user id
       if(data = false) {
@@ -249,18 +249,10 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{
-      console.log(user);
       this.user = user;
-      console.log(this.user.area);
-      this.getlatlng(this.user.area);
-      
     })
     this.http.get('/jobs').subscribe((jobs) => {
-      console.log(jobs);
       this.jobs = jobs;
-      console.log(this.jobs);
-
-      // } 
     })
   }
 

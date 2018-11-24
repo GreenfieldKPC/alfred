@@ -17,6 +17,7 @@ import { JobService } from './job.service';
     routingComponents
   ],
   imports:[
+    BrowserModule,
     HttpClientModule,
     CommonModule,
     NgtUniversalModule,
