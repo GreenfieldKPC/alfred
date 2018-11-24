@@ -6,7 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
+  categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
+  selectedCategory: string;
   constructor() { }
 
   ngOnInit() {
