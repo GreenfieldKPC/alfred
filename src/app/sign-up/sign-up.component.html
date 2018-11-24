@@ -47,7 +47,15 @@
           <label for="user">Country</label>
           <input type="text" formControlName="country" placeholder="Country" required>
         </div>
-
+        <div>
+          <label for="cat">Specialty</label><br>
+          <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
+            required>
+            <option *ngFor="let list of categoryLists" [value]="list">
+              {{list}}
+            </option>
+          </select><br>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
 

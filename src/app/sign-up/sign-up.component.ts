@@ -17,6 +17,8 @@ export class SignUpComponent {
     private router: Router
     ) { }
   username: string;
+  categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
+  selectedCategory: string;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -35,6 +37,7 @@ export class SignUpComponent {
     })
   }
   onSubmit(e) {
+    console.log(this.selectedCategory);
     this.username = e;
     console.log(this.profileForm.value);
     this.signupSuccess = true;
