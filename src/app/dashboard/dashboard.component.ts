@@ -78,15 +78,17 @@ export class DashboardComponent implements OnInit {
       draggable: true
     },
     
-    zoom: 10
+    zoom: 14
   };
   user: any;
+  jobs: any;
   obj = {
     lat: 12,
     lng: 12,
   }
   test: any;
   test2: string = '2539 Columbus Street, New Orleans, LA';
+  infoWindow = new google.maps.InfoWindow();
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
@@ -94,13 +96,18 @@ export class DashboardComponent implements OnInit {
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
-    
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
       console.log(this.geocoder);
     });
   }
-  
+
+  addInfoWindow(marker, content, markerIndex) {
+    google.maps.event.addListener(marker, 'click', () => {
+      this.infoWindow.setContent(content);
+      this.infoWindow.open(this.map, marker);
+    });
+  }
   getlatlng(address: string) {
     
     this.geocoder = new google.maps.Geocoder();
@@ -120,8 +127,9 @@ export class DashboardComponent implements OnInit {
     this.findLocation(full_address);
   }
 
-  takeChore() {
-    this.http.patch("/dashboard/takeChore", {choreId: 1}).subscribe((data) => {
+  takeChore(job) {
+    console.log(job);
+    this.http.patch("/dashboard/takeChore", {choreId:job.id}).subscribe((data) => {
       console.log(data, 'dashboard');
       // update job with doer of current user id
       if(data = false) {
@@ -169,52 +177,52 @@ export class DashboardComponent implements OnInit {
     })
     
   }
-  // markerDragEnd(m: any, $event: any) {
-  //   this.location.marker.lat = m.coords.lat;
-  //   this.location.marker.lng = m.coords.lng;
-  //   this.findAddressByCoordinates();
-  // }
-  // findAddressByCoordinates() {
-  //   this.geocoder.geocode({
-  //     'location': {
-  //       lat: this.location.marker.lat,
-  //       lng: this.location.marker.lng
-  //     }
-  //   }, (results, status) => {
-  //     console.log(results);
-  //     this.decomposeAddressComponents(results);
-  //   })
-  // }
-  // decomposeAddressComponents(addressArray) {
-  //   if (addressArray.length == 0) return false;
-  //   let address = addressArray[0].address_components;
+  markerDragEnd(m: any, $event: any) {
+    this.location.marker.lat = m.coords.lat;
+    this.location.marker.lng = m.coords.lng;
+    this.findAddressByCoordinates();
+  }
+  findAddressByCoordinates() {
+    this.geocoder.geocode({
+      'location': {
+        lat: this.location.marker.lat,
+        lng: this.location.marker.lng
+      }
+    }, (results, status) => {
+      console.log(results);
+      this.decomposeAddressComponents(results);
+    })
+  }
+  decomposeAddressComponents(addressArray) {
+    if (addressArray.length == 0) return false;
+    let address = addressArray[0].address_components;
 
-  //   for (let element of address) {
-  //     if (element.length == 0 && !element['types']) continue
+    for (let element of address) {
+      if (element.length == 0 && !element['types']) continue
 
-  //     if (element['types'].indexOf('street_number') > -1) {
-  //       this.location.address = element['long_name'];
-  //       continue;
-  //     }
-  //     if (element['types'].indexOf('route') > -1) {
-  //       this.location.address += ', ' + element['long_name'];
-  //       continue;
-  //     }
+      if (element['types'].indexOf('street_number') > -1) {
+        this.location.address = element['long_name'];
+        continue;
+      }
+      if (element['types'].indexOf('route') > -1) {
+        this.location.address += ', ' + element['long_name'];
+        continue;
+      }
       
-  //     if (element['types'].indexOf('administrative_area_level_1') > -1) {
-  //       this.location.address_state = element['long_name'];
-  //       continue;
-  //     }
-  //     if (element['types'].indexOf('country') > -1) {
-  //       this.location.address_country = element['long_name'];
-  //       continue;
-  //     }
-  //     if (element['types'].indexOf('postal_code') > -1) {
-  //       this.location.address_zip = element['long_name'];
-  //       continue;
-  //     }
-  //   }
-  // }
+      if (element['types'].indexOf('administrative_area_level_1') > -1) {
+        this.location.address_state = element['long_name'];
+        continue;
+      }
+      if (element['types'].indexOf('country') > -1) {
+        this.location.address_country = element['long_name'];
+        continue;
+      }
+      if (element['types'].indexOf('postal_code') > -1) {
+        this.location.address_zip = element['long_name'];
+        continue;
+      }
+    }
+  }
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
       console.log(data);
@@ -223,7 +231,10 @@ export class DashboardComponent implements OnInit {
 
 
   }
-  testing() {}
+  testing($event) {
+    console.log('hello');
+    console.log($event);
+  }
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{
       console.log(user);
@@ -232,7 +243,13 @@ export class DashboardComponent implements OnInit {
       this.getlatlng(this.user.area);
       
     })
-    
+    this.http.get('/jobs').subscribe((jobs) => {
+      console.log(jobs);
+      this.jobs = jobs;
+      console.log(this.jobs);
+
+      // } 
+    })
   }
 
 }

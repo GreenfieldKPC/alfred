@@ -2,17 +2,15 @@
 <header>
   <div class="container">
     <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
-      [zoomControl]="true" [(fitBounds)]='location.viewport'>
-      <agm-marker *ngFor="let chore of userChores" [(latitude)]="chore.marker.lat" [(longitude)]="chore.marker.lng" 
-        ></agm-marker>
+      [zoomControl]="true">
+      <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" 
+        ><agm-info-window #infoWindow>
+          {{job}}
+          <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
+        </agm-info-window></agm-marker>
         <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
-          ></agm-marker>
+          >ME</agm-marker>
     </agm-map>
-<button routerLink="/navbar" class="btn btn-primary">Navbar</button>
-<button routerLink="/add" class="btn btn-primary">Post my chores</button>
-<!-- need to pass selected chore to this click function -->
-<button class="btn btn-primary" (click)='takeChore()'>Add to My Chores</button>
-<button class="btn btn-primary" (click)="logOut()">Log Out</button>
   </div>
 </header>
 
