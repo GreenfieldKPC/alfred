@@ -45,6 +45,8 @@ interface Location {
 export class DashboardComponent implements OnInit {
   lat: number;
   lng: number;
+  categoryLists = ['All', 'House Hold', 'Lawn Care', 'Pet Care'];
+  selectedCategory: string;
   public userChores = [
     {
     marker: {
@@ -234,6 +236,9 @@ export class DashboardComponent implements OnInit {
   testing($event) {
     console.log('hello');
     console.log($event);
+  }
+  getList() {
+    console.log({ 'special': this.selectedCategory, 'address': this.location.address_state})
   }
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{
