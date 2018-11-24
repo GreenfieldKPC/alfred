@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { JobService } from '../job.service'
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,21 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  public jobsTaken: Object = [];
+  public jobsPosted: Object = [];
+
+  constructor(private _jobService: JobService) { }
 
   ngOnInit() {
+    this._jobService.getUserJobsTaken().then(data => {
+      console.log(data)
+      this.jobsTaken = data
+    });
+    this._jobService.getUserJobsPosted().then(data => {
+      console.log(data)
+      this.jobsPosted = data
+    });
+    console.log(this.jobsPosted, 'posted', this.jobsTaken, 'taken profile page');
   }
 
 }

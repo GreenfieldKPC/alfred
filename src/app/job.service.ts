@@ -11,9 +11,9 @@ export class JobService {
 
   constructor(private http: HttpClient) { }
   getUserJobsTaken() {
-    return this.http.get(this._url + '/jobs/taken');
+    return this.http.get(this._url + '/jobs/taken').toPromise();
   }
   getUserJobsPosted() {
-    return this.http.get(this._url + '/jobs/posted');
+    return this.http.get(this._url + '/jobs/posted').toPromise();
   }
 }

@@ -241,16 +241,12 @@ username: "kd"
 zipcode: "70119"
 */
     this.http.get('/user').subscribe((user) =>{
-      console.log(user);
       this.user = user;
-       console.log(this.user.area);
 
       // } 
     })
     this.http.get('/jobs').subscribe((jobs) => {
-      console.log(jobs);
       this.jobs = jobs;
-      console.log(this.jobs);
 
       // } 
     })
