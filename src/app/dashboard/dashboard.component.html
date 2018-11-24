@@ -5,7 +5,10 @@
       [zoomControl]="true">
       <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" 
         ><agm-info-window #infoWindow>
-          {{job}}
+          <p>
+            {{ job }}
+
+          </p>
           <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
         </agm-info-window></agm-marker>
         <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
