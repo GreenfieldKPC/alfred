@@ -47,6 +47,11 @@
           <label for="user">Country</label>
           <input type="text" formControlName="country" placeholder="Country" required>
         </div>
+        <div class="text-center">
+          <img [src]="imageSrc" class="avatar img-thumbnail" alt="avatar">
+          <h6>Upload a photo</h6>
+          <input type="file" class="text-center center-block file-upload">
+        </div>
         <div>
           <label for="cat">Specialty</label><br>
           <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"

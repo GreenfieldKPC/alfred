@@ -16,6 +16,7 @@ export class SignUpComponent {
     private http: HttpClient,
     private router: Router
     ) { }
+  imageSrc:string;
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
@@ -37,7 +38,7 @@ export class SignUpComponent {
     })
   }
   onSubmit(e) {
-    console.log(this.selectedCategory);
+    console.log(this.imageSrc);
     this.profileForm.value.category = this.selectedCategory
     this.username = e;
     console.log(this.profileForm.value);
