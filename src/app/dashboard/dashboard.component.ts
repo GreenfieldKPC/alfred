@@ -46,6 +46,8 @@ interface Location {
 export class DashboardComponent implements OnInit {
   lat: number;
   lng: number;
+  categoryLists = ['All', 'House Hold', 'Lawn Care', 'Pet Care'];
+  selectedCategory: string;
   public userChores = [
     {
     marker: {
@@ -83,6 +85,7 @@ export class DashboardComponent implements OnInit {
   };
   user: any;
   jobs: any;
+  searchedObj:object;
   obj = {
     lat: 12,
     lng: 12,
@@ -235,6 +238,14 @@ export class DashboardComponent implements OnInit {
   testing($event) {
     console.log('hello');
     console.log($event);
+  }
+  getList() {
+   var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
+  this.http.post('/searchJobs', query ).subscribe((jobs) =>{
+    console.log(jobs)
+this.searchedObj = jobs;
+  })
+
   }
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{

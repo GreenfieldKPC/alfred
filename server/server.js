@@ -315,6 +315,12 @@ app.get('/user', (req, res) => {
 })
 
 
+// **************** handeling search jobs/ people ******//
+app.post('/searchJobs',((req,res) =>{
+  console.log(req.body);
+})
+)
+
 
 
 
