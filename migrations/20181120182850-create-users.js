@@ -35,6 +35,9 @@ module.exports = {
        hashed_password: {
          type: Sequelize.STRING
        },
+       id_category: {
+         type: Sequelize.INTEGER
+       }
     });
   },
   down: (queryInterface, Sequelize) => {
