@@ -82,11 +82,6 @@ app.use(session({
 // ************ passport config *********//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
-  // hash password
-  var generateHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-  };
-  const userPassword = generateHash(password);
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
 
@@ -114,14 +109,7 @@ passport.serializeUser((function (user, done) {
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
-  let category;
-  if (req.body.category === "House Hold") {
-    category = 1
-  } else if (req.body.category === "Pet Care") {
-    category = 2
-  } else if (req.body.category === "Lawn Care") {
-    category = 3
-  }
+ 
   var picture;
   var info;
   var area_id;
@@ -144,7 +132,7 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${category}')`,
+              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -172,7 +160,7 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${category}')`,
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
             function (err) {
               if (err) {
                 return res.json(400, {
@@ -217,10 +205,10 @@ app.post('/login', function (req, res, next) {
         return next(err);
       }
       return req.session.regenerate(() => {
-        req.session.user = req.body.username;
+        req.session.user = user.username;
+        req.session.userId = user.id;
         res.send('true');
       });;
-
     });
   })(req, res, next);
 });
@@ -235,21 +223,21 @@ app.post('/category', (req, res) => {
 
 app.post('/areas', (req, res) => {
   db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
+    if(areaObj[0][0].id === undefined){
+      db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
+       db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
+         res.send(areaObj[0]);
+       })
+      })
+    }else{
     res.send(areaObj[0]);
+    }
   })
 })
 
 //*********HANDELING ADDING A JOB*******//
 app.post("/add", (req, res) => {
   let profile;
-  let category;
-  if (req.body.electedCategory === "House Hold") {
-    category = 1
-  } else if (req.body.electedCategory === "Pet Care") {
-    category = 2
-  } else if (req.body.electedCategory === "Lawn Care") {
-    category = 3
-  }
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
     profile = user[0][0];
     db.sequelize.query(` SELECT * FROM areas WHERE city = '${req.body.city}';`).then((area) => {
@@ -258,7 +246,7 @@ app.post("/add", (req, res) => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
             profile.area = area[0][0].id;
           }).then(() => {
-            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
+            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
               res.send("job added")
               res.end()
             })
@@ -275,11 +263,8 @@ app.post("/add", (req, res) => {
   });
 })
 
-//************************************************//
-
-
-// **************getting intial job info for the dash board on login ***//
-app.get('/jobs', (req, res) => {
+//************** GETTING JOBS FOR MAP ******************//
+app.get('/jobs', (req,res) =>{
   let profile;
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
     profile = user[0][0];
@@ -289,13 +274,33 @@ app.get('/jobs', (req, res) => {
     });
   })
 
-
 })
 
+//********* GET USER'S JOBS ******/
+app.get('/jobs/taken', (req, res) => {
+  console.log(req.session.user, req.session.userId, 'jobs taken');
+  // change query to use req.session.userID when not testing on postman
+  const q = `SELECT * from jobs WHERE doer = ${req.session.userId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0]);
+    res.json(data[0]);
+  });
+});
 
-//********* User take job ******/
+app.get('/jobs/posted', (req, res) => {
+  // change query to use req.session.userID when not testing on postman
+  const q = `SELECT * from jobs WHERE poster = ${req.session.userId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0]);
+    res.json(data[0]);
+  });
+});
+//********************************* */
+
+
+//********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
-  console.log(req.body, '///', req.session.userId);
+  // console.log(req.body, '///', req.session.userId);
   const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
   db.sequelize.query(q, function (err) {
     if (err) {
@@ -311,7 +316,6 @@ app.patch("/dashboard/takeChore", (req, res) => {
   }).then((data) => {
     console.log(data);
     // add check for doer id not assigned already
-    // update this to return true of false!
     if (data[1].rowCount > 0) {
       res.send(true);
     } else {
@@ -344,7 +348,7 @@ app.get('/user', (req, res) => {
 // **************** handeling search jobs/ people ******//
 app.post('/searchJobs', ((req, res) => {
   let searchObj = {};
-  if (req.body.categor === 'all') {
+  if (req.body.category === 'all') {
     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${req.body.area}';`).then((jobs) => {
       searchObj.jobs = jobs[0]
     }).then(() => {

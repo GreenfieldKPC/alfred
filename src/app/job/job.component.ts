@@ -8,14 +8,17 @@ import { JobService } from '../job.service'
 })
 export class JobComponent implements OnInit {
 
-  public jobsTaken = [];
-  public jobsPosted = [];
+  public jobsTaken: Object;
+  public jobsPosted: Object;
 
-  constructor(private _jobService: JobService) { }
+  constructor(private _jobService: JobService) {
+    this.jobsTaken = [];
+    this.jobsPosted = [];
+   }
 
   ngOnInit() {
-    // this._jobService.getUserJobsTaken().subscribe(data => this.jobsTaken = data);
-    // this._jobService.getUserJobsPosted().subscribe(data => this.jobsPosted = data);
+    this._jobService.getUserJobsTaken().then(data => this.jobsTaken = data);
+    this._jobService.getUserJobsPosted().then(data => this.jobsPosted = data);
   }
 
 }

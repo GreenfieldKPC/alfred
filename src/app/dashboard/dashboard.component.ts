@@ -273,11 +273,7 @@ export class DashboardComponent implements OnInit {
 
     })
     this.http.get('/jobs').subscribe((jobs) => {
-      console.log(jobs);
       this.jobs = jobs;
-      console.log(this.jobs);
-
-      // } 
     })
   }
 
