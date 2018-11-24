@@ -6,7 +6,6 @@ const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
   Promise: Promise
 });
-const hostname = 'localhost';
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -268,7 +267,7 @@ app.post("/job/jobsPosted", (req, res) => {
   });
 });
 
-//********* take job ******/
+//********* User take job ******/
 app.patch("/dashboard/takeChore", (req, res) => {
   console.log(req.body, '///', req.session.userId);
   const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
@@ -287,17 +286,14 @@ app.patch("/dashboard/takeChore", (req, res) => {
     console.log(data);
     // add check for doer id not assigned already
     // update this to return true of false!
-    res.send(true);
-
-    // if (data[0].length) {
-    //   res.end(true);
-    // } else {
-    //   res.end(false);
-    // }
+    if (data[1].rowCount > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
   }).catch((err) => console.log(err));
 });
 
-app.listen(port, hostname, () => {
-  // connect to the DB
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
