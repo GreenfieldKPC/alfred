@@ -240,10 +240,10 @@ export class DashboardComponent implements OnInit {
     console.log($event);
   }
   getList() {
-   var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
-  this.http.post('/searchJobs', query ).subscribe((jobs) =>{
-    console.log(jobs)
-this.searchedObj = jobs;
+  //  var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
+  this.http.post('/category', {'category': this.selectedCategory,} ).subscribe((category) =>{
+    console.log(category);
+
   })
 
   }
