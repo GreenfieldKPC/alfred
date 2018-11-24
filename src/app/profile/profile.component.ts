@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JobService } from '../job.service'
+// import { toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -8,20 +9,22 @@ import { JobService } from '../job.service'
 })
 export class ProfileComponent implements OnInit {
 
-  public jobsTaken: Object;
-  public jobsPosted: Object;
+  public takenCount: Number;
+  public postedCount: Number;
 
-  constructor(private _jobService: JobService) { }
+  constructor(private _jobService: JobService) {
+    this.takenCount = 0;
+    this.postedCount = 0;
+   }
 
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => {
-      console.log(data)
-      this.jobsTaken = data
-      console.log(this.jobsTaken);
+      // how to get length of data object??
+      // this.takenCount = data.toArray().length;
     });
     this._jobService.getUserJobsPosted().then(data => {
-      console.log(data)
-      this.jobsPosted = data
+      // how to get length of data object??
+      // this.takenCount = data.length()
     });
   }
 

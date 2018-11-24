@@ -4,8 +4,8 @@
 <app-navbar></app-navbar>
 <header>
   <div class="container">
-    <ul jobsTaken="$ctrl.jobsTaken">list of chores taken
-      <li  *ng-for="let chore of jobsTaken">
+    <ul >list of chores taken
+      <li  *ngFor="let chore of jobsTaken">
         <a>{{ chore.description }}</a><br> 
         <p>{{ chore.address }}</p><br>
         <p ng-if="chore.completed"> Completed! </p>
@@ -13,8 +13,8 @@
       </li>
     </ul>
     <br>
-    <ul jobsPosted="$ctrl.jobsPosted">list of chores posted
-      <li *ng-for="let chore of jobsPosted">
+    <ul >list of chores posted
+      <li *ngFor="let chore of jobsPosted">
         <a>{{ chore.description }}</a><br>
         <p>{{ chore.address }}</p><br>
         <p ng-if="chore.completed"> Completed! </p>
