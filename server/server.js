@@ -223,7 +223,7 @@ app.post('/category', (req, res) => {
 
 app.post('/areas', (req, res) => {
   db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
-    if(areaObj[0][0].id === undefined){
+    if (areaObj[0][0] === undefined) {
       db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
        db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
          res.send(areaObj[0]);
