@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
@@ -151,7 +151,7 @@ app.post('/signUp', (req, res) => {
                     res.end("user added");
                   }
 
-                }).then((data) => {})
+                }).then((data) => { })
 
             } else {
               res.end("user exists");
@@ -179,7 +179,7 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => {})
+            }).then((data) => { })
 
         } else {
           res.end("user exists");
@@ -225,7 +225,7 @@ app.post('/login', function (req, res, next) {
 app.post("/add", (req, res) => {
   let profile;
   let category;
-  if (req.body.electedCategory === "House Hold"){
+  if (req.body.electedCategory === "House Hold") {
     category = 1
   } else if (req.body.electedCategory === "Pet Care") {
     category = 2
@@ -240,7 +240,7 @@ app.post("/add", (req, res) => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
             profile.area = area[0][0].id;
           }).then(() => {
-          db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
+            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
               res.send("job added")
               res.end()
             })
@@ -258,15 +258,15 @@ app.post("/add", (req, res) => {
 })
 
 //************************************************//
-app.get('/jobs', (req,res) =>{
+app.get('/jobs', (req, res) => {
   let profile;
- db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-       profile = user[0][0];
- }).then(() =>{
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+    profile = user[0][0];
+  }).then(() => {
     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
       res.send(jobs[0])
     });
- })
+  })
 
 
 })
