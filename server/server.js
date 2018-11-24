@@ -82,11 +82,6 @@ app.use(session({
 // ************ passport config *********//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
-  // hash password
-  var generateHash = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-  };
-  const userPassword = generateHash(password);
 
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
 
@@ -210,7 +205,8 @@ app.post('/login', function (req, res, next) {
         return next(err);
       }
       return req.session.regenerate(() => {
-        req.session.user = req.body.username;
+        req.session.user = user.username;
+        req.session.userId = user.id;
         res.send('true');
       });;
 
@@ -257,7 +253,7 @@ app.post("/add", (req, res) => {
   });
 })
 
-//************************************************//
+//************** GETTING JOBS FOR MAP ******************//
 app.get('/jobs', (req,res) =>{
   let profile;
  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
@@ -268,13 +264,33 @@ app.get('/jobs', (req,res) =>{
     });
  })
 
-
 })
 
+//********* GET USER'S JOBS ******/
+app.get('/jobs/taken', (req, res) => {
+  console.log(req.session.user, req.session.userId, 'jobs taken');
+  // change query to use req.session.userID when not testing on postman
+  const q = `SELECT * from jobs WHERE doer = ${req.session.userId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0]);
+    res.json(data[0]);
+  });
+});
 
-//********* User take job ******/
+app.get('/jobs/posted', (req, res) => {
+  // change query to use req.session.userID when not testing on postman
+  const q = `SELECT * from jobs WHERE poster = ${req.session.userId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0]);
+    res.json(data[0]);
+  });
+});
+//********************************* */
+
+
+//********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
-  console.log(req.body, '///', req.session.userId);
+  // console.log(req.body, '///', req.session.userId);
   const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
   db.sequelize.query(q, function (err) {
     if (err) {
@@ -290,7 +306,6 @@ app.patch("/dashboard/takeChore", (req, res) => {
   }).then((data) => {
     console.log(data);
     // add check for doer id not assigned already
-    // update this to return true of false!
     if (data[1].rowCount > 0) {
       res.send(true);
     } else {
