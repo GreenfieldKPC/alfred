@@ -9,6 +9,7 @@
         <p ng-if="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
+    <p ng-if='jobsTaken === []'> None Yet!</p>
     <br>
     <ul >list of chores posted
       <li *ngFor="let chore of jobsPosted">
@@ -18,5 +19,6 @@
         <p ng-if="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
+    <p ng-if='jobsPosted === []'> None Yet!</p>
   </div>
 </header>
