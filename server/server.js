@@ -6,7 +6,6 @@ const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
   Promise: Promise
 });
-const hostname = 'localhost';
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -273,23 +272,33 @@ app.get('/jobs', (req,res) =>{
 })
 
 
+//********* User take job ******/
+app.patch("/dashboard/takeChore", (req, res) => {
+  console.log(req.body, '///', req.session.userId);
+  const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
+  db.sequelize.query(q, function (err) {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error addding job to your profile.'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    console.log(data);
+    // add check for doer id not assigned already
+    // update this to return true of false!
+    if (data[1].rowCount > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  }).catch((err) => console.log(err));
+});
 
-
-//*****************getting intial user data*****//
-app.get('/user', (req, res) => {
-  console.log(req.session)
-  let profile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-    profile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-      profile.area = area[0][0].city;
-      res.send(profile);
-      res.end();
-    })
-  })
-})
-
-app.listen(port, hostname, () => {
-  // connect to the DB
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
