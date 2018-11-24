@@ -114,7 +114,14 @@ passport.serializeUser((function (user, done) {
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
-
+  let category;
+  if (req.body.category === "House Hold") {
+    category = 1
+  } else if (req.body.category === "Pet Care") {
+    category = 2
+  } else if (req.body.category === "Lawn Care") {
+    category = 3
+  }
   var picture;
   var info;
   var area_id;
@@ -137,7 +144,7 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -165,7 +172,7 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}')`,
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${category}')`,
             function (err) {
               if (err) {
                 return res.json(400, {
@@ -218,7 +225,14 @@ app.post('/login', function (req, res, next) {
   })(req, res, next);
 });
 // ***************************************//
-
+// ************** universal category finder****//
+app.post('/category',(req,res) =>{
+  console.log(req.body.category)
+  db.sequelize.query(`SELECT * FROM categories WHERE name = '${req.body.category}'`).then((category) =>{
+    console.log(category)
+    res.send(category[0]);
+  })
+})
 
 
 //*********HANDELING ADDING A JOB*******//
@@ -317,10 +331,23 @@ app.get('/user', (req, res) => {
 
 // **************** handeling search jobs/ people ******//
 app.post('/searchJobs',((req,res) =>{
-  console.log(req.body);
+   let category;
+   let SearchObj = {};
+   if (req.body.category === "House Hold") {
+     category = 1
+   } else if (req.body.category === "Pet Care") {
+     category = 2
+   } else if (req.body.category === "Lawn Care") {
+     category = 3
+   }
+  
 })
 )
-
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
 
 
 
