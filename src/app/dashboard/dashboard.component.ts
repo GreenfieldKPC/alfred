@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
       draggable: true
     },
 
-    zoom: 14
+    zoom: 12
   };
   user: any;
   jobs: any;
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
   addInfoWindow(marker, content, markerIndex) {
     google.maps.event.addListener(marker, 'click', () => {
       this.infoWindow.setContent(content);
-      this.infoWindow.open(this.map, marker);
+      this.infoWindow.open(this, marker);
     });
   }
   getlatlng(address: string) {
