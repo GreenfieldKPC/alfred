@@ -1,43 +1,44 @@
-<p>
-  dashboard works!
-</p>
-<app-navbar></app-navbar>
-<pre>{{ user| json}}</pre>
-<button class="btn btn-primary" (click)="getlatlng(test2)">kd</button>
+
 <header>
   <div class="container">
-    <agm-map [(latitude)]="location.lat" [(longitude)]="location.lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
-      [zoomControl]="true" [(fitBounds)]='location.viewport'>
-      <agm-marker *ngFor="let chore of userChores" [(latitude)]="chore.marker.lat" [(longitude)]="chore.marker.lng" [markerDraggable]="chore.marker.draggable"
-        (dragEnd)='markerDragEnd($event)'></agm-marker>
+    <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true"
+      [zoomControl]="true">
+      <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" 
+        ><agm-info-window #infoWindow>
+          {{job}}
+          <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
+        </agm-info-window></agm-marker>
         <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
-          (dragEnd)='markerDragEnd($event)'></agm-marker>
+          >ME</agm-marker>
     </agm-map>
-<button routerLink="/navbar" class="btn btn-primary">Navbar</button>
-<button routerLink="/add" class="btn btn-primary">Post my chores</button>
-<!-- need to pass selected chore to this click function -->
-<button class="btn btn-primary" (click)='takeChore()'>Add to My Chores</button>
-<button class="btn btn-primary" (click)="logOut()">Log Out</button>
   </div>
 </header>
 
   <div class="container-fluid">
     <div class='row'>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class='col-sm-2'>Address</label>
         <input class='col-sm-10' type='text' [(ngModel)]='location.address' class="form-control" placeholder='Street'>
-      </div>
+      </div> -->
       
       <div class="form-group">
         <label class='col-sm-2'>City & State</label>
         <input class='col-sm-10' [(ngModel)]='location.address_state' class='form-control' placeholder='City & State'>
       </div>
-    
-    <div class="form-group">
+    <div>
+      <label for="cat">Category</label><br>
+      <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
+        required>
+        <option *ngFor="let list of categoryLists" [value]="list">
+          {{list}}
+        </option>
+      </select><br>
+    </div>
+    <!-- <div class="form-group">
       <label class='col-sm-2'>Zip code</label>
       <input class='col-sm-10' [(ngModel)]='location.address_zip' class='form-control' placeholder='Zipcode'>
-    </div>
+    </div> -->
 
-    <button (click)='updateOnMap()' type="submit" class="btn btn-primary">Search</button>
+    <button (click)='getList()' type="submit" class="btn btn-primary">Search</button>
   </div>
 </div>

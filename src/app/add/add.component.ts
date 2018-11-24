@@ -60,14 +60,8 @@ export class AddComponent{
       console.log(JSON.stringify(this.choreForm.value));
       this.http.post("/add", this.choreForm.value).subscribe((data) => {
         console.log(data);
-        if (data === false) {
-          this.router.navigateByUrl('/dashboard');
-
-        } else {
-        }
       }) 
-      
+      this.router.navigateByUrl('/dashboard');
     })
- 
   }
 }

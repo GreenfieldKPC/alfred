@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, Input, NgZone } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
@@ -43,6 +44,10 @@ interface Location {
 
 
 export class DashboardComponent implements OnInit {
+  lat: number;
+  lng: number;
+  categoryLists = ['All', 'House Hold', 'Lawn Care', 'Pet Care'];
+  selectedCategory: string;
   public userChores = [
     {
     marker: {
@@ -68,23 +73,26 @@ export class DashboardComponent implements OnInit {
 ];
   geocoder: any;
   public location: Location = {
-    lat: 29.951065,
-    lng: -90.071533,
+    lat: 30.433283,
+    lng: -87.240372,
     marker: {
       lat: 29.9505,
       lng: -90.0753,
       draggable: true
     },
     
-    zoom: 10
+    zoom: 14
   };
   user: any;
   jobs: any;
+  searchedObj:object;
   obj = {
     lat: 12,
     lng: 12,
   }
+  test: any;
   test2: string = '2539 Columbus Street, New Orleans, LA';
+  infoWindow = new google.maps.InfoWindow();
   @ViewChild(AgmMap) map: AgmMap;
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
@@ -92,25 +100,29 @@ export class DashboardComponent implements OnInit {
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
-    
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
       console.log(this.geocoder);
     });
   }
-  
-  // getlatlng(address: string) {
+
+  addInfoWindow(marker, content, markerIndex) {
+    google.maps.event.addListener(marker, 'click', () => {
+      this.infoWindow.setContent(content);
+      this.infoWindow.open(this.map, marker);
+    });
+  }
+  getlatlng(address: string) {
     
-  //   this.geocoder = new google.maps.Geocoder();
-  //   this.geocoder.geocode({"address" : address}, (result, status) => {
-  //     if (status === google.maps.GeocoderStatus.OK) {
-  //       console.log(result[0].geometry.location);
-  //       this.obj.lat = result[0].geometry.location.lat();
-  //       this.obj.lng = result[0].geometry.location.lng();
-  //       console.log(this.obj);
-  //     }
-  //   })
-  // }
+    this.geocoder = new google.maps.Geocoder();
+    this.geocoder.geocode({"address" : address}, (result, status) => {
+      if (status === google.maps.GeocoderStatus.OK) {
+        this.lat = result[0].geometry.location.lat();
+        this.lng = result[0].geometry.location.lng();
+      }
+    })
+    this.map.triggerResize();
+  }
   updateOnMap() {
     let full_address: string = this.location.address || ""
     if (this.location.address_state) full_address = full_address + " " + this.location.address_state
@@ -119,8 +131,9 @@ export class DashboardComponent implements OnInit {
     this.findLocation(full_address);
   }
 
-  takeChore() {
-    this.http.patch("/dashboard/takeChore", {choreId: 1}).subscribe((data) => {
+  takeChore(job) {
+    console.log(job);
+    this.http.patch("/dashboard/takeChore", {choreId:job.id}).subscribe((data) => {
       console.log(data, 'dashboard');
       // update job with doer of current user id
       if(data = false) {
@@ -222,30 +235,25 @@ export class DashboardComponent implements OnInit {
 
 
   }
-  kd() {
-    console.log(this.user);
+  testing($event) {
+    console.log('hello');
+    console.log($event);
+  }
+  getList() {
+  //  var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
+  this.http.post('/category', {'category': this.selectedCategory,} ).subscribe((category) =>{
+    console.log(category);
+
+  })
+
   }
   ngOnInit() {
-    /*
-    address: "2539 Columbus Street"
-aptNumber: ""
-city: "New Orleans"
-country: ""
-email: "add"
-firstName: "kda"
-lastName: "kda"
-password: "ball"
-phone: "1234"
-state: "LA"
-username: "kd"
-zipcode: "70119"
-*/
     this.http.get('/user').subscribe((user) =>{
       console.log(user);
       this.user = user;
-       console.log(this.user.area);
-
-      // } 
+      console.log(this.user.area);
+      this.getlatlng(this.user.area);
+      
     })
     this.http.get('/jobs').subscribe((jobs) => {
       console.log(jobs);
