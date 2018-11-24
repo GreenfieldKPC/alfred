@@ -42,9 +42,12 @@ export class SignUpComponent {
     this.username = e;
     console.log(this.profileForm.value);
     this.signupSuccess = true;
+    this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
+      this.profileForm.value.category = catObj[0].id;
     this.http.post("/signUp", this.profileForm.value).subscribe((data) => {
       console.log(data);
     })
+  })
     this.router.navigateByUrl('/login');
   }
 }

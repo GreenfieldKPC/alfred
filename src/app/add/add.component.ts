@@ -58,9 +58,12 @@ export class AddComponent{
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
     this.getlatlng(addr).then(() => {
       console.log(JSON.stringify(this.choreForm.value));
-      this.http.post("/add", this.choreForm.value).subscribe((data) => {
-        console.log(data);
-      }) 
+      this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
+        this.choreForm.value.category = catObj[0].id;
+        this.http.post("/add", this.choreForm.value).subscribe((data) => {
+          console.log(data);
+        }) 
+      })
       this.router.navigateByUrl('/dashboard');
     })
   }
