@@ -8,19 +8,19 @@ selector: 'app-root',
 templateUrl: './app.component.html',
 styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
     log:boolean = false;
     title = 'alfred';
-    revieveLog($event) {
-        console.log('hello');
-        if ($event) {
-            this.log = true;
-        }
-    }
-    @ViewChild(LogInComponent) login;
-    ngAfterViewInit() {
-        this.log = this.login.loggedIn;
-    }
+    // revieveLog($event) {
+    //     console.log('hello');
+    //     if ($event) {
+    //         this.log = true;
+    //     }
+    // }
+    // @ViewChild(LogInComponent) login;
+    // ngAfterViewInit() {
+    //     this.log = this.login.loggedIn;
+    // }
     public ngOnInit(): void {
         if (!isPlatformBrowser(this.platformId)) {
             let bases = this.document.getElementsByTagName('base');
