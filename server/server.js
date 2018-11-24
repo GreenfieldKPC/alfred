@@ -343,7 +343,11 @@ app.post('/searchJobs',((req,res) =>{
   
 })
 )
-
+// *************** HANDELING LOGOUt******//
+app.get("/logOUt", (req, res) => {
+  req.session.destroy();
+  res.send(true);
+})
 
 
 
