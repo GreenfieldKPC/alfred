@@ -1,16 +1,22 @@
 
 <header>
   <div class="container">
-    <ul>list of jobs taken
-      <li><a>job 1</a></li>
-      <li><a>job 2</a></li>
-      <li><a>job 3</a></li>
+    <ul >list of chores taken
+      <li  *ngFor="let chore of jobsTaken">
+        <a>{{ chore.description }}</a><br> 
+        <p>{{ chore.address }}</p><br>
+        <p ng-if="chore.completed"> Completed! </p>
+        <p ng-if="!chore.completed"> Not Done Yet! </p>
+      </li>
     </ul>
     <br>
-    <ul>list of jobs posted
-      <li><a>job 1</a></li>
-      <li><a>job 2</a></li>
-      <li><a>job 3</a></li>
+    <ul >list of chores posted
+      <li *ngFor="let chore of jobsPosted">
+        <a>{{ chore.description }}</a><br>
+        <p>{{ chore.address }}</p><br>
+        <p ng-if="chore.completed"> Completed! </p>
+        <p ng-if="!chore.completed"> Not Done Yet! </p>
+      </li>
     </ul>
   </div>
 </header>
