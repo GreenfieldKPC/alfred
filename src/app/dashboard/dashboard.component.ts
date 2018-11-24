@@ -250,6 +250,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.http.get('/user').subscribe((user) =>{
       this.user = user;
+      this.getlatlng(this.user.area);
     })
     this.http.get('/jobs').subscribe((jobs) => {
       this.jobs = jobs;

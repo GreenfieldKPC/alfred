@@ -5,20 +5,20 @@
       <li  *ngFor="let chore of jobsTaken">
         <a>{{ chore.description }}</a><br> 
         <p>{{ chore.address }}</p><br>
-        <p ng-if="chore.completed"> Completed! </p>
-        <p ng-if="!chore.completed"> Not Done Yet! </p>
+        <p *ngIf="chore.completed"> Completed! </p>
+        <p *ngIf="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
-    <p ng-if='jobsTaken === []'> None Yet!</p>
+    <p *ngIf='jobsTaken === []'> None Yet!</p>
     <br>
     <ul >list of chores posted
       <li *ngFor="let chore of jobsPosted">
         <a>{{ chore.description }}</a><br>
         <p>{{ chore.address }}</p><br>
-        <p ng-if="chore.completed"> Completed! </p>
-        <p ng-if="!chore.completed"> Not Done Yet! </p>
+        <p *ngIf="chore.completed"> Completed! </p>
+        <p *ngIf="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
-    <p ng-if='jobsPosted === []'> None Yet!</p>
+    <p *ngIf='jobsPosted === []'> None Yet!</p>
   </div>
 </header>
