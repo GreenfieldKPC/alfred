@@ -209,7 +209,6 @@ app.post('/login', function (req, res, next) {
         req.session.userId = user.id;
         res.send('true');
       });;
-
     });
   })(req, res, next);
 });

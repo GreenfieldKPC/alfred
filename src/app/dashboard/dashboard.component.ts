@@ -119,8 +119,8 @@ export class DashboardComponent implements OnInit {
     this.findLocation(full_address);
   }
 
-  takeChore() {
-    this.http.patch("/dashboard/takeChore", {choreId: 1}).subscribe((data) => {
+  takeChore(chore) {
+    this.http.patch("/dashboard/takeChore", {choreId: chore.id}).subscribe((data) => {
       console.log(data, 'dashboard');
       // update job with doer of current user id
       if(data = false) {

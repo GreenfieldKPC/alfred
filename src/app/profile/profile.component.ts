@@ -8,8 +8,8 @@ import { JobService } from '../job.service'
 })
 export class ProfileComponent implements OnInit {
 
-  public jobsTaken: Object = [];
-  public jobsPosted: Object = [];
+  public jobsTaken: Object;
+  public jobsPosted: Object;
 
   constructor(private _jobService: JobService) { }
 
@@ -17,12 +17,12 @@ export class ProfileComponent implements OnInit {
     this._jobService.getUserJobsTaken().then(data => {
       console.log(data)
       this.jobsTaken = data
+      console.log(this.jobsTaken);
     });
     this._jobService.getUserJobsPosted().then(data => {
       console.log(data)
       this.jobsPosted = data
     });
-    console.log(this.jobsPosted, 'posted', this.jobsTaken, 'taken profile page');
   }
 
 }
