@@ -33,6 +33,7 @@ export class SignUpComponent {
       zipcode: [''],
       country: [''],
       aptNumber: [''],
+      photoData:['']
 
     })
   }
