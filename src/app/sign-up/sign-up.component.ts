@@ -38,7 +38,7 @@ export class SignUpComponent {
     })
   }
   onSubmit(e) {
-    console.log(this.selectedCategory);
+    console.log(this.profileForm.value);
     this.profileForm.value.category = this.selectedCategory
     this.username = e;
     console.log(this.profileForm.value);
