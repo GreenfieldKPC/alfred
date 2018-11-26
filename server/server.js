@@ -6,6 +6,7 @@ const googleMapsClient = require('@google/maps').createClient({
   key: 'your API key here',
   Promise: Promise
 });
+var cloudinary = require('cloudinary');
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
