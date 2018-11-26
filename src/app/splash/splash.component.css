@@ -1,0 +1,21 @@
+#splash {
+  background-color: #C3F0DB;
+}
+
+#splash img {
+  max-height: 60vw;
+  min-height: 20px;
+  width: auto;
+  margin-bottom: 4vh;
+}
+
+#splash .btn {
+  background-color: #45CAA6;
+  border: 0;
+  border-radius: 20px;
+  color: #5A6978; 
+  font-family: 'Playfair Display SC', serif;
+  font-size: 4vh;
+  margin: 4vh;
+  padding: 1vw 7vw 1vw 7vw;
+}
