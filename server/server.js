@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 const db = require('../models');
 const passport = require('passport');
@@ -7,6 +8,7 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise: Promise
 });
 var cloudinary = require('cloudinary');
+
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -224,7 +226,7 @@ app.post('/category', (req, res) => {
 
 app.post('/areas', (req, res) => {
   db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
-    if (areaObj[0][0] === undefined) {
+    if (areaObj[0][0] === undefined || areaObj[0][0].id === undefined) {
       db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
        db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
          res.send(areaObj[0]);
@@ -349,7 +351,7 @@ app.get('/user', (req, res) => {
 // **************** handeling search jobs/ people ******//
 app.post('/searchJobs', ((req, res) => {
   let searchObj = {};
-  if (req.body.category === 'all') {
+  if (req.body.category === 'all'|| req.body.category === undefined) {
     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${req.body.area}';`).then((jobs) => {
       searchObj.jobs = jobs[0]
     }).then(() => {

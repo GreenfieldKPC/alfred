@@ -242,7 +242,7 @@ export class DashboardComponent implements OnInit {
   getList() {
     var category;
     var area;
-    if (this.selectedCategory === 'All') {
+    if (this.selectedCategory === 'All' || this.selectedCategory === undefined) {
       this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
         console.log(areaObj);
         area = areaObj[0].id;
