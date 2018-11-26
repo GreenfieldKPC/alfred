@@ -17,11 +17,11 @@ declare var google: any;
 // }
 
 interface Marker {
-    lat: number;
-    lng: number;
-    label?: string;
-    draggable: boolean;
-  
+  lat: number;
+  lng: number;
+  label?: string;
+  draggable: boolean;
+
 }
 interface Location {
   lat: number;
@@ -39,7 +39,7 @@ interface Location {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
-  
+
 })
 
 
@@ -50,10 +50,10 @@ export class DashboardComponent implements OnInit {
   selectedCategory: string;
   public userChores = [
     {
-    marker: {
-    lat: 29.951065,
-    lng: -90.071533,
-    draggable: true
+      marker: {
+        lat: 29.951065,
+        lng: -90.071533,
+        draggable: true
       }
     },
     {
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
         draggable: true
       }
     },
-];
+  ];
   geocoder: any;
   public location: Location = {
     lat: 30.433283,
@@ -80,12 +80,12 @@ export class DashboardComponent implements OnInit {
       lng: -90.0753,
       draggable: true
     },
-    
-    zoom: 14
+
+    zoom: 12
   };
   user: any;
   jobs: any;
-  searchedObj:object;
+  searchedObj: object;
   obj = {
     lat: 12,
     lng: 12,
@@ -109,13 +109,13 @@ export class DashboardComponent implements OnInit {
   addInfoWindow(marker, content, markerIndex) {
     google.maps.event.addListener(marker, 'click', () => {
       this.infoWindow.setContent(content);
-      this.infoWindow.open(this.map, marker);
+      this.infoWindow.open(this, marker);
     });
   }
   getlatlng(address: string) {
-    
+
     this.geocoder = new google.maps.Geocoder();
-    this.geocoder.geocode({"address" : address}, (result, status) => {
+    this.geocoder.geocode({ "address": address }, (result, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         this.lat = result[0].geometry.location.lat();
         this.lng = result[0].geometry.location.lng();
@@ -124,19 +124,19 @@ export class DashboardComponent implements OnInit {
     this.map.triggerResize();
   }
   updateOnMap() {
-    let full_address: string = this.location.address || ""
-    if (this.location.address_state) full_address = full_address + " " + this.location.address_state
-    if (this.location.address_country) full_address = full_address + " " + this.location.address_country
+    // let full_address: string = this.location.address || ""
+    // if (this.location.address_state) full_address = full_address + " " + this.location.address_state
+    // if (this.location.address_country) full_address = full_address + " " + this.location.address_country
 
-    this.findLocation(full_address);
+    this.findLocation(this.location.address_state);
   }
 
-
-  takeChore(chore) {
-    this.http.patch("/dashboard/takeChore", {choreId: chore.id}).subscribe((data) => {
+  takeChore(job) {
+    console.log(job);
+    this.http.patch("/dashboard/takeChore", { choreId: job.id }).subscribe((data) => {
       console.log(data, 'dashboard');
       // update job with doer of current user id
-      if(data = false) {
+      if (data = false) {
         alert("Sorry, couldn't add to My Chores!");
       } else {
         alert("Added to My Chores!");
@@ -165,8 +165,8 @@ export class DashboardComponent implements OnInit {
         }
 
         if (results[0].geometry.location) {
-          this.location.lat = results[0].geometry.location.lat();
-          this.location.lng = results[0].geometry.location.lng();
+          this.lat = results[0].geometry.location.lat();
+          this.lng = results[0].geometry.location.lng();
           this.location.marker.lat = results[0].geometry.location.lat();
           this.location.marker.lng = results[0].geometry.location.lng();
           this.location.marker.draggable = true;
@@ -174,63 +174,63 @@ export class DashboardComponent implements OnInit {
         }
 
         this.map.triggerResize()
-      
+
       } else {
         alert("Sorry, this search produced no results.");
       }
     })
-    
-  }
-  markerDragEnd(m: any, $event: any) {
-    this.location.marker.lat = m.coords.lat;
-    this.location.marker.lng = m.coords.lng;
-    this.findAddressByCoordinates();
-  }
-  findAddressByCoordinates() {
-    this.geocoder.geocode({
-      'location': {
-        lat: this.location.marker.lat,
-        lng: this.location.marker.lng
-      }
-    }, (results, status) => {
-      console.log(results);
-      this.decomposeAddressComponents(results);
-    })
-  }
-  decomposeAddressComponents(addressArray) {
-    if (addressArray.length == 0) return false;
-    let address = addressArray[0].address_components;
 
-    for (let element of address) {
-      if (element.length == 0 && !element['types']) continue
+  }
+  // markerDragEnd(m: any, $event: any) {
+  //   this.location.marker.lat = m.coords.lat;
+  //   this.location.marker.lng = m.coords.lng;
+  //   this.findAddressByCoordinates();
+  // }
+  // findAddressByCoordinates() {
+  //   this.geocoder.geocode({
+  //     'location': {
+  //       lat: this.location.marker.lat,
+  //       lng: this.location.marker.lng
+  //     }
+  //   }, (results, status) => {
+  //     console.log(results);
+  //     this.decomposeAddressComponents(results);
+  //   })
+  // }
+  // decomposeAddressComponents(addressArray) {
+  //   if (addressArray.length == 0) return false;
+  //   let address = addressArray[0].address_components;
 
-      if (element['types'].indexOf('street_number') > -1) {
-        this.location.address = element['long_name'];
-        continue;
-      }
-      if (element['types'].indexOf('route') > -1) {
-        this.location.address += ', ' + element['long_name'];
-        continue;
-      }
+  //   for (let element of address) {
+  //     if (element.length == 0 && !element['types']) continue
+
+  //     if (element['types'].indexOf('street_number') > -1) {
+  //       this.location.address = element['long_name'];
+  //       continue;
+  //     }
+  //     if (element['types'].indexOf('route') > -1) {
+  //       this.location.address += ', ' + element['long_name'];
+  //       continue;
+  //     }
       
-      if (element['types'].indexOf('administrative_area_level_1') > -1) {
-        this.location.address_state = element['long_name'];
-        continue;
-      }
-      if (element['types'].indexOf('country') > -1) {
-        this.location.address_country = element['long_name'];
-        continue;
-      }
-      if (element['types'].indexOf('postal_code') > -1) {
-        this.location.address_zip = element['long_name'];
-        continue;
-      }
-    }
-  }
+  //     if (element['types'].indexOf('administrative_area_level_1') > -1) {
+  //       this.location.address_state = element['long_name'];
+  //       continue;
+  //     }
+  //     if (element['types'].indexOf('country') > -1) {
+  //       this.location.address_country = element['long_name'];
+  //       continue;
+  //     }
+  //     if (element['types'].indexOf('postal_code') > -1) {
+  //       this.location.address_zip = element['long_name'];
+  //       continue;
+  //     }
+  //   }
+  // }
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
       console.log(data);
-        this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/');
     })
 
 
@@ -240,17 +240,38 @@ export class DashboardComponent implements OnInit {
     console.log($event);
   }
   getList() {
-  //  var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
-  this.http.post('/category', {'category': this.selectedCategory,} ).subscribe((category) =>{
-    console.log(category);
-
-  })
-
+    var category;
+    var area;
+    if (this.selectedCategory === 'All') {
+      this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
+        console.log(areaObj);
+        area = areaObj[0].id;
+        this.http.post('/searchJobs', { area: area, category: 'all' }).subscribe((data) => {
+          console.log(data);
+        })
+      })
+    } else {
+      //  var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
+      this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
+        category = catObj[0].id;
+        this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
+          console.log(areaObj);
+          area = areaObj[0].id;
+          this.http.post('/searchJobs', { area: area, category: category }).subscribe((data) => {
+            console.log(data);
+          })
+        })
+      })
+    }
+    this.updateOnMap();
   }
   ngOnInit() {
-    this.http.get('/user').subscribe((user) =>{
+    this.http.get('/user').subscribe((user) => {
+      // console.log(user);
       this.user = user;
+      // console.log(this.user.area);
       this.getlatlng(this.user.area);
+
     })
     this.http.get('/jobs').subscribe((jobs) => {
       this.jobs = jobs;
