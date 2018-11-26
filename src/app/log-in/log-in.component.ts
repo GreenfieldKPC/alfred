@@ -12,6 +12,7 @@ export class LogInComponent {
   username = '';
   password = '';
   loggedIn: boolean = false;
+  public logo = "assets/images/logo.png";
   constructor(private router: Router, private http: HttpClient) {
   }
   @Output() logEvent = new EventEmitter<boolean>();
