@@ -1,14 +1,4 @@
-<!-- <header>
-  <div class="container">
-    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <strong>Log In</strong><br>
-        <input formControlName="username" placeholder="Username"><br>
-        <input formControlName="password" placeholder="Password"><br>
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</header> -->
-<div class="card mt-5" style="margin:auto;width: 600px;">
+<!-- <div class="card mt-5" style="margin:auto;width: 600px;">
   <div class="card-body">
     <h5 class="card-title">Login</h5>
     <div class="form-group">
@@ -22,4 +12,27 @@
     <button type="submit" class="btn btn-primary" (click)="tryLogin()">Login</button>
   </div>
     <button routerLink="/signup" class="btn btn-primary">Don't Have A Account CLick Here To SIgn UP</button>
+</div> -->
+<div id="login" class="row text-center" style="min-height: 100%">
+  <div id="login-logo-container" class="col-md-12">
+    <img src="{{logo}}">
+  </div>
+  <div id="login-form" class="row text-center">
+    <!-- <h2>Log In</h2> -->
+    <div class="form-group col-md-12">
+      <label for="user">Username</label>
+      <input type="text" class="form-control" id="user" placeholder="Username" [(ngModel)]="username">
+    </div>
+    <div class="form-group col-md-12">
+      <label for="user">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password">
+    </div>
+  </div>
+  <div class="col-md-12 login-btn">
+    <button type="submit" class="btn btn-primary" (click)="tryLogin()">Login</button>
+  </div>
+  <div class="col-md-12">
+  <p>Don't have an account?</p><br>
+  <button routerLink="/signup" class="btn btn-primary signup-btn">Sign Up</button>
+  </div>
 </div>
