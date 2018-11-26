@@ -26,18 +26,23 @@
   margin: 4vh;
   padding: 1vw 7vw 1vw 7vw;
 }
-#login-form {
+
+input {
   text-align:center;
   color: #5A6978;
 }
 
-#login .btn .signup-btn {
+#login .signup-btn {
   font-size: 2vh;
-  margin: 1vh;
+  margin: 0 0 5vh 0;
   padding: 1vw 3vw 1vw 3vw;
 }
 
-h2 {
+h2, p{
   color: #5A6978; 
   font-family: 'Playfair Display SC', serif;
+}
+
+p {
+  margin-bottom: 0;
 }
