@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent {
+  public logo = "assets/images/logo.png";
   profileForm: FormGroup;
   signupSuccess = false;
   constructor(
