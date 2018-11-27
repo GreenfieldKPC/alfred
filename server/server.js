@@ -1,7 +1,6 @@
 require('dotenv').config();
 var express = require('express');
 const db = require('../models');
-var cloudinary = require('cloudinary');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const googleMapsClient = require('@google/maps').createClient({
@@ -21,13 +20,6 @@ const path = require('path');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
-
-cloudinary.config({
-  cloud_name: process.env.cloud_name,
-  api_key: process.env.cloud_key,
-  api_secret: process.env.cloud_secret
-});
-
 app.use(bodyParser.json())
 app.use(require('body-parser').urlencoded({
   extended: false
@@ -389,14 +381,12 @@ app.post('/searchJobs', ((req, res) => {
 
 // *************handling photo uploads*******//
 
-app.post('/upload', (req,res)=>{
-  console.log(req.body)
-  cloudinary.v2.uploader.upload(req.body.photo,
-    function (error, result) {
-      console.log(result, error)
-    });
-    res.end()
-});
+// app.post('/photo', (req, res) => {
+//   console.log(req.body)
+//   cloudinary.uploader.upload(req.body.photo, function (result) {
+//     console.log(result)
+//   })
+// })
 
 
 
