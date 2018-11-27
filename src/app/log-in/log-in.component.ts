@@ -27,14 +27,15 @@ export class LogInComponent {
         if (data === false) {
           this.router.navigateByUrl('/');
 
-        }else{
-          this.sendlog(() => {
-            this.router.navigateByUrl('/dashboard');
-          })
-          // this.router.navigateByUrl('/dashboard');
         }
+        // else{
+        //   this.sendlog(() => {
+        //     this.router.navigateByUrl('/dashboard');
+        //   })
+        //   // this.router.navigateByUrl('/dashboard');
+        // }
       })
-    
+    this.router.navigateByUrl('/dashboard');
     
   }
 }

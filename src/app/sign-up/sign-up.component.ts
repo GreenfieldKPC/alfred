@@ -17,6 +17,7 @@ export class SignUpComponent {
     private http: HttpClient,
     private router: Router
     ) { }
+  imageSrc:string;
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
@@ -42,7 +43,7 @@ export class SignUpComponent {
     // this.profileForm.value.category = this.selectedCategory
     // console.log(this.profileForm.value.photoData)
     this.username = e;
-    console.log(this.profileForm.value);
+    // console.log(this.profileForm.value);
     this.signupSuccess = true;
     // this.http.post('/upload', { photo: this.profileForm.value.photoData}).subscribe((photoObj) =>{
     //   console.log(photoObj);
