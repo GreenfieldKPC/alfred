@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
-      console.log(this.geocoder);
+      // console.log(this.geocoder);
     });
   }
 
@@ -242,7 +242,7 @@ export class DashboardComponent implements OnInit {
   getList() {
     var category;
     var area;
-    if (this.selectedCategory === 'All') {
+    if (this.selectedCategory === 'All' || this.selectedCategory === undefined) {
       this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
         console.log(areaObj);
         area = areaObj[0].id;
@@ -267,9 +267,9 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.http.get('/user').subscribe((user) => {
-      console.log(user);
+      // console.log(user);
       this.user = user;
-      console.log(this.user.area);
+      // console.log(this.user.area);
       this.getlatlng(this.user.area);
 
     })

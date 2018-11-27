@@ -12,6 +12,7 @@ export class LogInComponent {
   username = '';
   password = '';
   loggedIn: boolean = false;
+  public logo = "assets/images/logo.png";
   constructor(private router: Router, private http: HttpClient) {
   }
   @Output() logEvent = new EventEmitter<boolean>();
@@ -26,14 +27,15 @@ export class LogInComponent {
         if (data === false) {
           this.router.navigateByUrl('/');
 
-        }else{
-          this.sendlog(() => {
-            this.router.navigateByUrl('/dashboard');
-          })
-          // this.router.navigateByUrl('/dashboard');
         }
+        // else{
+        //   this.sendlog(() => {
+        //     this.router.navigateByUrl('/dashboard');
+        //   })
+        //   // this.router.navigateByUrl('/dashboard');
+        // }
       })
-    
+    this.router.navigateByUrl('/dashboard');
     
   }
 }

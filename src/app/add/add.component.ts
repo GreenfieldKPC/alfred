@@ -59,6 +59,7 @@ export class AddComponent{
     this.getlatlng(addr).then(() => {
       console.log(JSON.stringify(this.choreForm.value));
       this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
+          console.log(catObj);
         this.choreForm.value.category = catObj[0].id;
         this.http.post("/add", this.choreForm.value).subscribe((data) => {
           console.log(data);
