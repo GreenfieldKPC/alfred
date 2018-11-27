@@ -13,12 +13,35 @@
               <a>Description: {{job.description}}</a><br>
               <a>Payment: ${{job.payment}}</a><br>
               <a>Category: {{categoryLists[job.category]}}</a><br>
-            </div>  
+            </div>
+            <button class="btn btn-primary">Message</button>  
             <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
           </agm-info-window>
         </agm-marker>
-        <!-- <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
-              >ME</agm-marker> -->
+        <agm-marker *ngFor="let search of searchJob"[(latitude)]="search.lat" [(longitude)]="search.lng" label="jobs"
+              ><agm-info-window #infoWindow>
+                <div>
+                  <a>Address: {{search.address}}</a><br>
+                  <a>Description: {{search.description}}</a><br>
+                  <a>Payment: ${{search.payment}}</a><br>
+                  <a>Category: {{categoryLists[search.category]}}</a><br>
+                </div>
+                <button class="btn btn-primary">Message</button>
+                <button class="btn btn-primary" (click)='takeChore(search)'>Add to My Chores</button>
+              </agm-info-window></agm-marker>
+              <agm-marker *ngFor="let sea of searchUser" [(latitude)]="sea.lat" [(longitude)]="sea.lng" label="user" >
+
+                <agm-info-window #infoWindow>
+                  <div>
+                    <a>Address: {{sea.address}}</a><br>
+                    <a>Description: {{sea.description}}</a><br>
+                    <a>Payment: ${{sea.payment}}</a><br>
+                    <a>Category: {{categoryLists[sea.category]}}</a><br>
+                  </div>
+                  <button class="btn btn-primary">Message</button>
+                  <button class="btn btn-primary" (click)='takeChore(sea)'>Add to My Chores</button>
+                </agm-info-window>
+              </agm-marker>
       </agm-map>
     </div>
     <div class='row'>
