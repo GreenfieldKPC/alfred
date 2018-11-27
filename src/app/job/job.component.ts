@@ -10,6 +10,7 @@ export class JobComponent implements OnInit {
 
   public jobsTaken;
   public jobsPosted;
+  public logo = "assets/images/logo.png";
 
   constructor(private _jobService: JobService) {
     this.jobsTaken = [];
@@ -17,8 +18,8 @@ export class JobComponent implements OnInit {
    }
 
   ngOnInit() {
-    this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; console.log(this.jobsTaken, 'job line 20')});
-    this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; console.log(this.jobsTaken, 'job line21')});
+    this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
+    this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
   }
 
 }

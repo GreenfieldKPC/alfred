@@ -16,10 +16,39 @@
 
 .chores {
   background-color: white;
-  list-style-type: none;
+  min-height: 75vh;
 }
 
-h2, h1 {
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 3vh;
+}
+
+li {
+  margin-bottom: 2vh;
+  /* border-bottom: 1px solid #5A6978; */
+}
+
+h1, h3 {
   color: #5A6978; 
   font-family: 'Playfair Display SC', serif;
+}
+
+h3 {
+  text-align: center;
+}
+
+span {
+  display: inline-block;
+  width: 80vw;
+  border: 2px solid #45CAA6;
+}
+
+.chore {
+  text-align: left;
+}
+
+.payment {
+  color: #F896EA;
 }

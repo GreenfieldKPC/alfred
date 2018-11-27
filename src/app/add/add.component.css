@@ -15,6 +15,7 @@
 
 form {
   background-color: white;
+  min-height: 75vh;
 }
 
 #add img {
