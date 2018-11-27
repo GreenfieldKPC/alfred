@@ -8,6 +8,11 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise: Promise
 });
 var cloudinary = require('cloudinary');
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.cloud_key,
+  api_secret: process.env.cloud_secret
+});
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -372,6 +377,18 @@ app.post('/searchJobs', ((req, res) => {
   }
 }))
 // ****************************************//
+
+
+// *************handling photo uploads*******//
+
+app.post('/photo', (req,res) =>{
+  console.log(req.body)
+  cloudinary.uploader.upload(req.body.photo, function (result) {
+    console.log(result)
+  })
+})
+
+
 
 
 
