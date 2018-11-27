@@ -33,9 +33,9 @@
     <label for="user">Zipcode</label>
     <input type="text" class="form-control" formControlName="zipcode" placeholder="Zip Code">
   </div>
-  <div class="form-group col-md-12">
-    <label for="user">Suggested Pay</label>
-    <select class="form-control dropdown-toggle" name="priority" [(ngModel)]="suggestedPay" [ngModelOptions]="{standalone: true}"
+  <div class="col-md-12">
+    <label for="pay">Suggested Pay</label>
+    <select class="form-control dropdown-toggle" [(ngModel)]="selectedPay" [ngModelOptions]="{standalone: true}"
       required>
       <option *ngFor="let item of suggestedPay" [value]="item">
         ${{item}}

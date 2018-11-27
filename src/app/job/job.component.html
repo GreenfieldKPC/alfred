@@ -9,7 +9,7 @@
         <p *ngIf="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
-    <p *ngIf='jobsTaken === []'> None Yet!</p>
+    <p *ngIf='!jobsTaken[0]'> None Yet!</p>
     <br>
     <ul >list of chores posted
       <li *ngFor="let chore of jobsPosted">
@@ -19,6 +19,6 @@
         <p *ngIf="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
-    <p *ngIf='jobsPosted === []'> None Yet!</p>
+    <p *ngIf='!jobsPosted[0]'> None Yet!</p>
   </div>
 </header>

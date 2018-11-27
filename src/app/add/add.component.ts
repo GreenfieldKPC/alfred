@@ -44,6 +44,7 @@ export class AddComponent{
       startTime:['']
     })
     this.selectedCategory = e;
+    this.selectedPay = e;
   }
   getlatlng(address: string) {
     return new Promise((resolve,reject) =>{
@@ -59,6 +60,7 @@ export class AddComponent{
   }   
   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
+    this.choreForm.value.suggestedPay = this.selectedPay
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
     this.getlatlng(addr).then(() => {
       console.log(JSON.stringify(this.choreForm.value));
