@@ -87,37 +87,10 @@ app.use(session({
   },
 }));
 
-// ************ passport config *********//
-var User = require('../models').Users;
-passport.use(new LocalStrategy(function (username, password, done) {
-
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-
-    if (!user[0][0]) {
-
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
-    } else {
-
-      done(null, user[0][0]);
-    }
-  });
-}));
-
-passport.serializeUser((function (user, done) {
-
-  done(null, user.id);
-}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
- 
+
   var picture;
   var info;
   var area_id;
@@ -154,7 +127,7 @@ app.post('/signUp', (req, res) => {
                     res.end("user added");
                   }
 
-                }).then((data) => {})
+                }).then((data) => { })
 
             } else {
               res.end("user exists");
@@ -182,7 +155,7 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => {})
+            }).then((data) => { })
 
         } else {
           res.end("user exists");
@@ -233,12 +206,12 @@ app.post('/areas', (req, res) => {
   db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
     if (areaObj[0][0] === undefined || areaObj[0][0].id === undefined) {
       db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
-       db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
-         res.send(areaObj[0]);
-       })
+        db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
+          res.send(areaObj[0]);
+        })
       })
-    }else{
-    res.send(areaObj[0]);
+    } else {
+      res.send(areaObj[0]);
     }
   })
 })
@@ -270,17 +243,16 @@ app.post("/add", (req, res) => {
 })
 
 //************** GETTING JOBS FOR MAP ******************//
-app.get('/jobs', (req,res) =>{
-  let profile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-    profile = user[0][0];
-  }).then(() => {
-    db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
-      res.send(jobs[0])
-    });
-  })
-
-})
+// app.get('/jobs', (req, res) => {
+//   let profile;
+//   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+//     profile = user[0][0];
+//   }).then(() => {
+//     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
+//       res.send(jobs[0])
+//     });
+//   })
+// })
 
 //********* GET USER'S JOBS ******/
 app.get('/jobs/taken', (req, res) => {
@@ -335,18 +307,18 @@ app.patch("/dashboard/takeChore", (req, res) => {
 
 
 //*****************getting intial user data*****//
-app.get('/user', (req, res) => {
-  console.log(req.session)
-  let profile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-    profile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-      profile.area = area[0][0].city;
-      res.send(profile);
-      res.end();
-    })
-  })
-})
+// app.get('/user', (req, res) => {
+//   console.log(req.session.user)
+//   let profile;
+//   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+//     profile = user[0][0];
+//     db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
+//       profile.area = area[0][0].city;
+//       res.send(profile);
+//       res.end();
+//     })
+//   })
+// })
 // ******************************************************//
 
 
@@ -354,7 +326,7 @@ app.get('/user', (req, res) => {
 // **************** handeling search jobs/ people ******//
 app.post('/searchJobs', ((req, res) => {
   let searchObj = {};
-  if (req.body.category === 'all'|| req.body.category === undefined) {
+  if (req.body.category === 'all' || req.body.category === undefined) {
     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${req.body.area}';`).then((jobs) => {
       searchObj.jobs = jobs[0]
     }).then(() => {
@@ -379,7 +351,7 @@ app.post('/searchJobs', ((req, res) => {
 
 // *************handling photo uploads*******//
 
-app.post('/photo', (req,res) =>{
+app.post('/photo', (req, res) => {
   console.log(req.body)
   cloudinary.uploader.upload(req.body.photo, function (result) {
     console.log(result)

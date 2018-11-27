@@ -1,24 +1,43 @@
+<div id="jobs" class="row">
+  <div id="jobs-header" class="row text-center">
+    <div class="col-xs-7">
+      <h1>My Chores</h1>
+    </div>
+    <div id="add-logo-container" class="col-xs-4">
+      <img src="{{logo}}">
+    </div>
+  </div>
 
-<header>
-  <div class="container">
-    <ul >list of chores taken
-      <li  *ngFor="let chore of jobsTaken">
-        <a>{{ chore.description }}</a><br> 
-        <p>{{ chore.address }}</p><br>
-        <p *ngIf="chore.completed"> Completed! </p>
-        <p *ngIf="!chore.completed"> Not Done Yet! </p>
+  <div class="col-md-12 chores">
+    <ul>
+      <h3>To-Do</h3>
+      <li *ngFor="let chore of jobsTaken">
+        <div *ngIf="!chore.completed">
+          <a>{{ chore.description }}</a><br>
+          <p>{{ chore.address }}</p>
+        </div>
       </li>
     </ul>
     <p *ngIf='!jobsTaken[0]'> None Yet!</p>
-    <br>
-    <ul >list of chores posted
+    <ul *ngIf='jobsTaken[0]'>
+      <h3>Completed</h3>
+      <li *ngFor="let chore of jobsTaken">
+        <div *ngIf="chore.completed">
+          <a>{{ chore.description }}</a><br>
+          <p>{{ chore.address }}</p>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <h3>Posted</h3>
       <li *ngFor="let chore of jobsPosted">
         <a>{{ chore.description }}</a><br>
-        <p>{{ chore.address }}</p><br>
+        <p>{{ chore.address }}</p>
         <p *ngIf="chore.completed"> Completed! </p>
         <p *ngIf="!chore.completed"> Not Done Yet! </p>
       </li>
     </ul>
     <p *ngIf='!jobsPosted[0]'> None Yet!</p>
   </div>
-</header>
+</div>
+  

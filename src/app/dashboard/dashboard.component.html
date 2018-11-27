@@ -1,6 +1,6 @@
 
 <header>
-<div class="container">
+<!-- <div class="container">
   <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
     <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="work" (markerClick)="addInfoWindow(job, job)">
       <agm-info-window #infoWindow>
@@ -13,14 +13,30 @@
         <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
       </agm-info-window>
     </agm-marker>
-    <!-- <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
-              >ME</agm-marker> -->
+    <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
+              >ME</agm-marker>
   </agm-map>
-</div>
+</div> -->
 </header>
 
   <div class="container-fluid">
-    
+    <div class="container">
+      <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
+        <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="work" (markerClick)="addInfoWindow(job, job)">
+          <agm-info-window #infoWindow>
+            <div>
+              <a>Address: {{job.address}}</a><br>
+              <a>Description: {{job.description}}</a><br>
+              <a>Payment: ${{job.payment}}</a><br>
+              <a>Category: {{categoryLists[job.category]}}</a><br>
+            </div>  
+            <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
+          </agm-info-window>
+        </agm-marker>
+        <!-- <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
+              >ME</agm-marker> -->
+      </agm-map>
+    </div>
     <div class='row'>
       <!-- <div class="form-group">
         <label class='col-sm-2'>Address</label>
