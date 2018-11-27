@@ -35,17 +35,18 @@ export class SignUpComponent {
       zipcode: [''],
       country: [''],
       aptNumber: [''],
+      photoData:['']
 
     })
   }
   onSubmit(e) {
-    // this.profileForm.value.photoData  = (<HTMLInputElement>document.getElementById('uploadBR')).files[0];;
-    // this.profileForm.value.category = this.selectedCategory
-    // console.log(this.profileForm.value.photoData)
+    // console.log(this.imageSrc);
+    // console.log(this.profileForm.value);
+    this.profileForm.value.category = this.selectedCategory
     this.username = e;
     // console.log(this.profileForm.value);
     this.signupSuccess = true;
-    // this.http.post('/upload', { photo: this.profileForm.value.photoData}).subscribe((photoObj) =>{
+    // this.http.post('photo', { photo: this.profileForm.value.photoData}).subscribe((photoObj) =>{
     //   console.log(photoObj);
     this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
       this.profileForm.value.category = catObj[0].id;
