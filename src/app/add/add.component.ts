@@ -19,6 +19,9 @@ export class AddComponent{
   choreForm: FormGroup;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
+  suggestedPay = [15, 20, 30, 40, 50];
+  selectedPay: number;
+  public logo = "assets/images/logo.png";
   constructor(public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router
   ) { 
@@ -36,7 +39,8 @@ export class AddComponent{
       address: [''],
       city: [''],
       zipcode: [''],
-      suggestedPay: [''],
+      // suggestedPay: [''],
+      //time needs to be converted to timestamp
       startTime:['']
     })
     this.selectedCategory = e;

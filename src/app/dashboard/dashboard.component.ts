@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit {
   test2: string = '2539 Columbus Street, New Orleans, LA';
   infoWindow = new google.maps.InfoWindow();
   @ViewChild(AgmMap) map: AgmMap;
+
   constructor(public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
     private wrapper: GoogleMapsAPIWrapper) {
@@ -212,7 +213,7 @@ export class DashboardComponent implements OnInit {
   //       this.location.address += ', ' + element['long_name'];
   //       continue;
   //     }
-      
+
   //     if (element['types'].indexOf('administrative_area_level_1') > -1) {
   //       this.location.address_state = element['long_name'];
   //       continue;

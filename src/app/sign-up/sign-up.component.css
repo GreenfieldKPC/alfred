@@ -8,8 +8,8 @@
   min-height: 100%;
   flex-grow: 1;
 }
-#signup-header {
-  vertical-align: bottom;
+.col-xs-7 {
+  vertical-align: bottom !important;
 }
 
 #signup img {
