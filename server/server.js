@@ -87,6 +87,33 @@ app.use(session({
   },
 }));
 
+// ************ passport config *********//
+var User = require('../models').Users;
+passport.use(new LocalStrategy(function (username, password, done) {
+
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
+
+    if (!user[0][0]) {
+
+      return done(null, false, {
+        message: 'Incorrect username.'
+      });
+    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
+
+      return done(null, false, {
+        message: 'Incorrect password.'
+      });
+    } else {
+
+      done(null, user[0][0]);
+    }
+  });
+}));
+
+passport.serializeUser((function (user, done) {
+
+  done(null, user.id);
+}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
@@ -228,14 +255,16 @@ app.post("/add", (req, res) => {
             profile.area = area[0][0].id;
           }).then(() => {
             db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
-              res.send(true)
+              res.send("job added")
+              res.end()
             })
           })
         })
       } else {
         profile.area = area[0][0].id;
-        db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
-          res.send(true)
+        db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.electedCategory}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
+          res.send("job added")
+          res.end()
         })
       }
     })
@@ -243,16 +272,17 @@ app.post("/add", (req, res) => {
 })
 
 //************** GETTING JOBS FOR MAP ******************//
-// app.get('/jobs', (req, res) => {
-//   let profile;
-//   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-//     profile = user[0][0];
-//   }).then(() => {
-//     db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
-//       res.send(jobs[0])
-//     });
-//   })
-// })
+app.get('/jobs', (req, res) => {
+  let profile;
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+    profile = user[0][0];
+  }).then(() => {
+    db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
+      res.send(jobs[0])
+    });
+  })
+
+})
 
 //********* GET USER'S JOBS ******/
 app.get('/jobs/taken', (req, res) => {
@@ -307,18 +337,18 @@ app.patch("/dashboard/takeChore", (req, res) => {
 
 
 //*****************getting intial user data*****//
-// app.get('/user', (req, res) => {
-//   console.log(req.session.user)
-//   let profile;
-//   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-//     profile = user[0][0];
-//     db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-//       profile.area = area[0][0].city;
-//       res.send(profile);
-//       res.end();
-//     })
-//   })
-// })
+app.get('/user', (req, res) => {
+  console.log(req.session)
+  let profile;
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
+    profile = user[0][0];
+    db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
+      profile.area = area[0][0].city;
+      res.send(profile);
+      res.end();
+    })
+  })
+})
 // ******************************************************//
 
 
@@ -351,12 +381,12 @@ app.post('/searchJobs', ((req, res) => {
 
 // *************handling photo uploads*******//
 
-app.post('/photo', (req, res) => {
-  console.log(req.body)
-  cloudinary.uploader.upload(req.body.photo, function (result) {
-    console.log(result)
-  })
-})
+// app.post('/photo', (req, res) => {
+//   console.log(req.body)
+//   cloudinary.uploader.upload(req.body.photo, function (result) {
+//     console.log(result)
+//   })
+// })
 
 
 
