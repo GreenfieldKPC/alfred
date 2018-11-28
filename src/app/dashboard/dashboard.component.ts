@@ -176,7 +176,6 @@ export class DashboardComponent implements OnInit {
     })
 
   }
-
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
       this.router.navigateByUrl('/');

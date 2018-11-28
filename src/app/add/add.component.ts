@@ -19,6 +19,9 @@ export class AddComponent{
   choreForm: FormGroup;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
+  suggestedPay = [15, 20, 30, 40, 50];
+  selectedPay: number;
+  public logo = "assets/images/logo.png";
   constructor(public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router
   ) { 
@@ -36,10 +39,12 @@ export class AddComponent{
       address: [''],
       city: [''],
       zipcode: [''],
-      suggestedPay: [''],
+      // suggestedPay: [''],
+      //time needs to be converted to timestamp
       startTime:['']
     })
     this.selectedCategory = e;
+    this.selectedPay = e;
   }
   getlatlng(address: string) {
     return new Promise((resolve,reject) =>{
@@ -55,6 +60,7 @@ export class AddComponent{
   }   
   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
+    this.choreForm.value.suggestedPay = this.selectedPay
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
     this.getlatlng(addr).then(() => {
       console.log(JSON.stringify(this.choreForm.value));

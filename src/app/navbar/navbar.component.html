@@ -16,7 +16,7 @@
     </nav>
   </div>
 </header> -->
-<nav class="navbutton">
+<nav class="navbutton" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <div class="navbar-header">
       <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar">
