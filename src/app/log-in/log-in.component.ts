@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from './../auth/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -11,31 +12,17 @@ export class LogInComponent {
 
   username = '';
   password = '';
-  loggedIn: boolean = false;
   public logo = "assets/images/logo.png";
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient, private authService: AuthService) {
   }
-  @Output() logEvent = new EventEmitter<boolean>();
-  sendlog(cb) {
-    this.loggedIn = true;
-    this.logEvent.emit(this.loggedIn);
-    
-    cb();
-  }
+
   tryLogin() {
       this.http.post("/login", {username: this.username, password: this.password}).subscribe((data) => {
         if (data === false) {
           this.router.navigateByUrl('/');
-
         }
-        // else{
-        //   this.sendlog(() => {
-        //     this.router.navigateByUrl('/dashboard');
-        //   })
-        //   // this.router.navigateByUrl('/dashboard');
-        // }
-      })
+      });
+    this.authService.login(true);
     this.router.navigateByUrl('/dashboard');
-    
   }
 }

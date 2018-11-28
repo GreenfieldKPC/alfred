@@ -1,5 +1,5 @@
 require('dotenv').config();
-var express = require('express');
+const express = require('express');
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
@@ -47,9 +47,7 @@ app.use(passport.initialize());
 
 
 //*********** PASSPORT CONFIG ************//
-var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
-
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
 
     if (!user[0][0]) {
@@ -68,7 +66,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
     }
   });
 }));
-
 
 passport.serializeUser((function (user, done) {
 
@@ -111,7 +108,9 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+              db.sequelize.query(
+                `INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category)
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
