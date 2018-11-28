@@ -10,6 +10,7 @@
           <a>Payment: ${{job.payment}}</a><br>
           <a>Category: {{categoryLists[job.category]}}</a><br>
         </div>
+        <button class="btn btn-primary">Message</button>
         <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
       </agm-info-window>
     </agm-marker>
@@ -21,6 +22,7 @@
           <a>Payment: ${{search.payment}}</a><br>
           <a>Category: {{categoryLists[search.category]}}</a><br>
         </div>
+        <button class="btn btn-primary">Message</button>
         <button class="btn btn-primary" (click)='takeChore(search)'>Add to My Chores</button>
       </agm-info-window>
     </agm-marker>
