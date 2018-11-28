@@ -46,7 +46,7 @@ app.use(passport.initialize());
 
 
 
-//***********setting up passport ************//
+//*********** PASSPORT CONFIG ************//
 var User = require('../models').Users;
 passport.use(new LocalStrategy(function (username, password, done) {
 
@@ -85,37 +85,6 @@ passport.deserializeUser((function (id, done) {
 
 //********************************************* */
 
-
-
-
-
-// ************ passport config *********//
-var User = require('../models').Users;
-passport.use(new LocalStrategy(function (username, password, done) {
-
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-
-    if (!user[0][0]) {
-
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
-    } else {
-
-      done(null, user[0][0]);
-    }
-  });
-}));
-
-passport.serializeUser((function (user, done) {
-
-  done(null, user.id);
-}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
@@ -389,9 +358,6 @@ app.post('/searchJobs', ((req, res) => {
 //     console.log(result)
 //   })
 // })
-
-
-
 
 
 // *************** HANDELING LOGOUt******//
