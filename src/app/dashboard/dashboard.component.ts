@@ -191,30 +191,34 @@ export class DashboardComponent implements OnInit {
     var category;
     var area;
     if (this.selectedCategory === 'All' || this.selectedCategory === undefined) {
-      this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
-        area = areaObj[0].id;
-        this.http.post('/searchJobs', { area: area, category: 'all' }).subscribe((data) => {
-          console.log(data);
-          this.searchJob = data;
-          this.searchUser = this.searchJob.users;
-          this.searchJob = this.searchJob.jobs;
-        })
-      })
-    } else {
-      //  var query = { 'category': this.selectedCategory, 'city': this.location.address_state}
-      this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
-        category = catObj[0].id;
-        this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
+      this.dashboardService.searchArea(this.location.address_state)
+        .subscribe((areaObj) => {
           area = areaObj[0].id;
-          this.http.post('/searchJobs', { area: area, category: category }).subscribe((data) => {
-            this.searchJob = data;
-            this.searchUser = this.searchJob.users;
-            this.searchJob = this.searchJob.jobs;
-          })
+          this.dashboardService.searchJob(area, 'all')
+            .subscribe((data) => {
+              this.searchJob = data;
+              this.searchUser = this.searchJob.users;
+              this.searchJob = this.searchJob.jobs;
+            })
         })
-      })
-    }
-    this.updateOnMap();
+    } else {
+      this.dashboardService.searchCat(this.selectedCategory)
+        .subscribe((catObj) => {
+          category = catObj[0].id;
+          this.dashboardService.searchArea(this.location.address_state)
+            .subscribe((areaObj) => {
+              area = areaObj[0].id;
+              this.dashboardService.searchJob(area, category)
+                .subscribe((data) => {
+                  this.searchJob = data;
+                  this.searchUser = this.searchJob.users;
+                  this.searchJob = this.searchJob.jobs;
+                })
+              })
+            })
+          }
+          this.updateOnMap();
+    
   }
   getuser() {
     this.dashboardService.getUser()
