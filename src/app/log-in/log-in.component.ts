@@ -17,12 +17,15 @@ export class LogInComponent {
   }
 
   tryLogin() {
-      this.http.post("/login", {username: this.username, password: this.password}).subscribe((data) => {
-        if (data === false) {
+    this.http.post("/login", {username: this.username, password: this.password})
+      .subscribe((data) => {
+        if (data === true) {
+          this.authService.login(true);
+          this.router.navigateByUrl('/dashboard');
+          
+        } else {
           this.router.navigateByUrl('/');
         }
       });
-    this.authService.login(true);
-    this.router.navigateByUrl('/dashboard');
   }
 }

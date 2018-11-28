@@ -79,9 +79,9 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     this.profileForm.value.category = catObj[0].id;
     this.signupService.addUser(this.profileForm.value).subscribe((data) => {
       console.log(data, 'service');
+      this.router.navigateByUrl('/login');
     })
   })
-    this.router.navigateByUrl('/login');
   }
 
   ngAfterViewInit() {

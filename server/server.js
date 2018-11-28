@@ -309,15 +309,16 @@ app.patch("/dashboard/takeChore", (req, res) => {
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
-  let profile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-    profile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-      profile.area = area[0][0].city;
-      res.send(profile);
-      res.end();
+  
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`)
+    .then((user) => {
+      const profile = user[0][0];
+      db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
+        profile.area = area[0][0].city;
+        res.send(profile);
+        res.end();
+      })
     })
-  })
 })
 // ******************************************************//
 
