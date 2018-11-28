@@ -87,10 +87,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const style = {
       base: {
-        lineHeight: '24px',
         fontFamily: 'monospace',
         fontSmoothing: 'antialiased',
-        fontSize: '19px',
         '::placeholder': {
           color: 'purple'
         }
