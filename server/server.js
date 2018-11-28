@@ -24,6 +24,17 @@ app.use(bodyParser.json())
 app.use(require('body-parser').urlencoded({
   extended: false
 }));
+
+// **********SETTING UP INTIAL SESSION********//
+app.use(session({
+  secret: 'hackerman',
+  resave: true,
+  saveUninitialized: true,
+  username: null,
+  cookie: {
+    path: '/',
+  },
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'ejs');
@@ -76,16 +87,7 @@ passport.deserializeUser((function (id, done) {
 
 
 
-// **********SETTING UP INTIAL SESSION********//
-app.use(session({
-  secret: 'hackerman',
-  resave: true,
-  saveUninitialized: true,
-  username: null,
-  cookie: {
-    path: '/',
-  },
-}));
+
 
 // ************ passport config *********//
 var User = require('../models').Users;
