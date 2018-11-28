@@ -13,8 +13,17 @@
         <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
       </agm-info-window>
     </agm-marker>
-    <!-- <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
-              >ME</agm-marker> -->
+    <agm-marker *ngFor="let search of searchJob" [(latitude)]="search.lat" [(longitude)]="search.lon" label="job" (markerClick)="addInfoWindow(job, job)">
+      <agm-info-window #infoWindow>
+        <div>
+          <a>Address: {{search.address}}</a><br>
+          <a>Description: {{search.description}}</a><br>
+          <a>Payment: ${{search.payment}}</a><br>
+          <a>Category: {{categoryLists[search.category]}}</a><br>
+        </div>
+        <button class="btn btn-primary" (click)='takeChore(search)'>Add to My Chores</button>
+      </agm-info-window>
+    </agm-marker>
   </agm-map>
 </div>
 </header>

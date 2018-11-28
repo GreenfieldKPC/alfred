@@ -19,4 +19,13 @@ export class DashboardService {
   takeChore(job): Observable<object>{
     return this.http.patch<object>('/dashboard/takeChore', {choreId: job.id})
   }
+  searchArea(address): Observable<object>{
+    return this.http.post<object>('/areas', {'city': address});
+  }
+  searchJob(area, category): Observable<object>{
+    return this.http.post<object>('/searchJobs', {area: area, category: category});
+  }
+  searchCat(cat): Observable<object> {
+    return this.http.post<object>('/category', { 'category': cat });
+  }
 }
