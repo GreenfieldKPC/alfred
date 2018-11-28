@@ -35,7 +35,6 @@ app.use(session({
     path: '/',
   },
 }));
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'ejs');
