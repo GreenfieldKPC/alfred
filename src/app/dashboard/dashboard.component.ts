@@ -111,18 +111,21 @@ export class DashboardComponent implements OnInit {
     });
   }
   getlatlng(address: string) {
-    return new Promise((resolve, reject) => {
-
-      this.geocoder = new google.maps.Geocoder();
-      this.geocoder.geocode({ "address": address }, (result, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
-          this.lat = result[0].geometry.location.lat();
-          this.lng = result[0].geometry.location.lng();
+    
+    let geocoder = new google.maps.Geocoder();
+    return Observable.create(observer => {
+      geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          observer.next(results[0].geometry.location);
+          observer.complete();
+        } else {
+          console.log('Error - ', results, ' & Status - ', status);
+          observer.next({});
+          observer.complete();
         }
-      })
-      resolve();
+      });
       this.map.triggerResize();
-    });
+    })
   }
   updateOnMap() {
     this.findLocation(this.location.address_state);
@@ -175,7 +178,6 @@ export class DashboardComponent implements OnInit {
   }
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
-      console.log(data);
       this.router.navigateByUrl('/');
     })
 
@@ -190,14 +192,12 @@ export class DashboardComponent implements OnInit {
     var area;
     if (this.selectedCategory === 'All' || this.selectedCategory === undefined) {
       this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
-        console.log(areaObj);
         area = areaObj[0].id;
         this.http.post('/searchJobs', { area: area, category: 'all' }).subscribe((data) => {
           console.log(data);
           this.searchJob = data;
           this.searchUser = this.searchJob.users;
           this.searchJob = this.searchJob.jobs;
-          console.log(this.searchJob);
         })
       })
     } else {
@@ -205,50 +205,37 @@ export class DashboardComponent implements OnInit {
       this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
         category = catObj[0].id;
         this.http.post('/areas', { 'city': this.location.address_state }).subscribe((areaObj) => {
-          console.log(areaObj);
           area = areaObj[0].id;
           this.http.post('/searchJobs', { area: area, category: category }).subscribe((data) => {
             this.searchJob = data;
             this.searchUser = this.searchJob.users;
             this.searchJob = this.searchJob.jobs;
-            console.log(this.searchJob, 'job');
-            console.log(data, 'data');
-            console.log(this.searchUser, 'user');
           })
         })
       })
     }
     this.updateOnMap();
   }
-  getuser():void {
+  getuser() {
     this.dashboardService.getUser()
     .subscribe((user) => {
       this.user = user;
-      this.getlatlng(this.user.area).then((listen) => {
-        console.log('chore near you', listen);
-      })
-    })
+      this.getlatlng(this.user.area).subscribe(result => {
+        this.zone.run(() => {
+          this.lat = result.lat();
+          this.lng = result.lng();
+        });
+      },error => console.log(error),
+      () => console.log('complete'))
+      });
   }
-  getjob():void {
+  getjob() {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
-      console.log(this.jobs);
-    });
+      });
   }
   ngOnInit() {
-    // this.http.get('/user').subscribe((user) => {
-    //   // console.log(user);
-    //   this.user = user;
-    //   // console.log(this.user.area);
-    //   this.getlatlng(this.user.area).then((listen) => {
-    //     console.log('getting all the chores', listen);
-    //   });
-
-    // })
-    // this.http.get('/jobs').subscribe((jobs) => {
-    //   this.jobs = jobs;
-    // })
     this.getuser();
     this.getjob();
   }
