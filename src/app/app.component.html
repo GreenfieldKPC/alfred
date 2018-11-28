@@ -1,13 +1,9 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <app-root></app-root> -->
-
 <section>
-  <!-- <div (logEvent)="revieveLog($event)"> -->
 
-    <!-- <div [style.visibility]="log ? 'visible' : 'hidden' "> -->
-      <app-navbar></app-navbar>
-    <!-- </div> -->
-  <!-- </div> -->
+  <app-navbar></app-navbar>
+
+  <!-- *ngIf="isLoggedIn$ | async" -->
+
   <router-outlet></router-outlet>
     
 </section>
