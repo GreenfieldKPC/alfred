@@ -46,7 +46,7 @@ app.use(passport.initialize());
 
 
 
-//***********setting up passport ************//
+//*********** PASSPORT CONFIG ************//
 passport.use(new LocalStrategy(function (username, password, done) {
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
 
@@ -358,9 +358,6 @@ app.post('/searchJobs', ((req, res) => {
 //     console.log(result)
 //   })
 // })
-
-
-
 
 
 // *************** HANDELING LOGOUt******//
