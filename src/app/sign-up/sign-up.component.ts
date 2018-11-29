@@ -42,6 +42,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
+  customer: any;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -63,18 +64,32 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
   async onSubmitStripe(e) {
     /////////////// STRIPE ELEMENT ////////////////////
-    const { token, error } = await stripe.createToken(this.card);
-
-    if (error) {
-      console.log('Something is wrong:', error);
+    if (this.profileForm.value.email.length < 10) {
+      alert('Invalid email');
     } else {
-      console.log('Success!', token);
-      // ...send the token to the your backend to process the charge
-      this.http.post('/stripe', {
-        token,
-        email: this.profileForm.value.email
-      });
-    }
+      const { token, error } = await stripe.createToken(this.card);
+
+      if (error) {
+        console.log('Something is wrong:', error);
+      } else {
+        // console.log('Success!', token);
+        // ...send the token to the your backend to process the charge
+        this.http.post('/stripe', {
+          token,
+          email: this.profileForm.value.email
+        }).subscribe((data) => {
+          // console.log(data, 'signup line 76')
+          if(data !== false) {
+            this.customer = data;
+            this.profileForm.value.stripeId = this.customer.id;
+            alert('Successful Stripe account creation!');
+          // console.log(this.profileForm.value, 'signup line 81')
+          } else {
+            alert('Error creating Stripe account!');
+          } 
+        });
+      }
+    } 
     ////////////// STRIPE ELEMENT ////////////////
   }
   
