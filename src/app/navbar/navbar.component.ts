@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from './../auth/auth.service';
 
 @Component({
@@ -22,12 +22,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log(this.isLoggedIn$, 'loggedIn from navbar');
   }
  
   logout() {
     this.http.get("/logOut").subscribe((data) => {
-      console.log(data);
       this.authService.logout();
       this.router.navigateByUrl('/');
     })
