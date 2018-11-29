@@ -39,13 +39,12 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private router: Router,
-    private cd: ChangeDetectorRef, 
+    private cd: ChangeDetectorRef
     ) { }
   imageSrc:string;
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  customer: any;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -64,6 +63,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
+<<<<<<< HEAD
   previewFile() {
     console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
@@ -84,34 +84,20 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   
 
   async onSubmitStripe(e) {
+=======
+  async onSubmit(e) {
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
     /////////////// STRIPE ELEMENT ////////////////////
-    if (this.profileForm.value.email.length < 10) {
-      alert('Invalid email');
-    } else {
-      const { token, error } = await stripe.createToken(this.card);
+    const { token, error } = await stripe.createToken(this.card);
 
-      if (error) {
-        console.log('Something is wrong:', error);
-      } else {
-        // console.log('Success!', token);
-        // ...send the token to the your backend to process the charge
-        this.http.post('/stripe', {
-          token,
-          email: this.profileForm.value.email
-        }).subscribe((data) => {
-          // console.log(data, 'signup line 76')
-          if(data !== false) {
-            this.customer = data;
-            this.profileForm.value.stripeId = this.customer.id;
-            alert('Successful Stripe account creation!');
-          // console.log(this.profileForm.value, 'signup line 81')
-          } else {
-            alert('Error creating Stripe account!');
-          } 
-        });
-      }
-    } 
+    if (error) {
+      console.log('Something is wrong:', error);
+    } else {
+      console.log('Success!', token);
+      // ...send the token to the your backend to process the charge
+    }
     ////////////// STRIPE ELEMENT ////////////////
+<<<<<<< HEAD
   }
   
   onSubmit(e) {
@@ -135,6 +121,19 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
         })
       })
     }
+=======
+
+    this.profileForm.value.category = this.selectedCategory
+    this.username = e;
+    this.signupSuccess = true;
+    this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
+    this.profileForm.value.category = catObj[0].id;
+    this.signupService.addUser(this.profileForm.value).subscribe((data) => {
+      console.log(data, 'service');
+      this.router.navigateByUrl('/login');
+    })
+  })
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
   }
 
   ngAfterViewInit() {

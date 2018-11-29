@@ -29,9 +29,6 @@ module.exports = {
       picture: {
         type: Sequelize.STRING
       },
-      info: {
-        type: Sequelize.STRING
-      },
       id_area: {
         type: Sequelize.INTEGER
       },

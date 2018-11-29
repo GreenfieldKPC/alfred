@@ -1,5 +1,6 @@
 <div>
-  
+ 
+
 <header>
 <div class="col-md-12">
   <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
@@ -10,6 +11,17 @@
           <a>Description: {{job.description}}</a><br>
           <a>Payment: ${{job.payment}}</a><br>
           <a>Category: {{categoryLists[job.category]}}</a><br>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        </div>
+        <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
+      </agm-info-window>
+    </agm-marker>
+    <!-- <agm-marker [(latitude)]="location.marker.lat" [(longitude)]="location.marker.lng" [markerDraggable]="location.marker.draggable"
+              >ME</agm-marker> -->
+=======
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
           <ngb-rating [(rate)]="currentRate"></ngb-rating>
         </div>
         <ng-template #content let-c="close" let-d="dismiss">
@@ -52,6 +64,10 @@
         <button class="btn btn-primary" (click)='takeChore(search)'>Add to My Chores</button>
       </agm-info-window>
     </agm-marker>
+<<<<<<< HEAD
+=======
+>>>>>>> b77e9f321543bdf228b7d7d4984cb0600f1ea397
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
   </agm-map>
 </div>
 </header>
@@ -61,7 +77,15 @@
   <div id='searchbar' class='col-md-12'>
     <div class="form-group col-xs-5">
       <label for="location">City & State</label>
+<<<<<<< HEAD
       <input class='col-sm-10' [(ngModel)]='location.address_state' class='form-control'(keyup.enter)="getList()" placeholder='City & State'>
+=======
+<<<<<<< HEAD
+      <input class='col-sm-10' [(ngModel)]='location.address_state' class='form-control' placeholder='City & State'>
+=======
+      <input class='col-sm-10' [(ngModel)]='location.address_state' class='form-control'(keyup.enter)="getList()" placeholder='City & State'>
+>>>>>>> b77e9f321543bdf228b7d7d4984cb0600f1ea397
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
     </div>
     
     <div class="form-group col-xs-4">
@@ -73,6 +97,9 @@
           {{list}}
         </option>
       </select>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
     </div>
 
     <div class="form-group col-xs-3">
@@ -99,6 +126,38 @@
     </div>
   </div>
 
+=======
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
+    </div>
+
+    <div class="form-group col-xs-3">
+      <button id="searchbtn" (click)='getList()' type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </div>
+
+  <div id="info" class="col-md-12">
+    <div class="col-md-8">
+      <!-- job info -->
+    </div>
+    <div class="col-md-4">
+      <!-- poster info -->
+      <h6>
+        <!-- poster username -->
+      </h6>
+      <!-- poster profile photo
+      <img> -->
+      <div id="rating">
+
+      </div>
+      <button id="message-btn"></button>
+      <button id="add-btn"></button>
+    </div>
+  </div>
+
+<<<<<<< HEAD
+=======
+>>>>>>> b77e9f321543bdf228b7d7d4984cb0600f1ea397
+>>>>>>> 707a8891839c6da3cbc7b89f3be867a2c256620a
 </div>
 </div>
 

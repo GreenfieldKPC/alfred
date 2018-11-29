@@ -114,7 +114,7 @@ app.post('/signUp', (req, res) => {
               //insert id_stripe from req.body.stripeId !!!!
               db.sequelize.query(
                 `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, info, id_area, hashed_password,id_category)
-                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
