@@ -13,7 +13,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-
+const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');;
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -42,39 +42,29 @@ app.set('view options', {
   layout: false
 });
 app.use(express.static('dist/browser'))
-app.use(passport.initialize());
-
 
 
 //*********** PASSPORT CONFIG ************//
 passport.use(new LocalStrategy(function (username, password, done) {
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-
+    console.log(user[0][0], 'server line 50');
     if (!user[0][0]) {
-
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
+      return done(null, false);
+    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === false) {
+      return done(null, false);
     } else {
-
       done(null, user[0][0]);
     }
   });
 }));
 
 passport.serializeUser((function (user, done) {
-
   done(null, user.id);
 }));
 
 passport.deserializeUser((function (id, done) {
-  User.findById(id).then(function (user) {
-    done(null, user);
+  db.sequelize.query(` SELECT * FROM users WHERE id = '${id}'`).then(function (user) {
+    done(null, user[0][0]);
   }).catch(function (e) {
     done(e, false);
   });
@@ -108,9 +98,10 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+              //insert id_stripe from req.body.stripeId !!!!
               db.sequelize.query(
-                `INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category)
-                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, info, id_area, hashed_password,id_category)
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -124,7 +115,7 @@ app.post('/signUp', (req, res) => {
                     res.end("user added");
                   }
 
-                }).then((data) => { })
+                }).then((data) => {res.json(data) })
 
             } else {
               res.end("user exists");
@@ -138,7 +129,8 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, info, id_area, hashed_password,id_category) 
+          VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
             function (err) {
               if (err) {
                 return res.json(400, {
@@ -152,7 +144,7 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => { })
+            }).then((data) => { res.json(data)})
 
         } else {
           res.end("user exists");
@@ -182,7 +174,9 @@ app.post('/login', function (req, res, next) {
       if (err) {
         return next(err);
       }
+      const temp = req.session.passport;
       return req.session.regenerate(() => {
+        req.session.passport = temp;
         req.session.user = user.username;
         req.session.userId = user.id;
         res.send('true');
@@ -368,6 +362,25 @@ app.get("/logOUt", (req, res) => {
 })
 
 //**************************************//
+
+//************ CREATE STRIPE CUSTOMER ***************/
+app.post('/stripe', function (req, res) {
+  console.log('post incomming');
+  // console.log('token id:', req.body.token.id)
+
+  stripe.customers.create({
+    source: req.body.token.id,
+    email: req.body.email,
+  })
+  .then((customer) => {
+    // console.log('customer:', customer)
+    res.json(customer);
+  }).catch((err) => {
+    console.log(err);
+    res.json(false)
+  })
+});
+//******************************************/
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
