@@ -93,18 +93,21 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     ////////////// STRIPE ELEMENT ////////////////
   }
   
-  async onSubmit(e) {
-
-    this.profileForm.value.category = this.selectedCategory
-    this.username = e;
-    this.signupSuccess = true;
-    this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
-    this.profileForm.value.category = catObj[0].id;
-    this.signupService.addUser(this.profileForm.value).subscribe((data) => {
-      console.log(data, 'service');
-      this.router.navigateByUrl('/login');
-    })
-  })
+  onSubmit(e) {
+    if (!this.customer) {
+      alert('Please create account with Stripe to Sign up!')
+    } else {
+      this.profileForm.value.category = this.selectedCategory
+      this.username = e;
+      this.signupSuccess = true;
+      this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
+        this.profileForm.value.category = catObj[0].id;
+        this.signupService.addUser(this.profileForm.value).subscribe((data) => {
+          console.log(data, 'adduser service');
+          this.router.navigateByUrl('/login');
+        });
+      });
+    }
   }
 
   ngAfterViewInit() {
