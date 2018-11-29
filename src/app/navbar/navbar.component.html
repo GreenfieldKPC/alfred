@@ -1,4 +1,4 @@
-
+<button class="btn btn-info" routerLink="/message">KD</button>
 <nav class="navbutton" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -15,10 +15,9 @@
       <li><a class="btn btn-info" routerLink="/profile">Profile</a></li>
       <li><a class="btn btn-info" routerLink="/job">My Chores</a></li>
       <li><a class="btn btn-info" routerLink="/add">Post new chore</a></li>
-      <li><a class="btn btn-info" routerLink="/help">Update Info</a></li>
+      <li><a class="btn btn-info" routerLink="/message">Messages</a></li>
       <li><a class="btn btn-info" routerLink="/help">Help</a></li>
       <li><a class="btn btn-info" (click)="logout()">Logout</a></li>
     </ul>
   </div>
 </nav>
-

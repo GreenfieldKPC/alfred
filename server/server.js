@@ -246,6 +246,7 @@ app.get('/jobs', (req, res) => {
 
 })
 
+
 //********* GET USER'S JOBS ******/
 app.get('/jobs/taken', (req, res) => {
   console.log(req.session.user, req.session.userId, 'jobs taken');
