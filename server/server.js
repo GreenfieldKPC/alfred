@@ -49,19 +49,11 @@ app.use(passport.initialize());
 //*********** PASSPORT CONFIG ************//
 passport.use(new LocalStrategy(function (username, password, done) {
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-
     if (!user[0][0]) {
-
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
+      return done(null, false);
+    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === false) {
+      return done(null, false);
     } else {
-
       done(null, user[0][0]);
     }
   });

@@ -24,6 +24,7 @@ export class LogInComponent {
           this.router.navigateByUrl('/dashboard');
           
         } else {
+          alert('Incorrect username or password.')
           this.router.navigateByUrl('/');
         }
       });
