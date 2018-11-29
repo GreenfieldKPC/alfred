@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- <p>
   navbar
 </p>
@@ -16,6 +17,9 @@
     </nav>
   </div>
 </header> -->
+=======
+<button class="btn btn-info" routerLink="/message">KD</button>
+>>>>>>> b77e9f321543bdf228b7d7d4984cb0600f1ea397
 <nav class="navbutton" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -25,15 +29,16 @@
       <!-- <a class="navbar-brand" href="">Alfred</a> -->
     </div>
   </div>
+
+  <div class="collapse" id="navbar">
+    <ul class="nav navbar-nav">
+      <li><a class="btn btn-info" routerLink="/dashboard">Home</a></li>
+      <li><a class="btn btn-info" routerLink="/profile">Profile</a></li>
+      <li><a class="btn btn-info" routerLink="/job">My Chores</a></li>
+      <li><a class="btn btn-info" routerLink="/add">Post new chore</a></li>
+      <li><a class="btn btn-info" routerLink="/message">Messages</a></li>
+      <li><a class="btn btn-info" routerLink="/help">Help</a></li>
+      <li><a class="btn btn-info" (click)="logout()">Logout</a></li>
+    </ul>
+  </div>
 </nav>
-<div class="collapse" id="navbar">
-  <ul class="nav navbar-nav">
-    <li><a class="btn btn-info" routerLink="/dashboard">Home</a></li>
-    <li><a class="btn btn-info" routerLink="/profile">Profile</a></li>
-    <li><a class="btn btn-info" routerLink="/job">My Chores</a></li>
-    <li><a class="btn btn-info" routerLink="/add">Post new chore</a></li>
-    <li><a class="btn btn-info" routerLink="/help">Update Info</a></li>
-    <li><a class="btn btn-info" routerLink="/help">Help</a></li>
-    <li><a class="btn btn-info" (click)="logout()">Logout</a></li>
-  </ul>
-</div>

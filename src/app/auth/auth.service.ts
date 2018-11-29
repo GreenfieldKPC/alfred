@@ -10,7 +10,7 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false); 
 
   get isLoggedIn() {
-    console.log(this.loggedIn.asObservable(), 'trying auth service');
+    // console.log(this.loggedIn.asObservable(), 'trying auth service');
     return this.loggedIn.asObservable();
   }
 

@@ -76,6 +76,21 @@
           </select>
         </div>
       </div>
+
+      <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+        <div class="form-row text-center">
+          <div class="col-md-12">
+            <label for="card-info">Make and Receive Payments via Stripe!</label>
+          </div>
+          <div class="col-md-12">
+            <div id="card-info" #cardInfo></div>
+          </div>
+          <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+        </div>
+      
+        <button type="submit">Submit Payment</button>
+      </form>
+
       <div class="col-md-12">
         <button type="submit" class="btn btn-primary">Sign Up</button>
       </div>

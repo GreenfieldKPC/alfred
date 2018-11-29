@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
+import { AddService } from '../add.service';
+import { DashboardService } from '../dashboard.service';
 declare var google: any;
 interface LatLng {
   lat: number;
@@ -22,7 +24,9 @@ export class AddComponent{
   suggestedPay = [15, 20, 30, 40, 50];
   selectedPay: number;
   public logo = "assets/images/logo.png";
-  constructor(public mapsApiLoader: MapsAPILoader,
+  constructor(private addService: AddService,
+    private dashboardService: DashboardService, 
+    public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router
   ) { 
     this.mapsApiLoader.load().then(() => {
@@ -64,14 +68,15 @@ export class AddComponent{
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
     this.getlatlng(addr).then(() => {
       console.log(JSON.stringify(this.choreForm.value));
-      this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
-          console.log(catObj);
-        this.choreForm.value.category = catObj[0].id;
-        this.http.post("/add", this.choreForm.value).subscribe((data) => {
-          console.log(data);
-        }) 
-      })
-      this.router.navigateByUrl('/dashboard');
+      this.dashboardService.searchCat(this.selectedCategory)
+        .subscribe((catObj) => {
+          this.choreForm.value.category = catObj[0].id;
+          this.addService.addPost(this.choreForm.value)
+            .subscribe((data) => {
+              console.log(data);
+              this.router.navigateByUrl('/dashboard');
+            })
+        })
     })
   }
 }

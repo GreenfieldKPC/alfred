@@ -1,7 +1,6 @@
 require('dotenv').config();
-var express = require('express');
+const express = require('express');
 const db = require('../models');
-var cloudinary = require('cloudinary');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const googleMapsClient = require('@google/maps').createClient({
@@ -38,6 +37,17 @@ app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true
 }));
+
+// **********SETTING UP INTIAL SESSION********//
+app.use(session({
+  secret: 'hackerman',
+  resave: true,
+  saveUninitialized: true,
+  username: null,
+  cookie: {
+    path: '/',
+  },
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.set('view engine', 'ejs');
@@ -49,10 +59,8 @@ app.use(passport.initialize());
 
 
 
-//***********setting up passport ************//
-var User = require('../models').Users;
+//*********** PASSPORT CONFIG ************//
 passport.use(new LocalStrategy(function (username, password, done) {
-
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
 
     if (!user[0][0]) {
@@ -71,7 +79,6 @@ passport.use(new LocalStrategy(function (username, password, done) {
     }
   });
 }));
-
 
 passport.serializeUser((function (user, done) {
 
@@ -88,46 +95,6 @@ passport.deserializeUser((function (id, done) {
 
 //********************************************* */
 
-
-
-// **********SETTING UP INTIAL SESSION********//
-app.use(session({
-  secret: 'hackerman',
-  resave: true,
-  saveUninitialized: true,
-  username: null,
-  cookie: {
-    path: '/',
-  },
-}));
-
-// ************ passport config *********//
-var User = require('../models').Users;
-passport.use(new LocalStrategy(function (username, password, done) {
-
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-
-    if (!user[0][0]) {
-
-      return done(null, false, {
-        message: 'Incorrect username.'
-      });
-    } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === 'false') {
-
-      return done(null, false, {
-        message: 'Incorrect password.'
-      });
-    } else {
-
-      done(null, user[0][0]);
-    }
-  });
-}));
-
-passport.serializeUser((function (user, done) {
-
-  done(null, user.id);
-}));
 
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
@@ -154,7 +121,9 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-              db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category) VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.image}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+              db.sequelize.query(
+                `INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category)
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -298,6 +267,7 @@ app.get('/jobs', (req, res) => {
 
 })
 
+
 //********* GET USER'S JOBS ******/
 app.get('/jobs/taken', (req, res) => {
   console.log(req.session.user, req.session.userId, 'jobs taken');
@@ -353,15 +323,16 @@ app.patch("/dashboard/takeChore", (req, res) => {
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
-  let profile;
-  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
-    profile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
-      profile.area = area[0][0].city;
-      res.send(profile);
-      res.end();
+  
+  db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`)
+    .then((user) => {
+      const profile = user[0][0];
+      db.sequelize.query(` SELECT * FROM areas WHERE id = '${user[0][0].id_area}';`).then((area) => {
+        profile.area = area[0][0].city;
+        res.send(profile);
+        res.end();
+      })
     })
-  })
 })
 // ******************************************************//
 
