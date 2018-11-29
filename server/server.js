@@ -182,7 +182,10 @@ app.post('/login', function (req, res, next) {
       if (err) {
         return next(err);
       }
+      var temp = req.session.passport;
+      console.log(req.session.passport, 'server 185');
       return req.session.regenerate(() => {
+        req.session.passport = temp;
         req.session.user = user.username;
         req.session.userId = user.id;
         res.send('true');
