@@ -1,0 +1,90 @@
+<div id="signup" class="row text-center" style="min-height: 100%">
+  <div id="signup-header" class="row">
+    <div class="col-xs-7">
+      <h2>Sign-Up</h2>
+    </div>
+    <div id="signup-logo-container" class="col-xs-4">
+      <img src="{{logo}}">
+    </div>
+  </div>
+  <div id="signup-form" class="col-md-12" >
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="class-body">
+        <div class="form-group">
+          <label for="user">Upload Photo</label>
+<input id="photo" (change)="previewFile()" type="file" class="text-center center-block file-upload" formControlName="photoData">
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="username" placeholder="Username" required>
+  
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="firstName" placeholder="First Name" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name" required>
+        </div>
+        <div class="form-group row text-center">
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="phone" placeholder="Phone #" required>
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="email" placeholder="Email" required>
+          </div>
+        </div>
+        <div class="form-group row text-center">
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="address" placeholder="Street Address" required>
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="aptNumber" placeholder="Apt/Unit/Bldg#" required>
+          </div> 
+        </div>
+        <div class="form-group row text-center">
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="city" placeholder="City" required>
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="state" placeholder="State" required>
+          </div>
+        </div>
+        <div class="form-group  row text-center">
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="zipcode" placeholder="Zipcode" required>
+          </div>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" formControlName="country" placeholder="Country" required>
+          </div>
+        </div>
+        <!-- <div class="form-group">
+          <img [src]="imageSrc" class="avatar img-thumbnail" alt="avatar">
+          <h6>Upload a photo</h6>
+          <input type="file" class="text-center center-block file-upload">
+        </div> -->
+        <div>
+          <label for="cat">Select Chore Specialty!</label><br>
+          <!-- dropdown button "select" should not be styled like button -->
+          <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
+            required>
+            <option *ngFor="let list of categoryLists" [value]="list">
+              {{list}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+      </div>
+    </form>
+    
+  </div>
+
+  <div class="col-md-12">
+    <p>Already have an account?</p><br>
+    <button type="submit" routerLink="/login" class="btn btn-primary login-btn">Log In</button>
+  </div>
+</div>

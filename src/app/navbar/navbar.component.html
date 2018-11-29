@@ -1,0 +1,39 @@
+<!-- <p>
+  navbar
+</p>
+<header>
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a routerLink="/dashboard">Home</a></li>
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a routerLink="/job">My Chores</a></li>
+        <li><a routerLink="/add">Post new chore</a></li>
+        <li><a routerLink="/help">Update Info</a></li>
+        <li><a routerLink="/help">Help</a></li>
+        <li><a (click)="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header> -->
+<nav class="navbutton" *ngIf="isLoggedIn$ | async">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar">
+        <span class="navbar-toggler-icon">=</span>
+      </button>
+      <!-- <a class="navbar-brand" href="">Alfred</a> -->
+    </div>
+  </div>
+</nav>
+<div class="collapse" id="navbar">
+  <ul class="nav navbar-nav">
+    <li><a class="btn btn-info" routerLink="/dashboard">Home</a></li>
+    <li><a class="btn btn-info" routerLink="/profile">Profile</a></li>
+    <li><a class="btn btn-info" routerLink="/job">My Chores</a></li>
+    <li><a class="btn btn-info" routerLink="/add">Post new chore</a></li>
+    <li><a class="btn btn-info" routerLink="/help">Update Info</a></li>
+    <li><a class="btn btn-info" routerLink="/help">Help</a></li>
+    <li><a class="btn btn-info" (click)="logout()">Logout</a></li>
+  </ul>
+</div>
