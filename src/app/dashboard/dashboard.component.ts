@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Input, NgZone } from '@angular/core';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var google: any;
 
@@ -28,7 +28,10 @@ interface Location {
   address_state?: string;
   marker?: Marker;
 }
-
+interface Message {
+  userid: number;
+  message: string;
+}
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -38,33 +41,14 @@ interface Location {
 
 
 export class DashboardComponent implements OnInit {
+  chats:Message;
+  message: string;
+  sending: boolean;
+  currentRate: number = 7;
   lat: number;
   lng: number;
   categoryLists = ['All', 'House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  public userChores = [
-    {
-      marker: {
-        lat: 29.951065,
-        lng: -90.071533,
-        draggable: true
-      }
-    },
-    {
-      marker: {
-        lat: 29.942662896,
-        lng: -90.07583303,
-        draggable: true
-      }
-    },
-    {
-      marker: {
-        lat: 29.9505,
-        lng: -90.0753,
-        draggable: true
-      }
-    },
-  ];
   geocoder: any;
   public location: Location = {
     lat: 30.433283,
@@ -91,10 +75,15 @@ export class DashboardComponent implements OnInit {
   infoWindow = new google.maps.InfoWindow();
   @ViewChild(AgmMap) map: AgmMap;
   constructor(
+    config: NgbModalConfig,
+    private modalService: NgbModal,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
-    private wrapper: GoogleMapsAPIWrapper) {
+    private wrapper: GoogleMapsAPIWrapper
+    ) {
+    config.backdrop = 'static';
+    config.keyboard = false;
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
@@ -103,7 +92,19 @@ export class DashboardComponent implements OnInit {
       // console.log(this.geocoder);
     });
   }
-
+  open(content) {
+    this.modalService.open(content);
+  }
+  sendMessage( id) {
+    
+    this.chats = {
+      userid: id,
+      message: this.message,
+    }
+    this.sending = true;
+    console.log(this.chats);
+    this.message = undefined;
+  }
   addInfoWindow(marker, content, markerIndex) {
     google.maps.event.addListener(marker, 'click', () => {
       this.infoWindow.setContent(content);
@@ -213,6 +214,7 @@ export class DashboardComponent implements OnInit {
                   this.searchJob = data;
                   this.searchUser = this.searchJob.users;
                   this.searchJob = this.searchJob.jobs;
+                  console.log(this.searchUser);
                 })
               })
             })
@@ -237,6 +239,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
+      console.log(this.jobs);
       });
   }
   ngOnInit() {
