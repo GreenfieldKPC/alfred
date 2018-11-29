@@ -36,7 +36,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef, 
     ) { }
   imageSrc:string;
   username: string;
@@ -60,7 +60,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
-  async onSubmit(e) {
+
+  async onSubmitStripe(e) {
     /////////////// STRIPE ELEMENT ////////////////////
     const { token, error } = await stripe.createToken(this.card);
 
@@ -69,8 +70,15 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     } else {
       console.log('Success!', token);
       // ...send the token to the your backend to process the charge
+      this.http.post('/stripe', {
+        token,
+        email: this.profileForm.value.email
+      });
     }
     ////////////// STRIPE ELEMENT ////////////////
+  }
+  
+  async onSubmit(e) {
 
     this.profileForm.value.category = this.selectedCategory
     this.username = e;

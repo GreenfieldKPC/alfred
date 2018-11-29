@@ -13,7 +13,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-
+const stripe = require('stripe');
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -42,8 +42,6 @@ app.set('view options', {
   layout: false
 });
 app.use(express.static('dist/browser'))
-app.use(passport.initialize());
-
 
 
 //*********** PASSPORT CONFIG ************//
@@ -371,6 +369,28 @@ app.get("/logOUt", (req, res) => {
 })
 
 //**************************************//
+
+//************ CREATE STRIPE CUSTOMER ***************/
+app.post('/stripe', function (req, res) {
+  console.log('post incomming');
+  console.log('reg:server 378', req.body)
+  var token = req.body.id;
+
+  stripe.customers.create({
+    email: req.body.email,
+    token: token,
+  }, (err, customer) => {
+    // asynchronously called
+    if (err) {
+      console.log('Error creating customer!')
+    } else {
+      console.log('Successful Customer card creation!')
+    }
+  }).then((customer) => {
+    console.log('customer:', customer)
+  })
+});
+//******************************************/
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
