@@ -90,7 +90,7 @@ passport.deserializeUser((function (id, done) {
 app.post('/signUp', (req, res) => {
 
   var picture;
-  var info;
+  
   var area_id;
   var generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -113,8 +113,8 @@ app.post('/signUp', (req, res) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
               //insert id_stripe from req.body.stripeId !!!!
               db.sequelize.query(
-                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, info, id_area, hashed_password,id_category)
-                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category)
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -142,8 +142,8 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, info, id_area, hashed_password,id_category) 
-          VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category) 
+          VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}')`,
             function (err) {
               if (err) {
                 return res.json(400, {
