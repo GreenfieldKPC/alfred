@@ -13,7 +13,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-
+const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');;
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -42,8 +42,6 @@ app.set('view options', {
   layout: false
 });
 app.use(express.static('dist/browser'))
-app.use(passport.initialize());
-
 
 
 //*********** PASSPORT CONFIG ************//
@@ -100,6 +98,7 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
+              //insert id_stripe from req.body.stripeId !!!!
               db.sequelize.query(
                 `INSERT INTO users (username, name_first, name_last, phone, email, picture, info, id_area, hashed_password,id_category)
                  VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${picture}','${info}','${area_id}','${userPassword}','${req.body.category}')`,
@@ -174,7 +173,10 @@ app.post('/login', function (req, res, next) {
       if (err) {
         return next(err);
       }
+      var temp = req.session.passport;
+      console.log(req.session.passport, 'server 185');
       return req.session.regenerate(() => {
+        req.session.passport = temp;
         req.session.user = user.username;
         req.session.userId = user.id;
         res.send('true');
@@ -360,6 +362,25 @@ app.get("/logOUt", (req, res) => {
 })
 
 //**************************************//
+
+//************ CREATE STRIPE CUSTOMER ***************/
+app.post('/stripe', function (req, res) {
+  console.log('post incomming');
+  // console.log('token id:', req.body.token.id)
+
+  stripe.customers.create({
+    source: req.body.token.id,
+    email: req.body.email,
+  })
+  .then((customer) => {
+    // console.log('customer:', customer)
+    res.json(customer);
+  }).catch((err) => {
+    console.log(err);
+    res.json(false)
+  })
+});
+//******************************************/
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
