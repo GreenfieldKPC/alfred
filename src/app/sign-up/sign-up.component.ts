@@ -63,25 +63,6 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
-
-  previewFile() {
-    console.log('its firing')
-    var files = (<HTMLInputElement>document.getElementById('photo')).files
-    this.imageFile = files[0]
-    console.log(this.imageFile)
-    var reader = new FileReader();
-
-    reader.addEventListener("load", () => {
-      this.image = reader.result;
-    }, false);
-
-    if (this.imageFile) {
-      reader.readAsDataURL(this.imageFile);
-    }
-
-  }
-
-  
   async onSubmit(e) {
     /////////////// STRIPE ELEMENT ////////////////////
     const { token, error } = await stripe.createToken(this.card);
@@ -93,11 +74,6 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       // ...send the token to the your backend to process the charge
     }
     ////////////// STRIPE ELEMENT ////////////////
-    this.http.post('/photo', { image: this.image }).subscribe((image) => {
-      this.image = image
-      this.imageUrl = this.image.url;
-      console.log(this.imageUrl)
-
 
     this.profileForm.value.category = this.selectedCategory
     this.username = e;
@@ -109,8 +85,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.router.navigateByUrl('/login');
     })
   })
-  })
-}
+  }
+
   ngAfterViewInit() {
     const style = {
       base: {
@@ -140,5 +116,5 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     }
     this.cd.detectChanges();
   }
-  
+
 }
