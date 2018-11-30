@@ -126,6 +126,35 @@
         </div>
       </div>
 
+      <div class="bs-example">
+        <div class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let chore of jobsPosted; let i = index;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">
+                  <div class="col-xs-8">
+                    <a>{{ chore.description }}</a>
+                  </div>
+                  <div class="col-xs-4">
+                    Date Posted
+                  </div>
+                </a>
+              </h4>
+            </div>
+            <div [attr.id]="'collapseOne_' + i" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="col-xs-8">
+                  <p>{{ chore.address }}</p>
+                </div>
+                <div class="col-xs-4">
+                  <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
