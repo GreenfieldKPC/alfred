@@ -25,7 +25,7 @@ export class DashboardService {
   searchJob(area, category): Observable<object>{
     return this.http.post<object>('/searchJobs', {area: area, category: category});
   }
-  searchCat(cat): Observable<object> {
-    return this.http.post<object>('/category', { 'category': cat });
+  searchCat(cat) {
+    return this.http.post<object>('/category', { 'category': cat }).toPromise();
   }
 }

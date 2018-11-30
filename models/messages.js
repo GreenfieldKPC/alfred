@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     text: DataTypes.STRING,
     from: DataTypes.INTEGER,
-    to: DataTypes.STRING
+    to: DataTypes.STRING,
+    read: DataTypes.BOOLEAN,
   }, {});
   messages.associate = function(models) {
     // associations can be defined here

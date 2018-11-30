@@ -9,7 +9,11 @@ export class AddService {
 
   constructor(private http: HttpClient) {  }
 
-  addPost(chore): Observable<object>{
-    return this.http.post<object>('/add', chore);
+  addPost(chore){
+    return this.http.post<object>('/add', chore).toPromise();
+  }
+
+  chargeUser(payment) {
+    return this.http.post("/stripe/charge", { payment }).toPromise();
   }
 }

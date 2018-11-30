@@ -13,7 +13,7 @@
       <div class="class-body">
         <div class="form-group">
           <label for="user">Upload Photo</label>
-          <input type="file" class="text-center center-block file-upload" formControlName="photoData">
+<input id="photo" (change)="previewFile()" type="file" class="text-center center-block file-upload" formControlName="photoData">
         </div>
         <div class="form-group">
           <input type="text" class="form-control" formControlName="username" placeholder="Username" required>
