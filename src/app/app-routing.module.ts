@@ -12,7 +12,7 @@ import { TakenComponent } from './taken/taken.component';
 import { PostedComponent } from './posted/posted.component';
 import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
-import { UploadComponent } from './upload/upload.component';
+import { HelpComponent } from './help/help.component';
 
 const routes: Routes = [
   { path: '', component: SplashComponent },
@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: 'posted', component: PostedComponent },
   { path: 'message', component: MessageComponent },
   { path: 'job', component: JobComponent },
+  { path: 'help', component: HelpComponent },
 
 ];
 
@@ -34,4 +35,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [SplashComponent,LogInComponent,SignUpComponent,DashboardComponent,NavbarComponent,AddComponent,ProfileComponent,TakenComponent,PostedComponent, MessageComponent , JobComponent];
+export const routingComponents = [SplashComponent, LogInComponent, SignUpComponent, DashboardComponent, NavbarComponent, AddComponent, ProfileComponent, TakenComponent, PostedComponent, MessageComponent, JobComponent, HelpComponent];
