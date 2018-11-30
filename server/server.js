@@ -310,10 +310,19 @@ app.patch("/dashboard/takeChore", (req, res) => {
   }).catch((err) => console.log(err));
 });
 //***********************************************//
+//********************posting message to database*********//
+
+app.post("/message", (req,res) => {
+  console.log(req.body)
+ db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
+res.send('message inserted')
+})
 
 
 
 
+
+//*************************************************************//
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
