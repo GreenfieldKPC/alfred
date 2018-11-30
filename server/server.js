@@ -260,23 +260,34 @@ app.get('/jobs', (req, res) => {
 })
 
 
-//********* GET USER'S JOBS ******/
+//********* GET USER JOBS ENDPOINT ******/
 app.get('/jobs/taken', (req, res) => {
   console.log(req.session.user, req.session.userId, 'jobs taken');
   // change query to use req.session.userID when not testing on postman
   const q = `SELECT * from jobs WHERE doer = ${req.session.userId}`
   db.sequelize.query(q).then((data) => {
-    console.log(data[0]);
+    // console.log(data[0]);
     res.json(data[0]);
   });
 });
 
 app.get('/jobs/posted', (req, res) => {
-  // change query to use req.session.userID when not testing on postman
   const q = `SELECT * from jobs WHERE poster = ${req.session.userId}`
   db.sequelize.query(q).then((data) => {
-    console.log(data[0]);
+    // console.log(data[0]);
     res.json(data[0]);
+  });
+});
+
+app.patch('/jobs/complete', (req, res) => {
+  const q = `UPDATE jobs SET completed=true WHERE id = ${req.body.choreId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[1].rowCount, 'complete');
+    if (data[1].rowCount > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
   });
 });
 //********************************* */
@@ -341,7 +352,7 @@ app.post('/searchJobs', ((req, res) => {
     });
   } else {
     db.sequelize.query(` SELECT * FROM users WHERE id_area = '${req.body.area}' AND id_category = '${req.body.category}';`).then((users) => {
-      console.log(users[0])
+      // console.log(users[0])
       searchObj.users = users[0];
     }).then(() => {
       db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${req.body.area}' and category = '${req.body.category}';`).then((jobs) => {
@@ -358,7 +369,7 @@ app.post('/searchJobs', ((req, res) => {
 // *************handling photo uploads*******//
 
 app.post('/photo', (req, res) => {
-  console.log('hellllloooooo')
+  // console.log('hellllloooooo')
   cloudinary.v2.uploader.upload(req.body.image, {
       width: 500,
       height: 500,
@@ -405,7 +416,7 @@ app.post('/stripe/signup', (req, res) => {
 app.post('/stripe/charge', (req, res) => {
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
   db.sequelize.query(q).then((user) => {
-    console.log('post incomming charge', req.body);
+    // console.log('post incomming charge', req.body);
    return  stripe.charges.create({
       amount: req.body.payment, 
       currency: 'usd',
