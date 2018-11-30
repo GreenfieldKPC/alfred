@@ -1,12 +1,21 @@
 
   <div class="container">
-    <ul>
+    <div *ngFor="let user of users" (click)="read()">
+      {{user}}
+      <div *ngIf="isRead" >
+        <div *ngFor="let messageTo of messagesTo">
 
-    <div *ngFor='let message of messages'>
-      <div>{{message.text}}</div>
+          <div>{{messageTo.text}}</div>
+        </div>
+      </div>
+    </div>
+    <!-- <ul>
+
+    <div *ngFor='let messageTo of messagesTo'>
+      <div>{{messageTo.text}}</div>
       
     </div>
-  </ul>
+  </ul> -->
     <!-- <li><a >messages between users</a></li>
     <li><a>messages between users</a></li>
     <li><a>messages between users</a></li> -->

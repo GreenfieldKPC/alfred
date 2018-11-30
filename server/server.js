@@ -323,8 +323,13 @@ app.get('/message', (req, res) => {
       console.log(to, 'message');
       db.sequelize.query(`SELECT * FROM messages WHERE id_to = '${userId}';`)
         .then((from) => {
-          console.log([to, from]);
-          res.send([to, from]);
+          db.sequelize.query(`SELECT * FROM users`)
+            .then((users) => {
+              const message = [to[0], from[0]];
+              message.push(users[0]);
+              res.send(message);
+
+            })
         })
     })
 })
