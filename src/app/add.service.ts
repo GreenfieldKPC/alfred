@@ -12,4 +12,8 @@ export class AddService {
   addPost(chore){
     return this.http.post<object>('/add', chore).toPromise();
   }
+
+  chargeUser(payment) {
+    return this.http.post("/stripe/charge", { payment }).toPromise();
+  }
 }

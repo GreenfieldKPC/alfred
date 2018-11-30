@@ -6,7 +6,6 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
 import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
-import { ProfileService } from '../profile.service';
 declare var google: any;
 declare var stripe: any;
 
@@ -32,7 +31,6 @@ export class AddComponent{
     private dashboardService: DashboardService, 
     public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
-    private _profileService: ProfileService
   ) { 
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -85,7 +83,7 @@ export class AddComponent{
     }).then(() => {
 
       let payment = this.selectedPay.toString().concat('00');
-      return this._profileService.chargeUser(payment);
+      return this.addService.chargeUser(payment);
     })
     .then((data) => {
       

@@ -11,10 +11,6 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  chargeUser(payment) {
-    return this.http.post(this._url + "/stripe/charge", {payment}).toPromise();
-  }
-
   getUserProfile() {
     return this.http.get(this._url + "/profile").toPromise();
   }
