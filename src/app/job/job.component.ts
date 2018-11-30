@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
+import { AddService } from '../add.service'
 
 @Component({
   selector: 'app-job',
@@ -12,7 +13,10 @@ export class JobComponent implements OnInit {
   public jobsPosted;
   public logo = "assets/images/logo.png";
 
-  constructor(private _jobService: JobService) {
+  constructor(
+    private _jobService: JobService,
+    private _addService: AddService
+    ) {
     this.jobsTaken = [];
     this.jobsPosted = [];
    }
@@ -20,6 +24,15 @@ export class JobComponent implements OnInit {
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
+  }
+
+  complete(payment) {
+    this._addService.payUser(payment).then((data) => {
+
+    }).catch(err => {
+      alert('Something went wrong!');
+      console.log(err);
+    });
   }
 
 }

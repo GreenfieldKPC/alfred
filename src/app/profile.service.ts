@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProfileService {
 
-  //how to get app url for endpoints
   private _url: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }

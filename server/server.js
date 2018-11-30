@@ -420,6 +420,25 @@ app.post('/stripe/charge', (req, res) => {
   });
 });
 
+//******************** STRIPE CREATE PAYMENT **********************/
+app.post('stripe/pay', (req, res) => {
+  // maybe have to wait until job is complete before creating initial charge for poster?
+  // pay user and alert user of payment
+  // update job completion status to true
+  // alert poster that job has been completed
+
+  // stripe.charges.create({
+  //   amount: 1000,
+  //   currency: "usd",
+  //   source: "tok_visa",
+  //   destination: {
+  //     account: "{CONNECTED_STRIPE_ACCOUNT_ID}",
+  //   },
+  // }).then(function (charge) {
+  //   // asynchronously called
+  // });
+});
+
 //******************************************/
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
