@@ -103,7 +103,10 @@ export class DashboardComponent implements OnInit {
     }
     this.sending = true;
     console.log(this.chats);
-    this.message = undefined;
+    this.http.post('/message',this.chats).subscribe((data) => {
+      console.log(data);
+    })
+    this.message = '';
   }
   addInfoWindow(marker, content, markerIndex) {
     google.maps.event.addListener(marker, 'click', () => {

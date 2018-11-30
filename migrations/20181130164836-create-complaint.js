@@ -1,31 +1,37 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('messages', {
+    return queryInterface.createTable('complaints', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      text: {
+      description: {
         type: Sequelize.STRING
       },
-      id_from: {
+       address: {
+         type: Sequelize.STRING
+       },
+       category: {
+         type: Sequelize.INTEGER
+       },
+      id_user: {
         type: Sequelize.INTEGER
-      },
-      id_to: {
+      }, 
+      photo: {
         type: Sequelize.STRING
       },
-      read: {
-        type: Sequelize.BOOLEAN
+      created_at: {
+        type: Sequelize.DATE
       },
-     created: {
-       type: Sequelize.NUMERIC
-     }
+  resolved: {
+    type: Sequelize.BOOLEAN
+  },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('messages');
+    return queryInterface.dropTable('complaints');
   }
 };

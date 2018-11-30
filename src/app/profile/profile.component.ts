@@ -20,13 +20,13 @@ export class ProfileComponent implements OnInit {
    }
 
   ngOnInit() {
+
+
     this._jobService.getUserJobsTaken().then(data => {
-      // how to get length of data object??
-      // this.takenCount = data.toArray().length;
+     console.log(data)
     });
     this._jobService.getUserJobsPosted().then(data => {
-      // how to get length of data object??
-      // this.takenCount = data.length()
+  console.log(data)
     });
   }
 

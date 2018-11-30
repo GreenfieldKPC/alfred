@@ -29,9 +29,9 @@ cloudinary.config({
 });
 
 app.use(bodyParser.json({
-   parameterLimit: 100000,
-     limit: '50mb',
-     extended: true
+  parameterLimit: 100000,
+  limit: '50mb',
+  extended: true
 }))
 app.use(bodyParser.urlencoded({
   parameterLimit: 100000,
@@ -91,7 +91,7 @@ passport.deserializeUser((function (id, done) {
 app.post('/signUp', (req, res) => {
 
   var picture;
-  
+
   var area_id;
   var generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -113,8 +113,8 @@ app.post('/signUp', (req, res) => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
               db.sequelize.query(
-                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category)
-                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}')`,
+                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category,is_employee)
+                 VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}','${false}')`,
                 function (err) {
                   if (err) {
                     return res.json(400, {
@@ -127,7 +127,7 @@ app.post('/signUp', (req, res) => {
                     console.log('succes');
                     res.end("user added");
                   }
-                }).then((data) => {res.json(data) })
+                }).then((data) => { res.json(data) })
 
             } else {
               res.end("user exists");
@@ -141,8 +141,8 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category) 
-          VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}')`,
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category,is_employee)
+          VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}','${false}')`,
             function (err) {
               if (err) {
                 return res.json(400, {
@@ -156,7 +156,7 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => { res.json(data)})
+            }).then((data) => { res.json(data) })
 
         } else {
           res.end("user exists");
@@ -308,14 +308,39 @@ app.patch("/dashboard/takeChore", (req, res) => {
   }).catch((err) => console.log(err));
 });
 //***********************************************//
+//********************posting message to database*********//
+
+app.post("/message", (req,res) => {
+  console.log(req.body)
+ db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
+res.send('message inserted')
+})
+
+app.get('/message', (req, res) => {
+  const { userId } = req.session;
+  db.sequelize.query(`SELECT * FROM messages WHERE id_from = '${userId}';`)
+    .then((to) => {
+      console.log(to, 'message');
+      db.sequelize.query(`SELECT * FROM messages WHERE id_to = '${userId}';`)
+        .then((from) => {
+          db.sequelize.query(`SELECT * FROM users`)
+            .then((users) => {
+              const message = [to[0], from[0]];
+              message.push(users[0]);
+              res.send(message);
+
+            })
+        })
+    })
+})
 
 
 
-
+//*************************************************************//
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
-  
+
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`)
     .then((user) => {
       const profile = user[0][0];
@@ -360,10 +385,10 @@ app.post('/searchJobs', ((req, res) => {
 app.post('/photo', (req, res) => {
   console.log('hellllloooooo')
   cloudinary.v2.uploader.upload(req.body.image, {
-      width: 500,
-      height: 500,
-      crop: "limit"
-    },
+    width: 500,
+    height: 500,
+    crop: "limit"
+  },
     function (error, result) {
       console.log(result, error)
       res.send(result)
@@ -390,13 +415,13 @@ app.post('/stripe/signup', (req, res) => {
     source: req.body.token.id,
     email: req.body.email,
   })
-  .then((customer) => {
-    // console.log('customer:', customer)
-    res.json(customer);
-  }).catch((err) => {
-    console.log(err);
-    res.json(false)
-  })
+    .then((customer) => {
+      // console.log('customer:', customer)
+      res.json(customer);
+    }).catch((err) => {
+      console.log(err);
+      res.json(false)
+    })
 });
 //******************************************/
 
@@ -406,8 +431,8 @@ app.post('/stripe/charge', (req, res) => {
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
   db.sequelize.query(q).then((user) => {
     console.log('post incomming charge', req.body);
-   return  stripe.charges.create({
-      amount: req.body.payment, 
+    return stripe.charges.create({
+      amount: req.body.payment,
       currency: 'usd',
       customer: user[0][0].id_stripe, // id from customer object
     });
@@ -421,6 +446,23 @@ app.post('/stripe/charge', (req, res) => {
 });
 
 //******************************************/
+
+
+// ***********Submitting a complaint*****************//
+app.post('/complaint',(req,res)=>{
+  db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
+})
+// {
+//   description: 'okfnb',
+//   address: 'odfknb',
+//   city: 'okfnb',
+//   zipcode: 'oknfv',
+//   electedCategory: 'Unsafe conditions',
+//   image: 'http://res.cloudinary.com/op-spark-thesis/image/upload/v1543599669/oxlrliknvketzauawcfy.png'
+// }
+
+
+// *************************************************//
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

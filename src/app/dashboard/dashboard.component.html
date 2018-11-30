@@ -30,7 +30,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage()">
+                <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(job.poster)">
               </div>
               <button class="btn btn-primary" (click)="sendMessage(job.poster)">Send</button>
             </ng-template>
