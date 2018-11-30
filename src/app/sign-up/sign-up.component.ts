@@ -95,7 +95,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       } else {
         // console.log('Success!', token);
         // ...send the token to the your backend to process the charge
-        this.http.post('/stripe', {
+        this.http.post('/stripe/signup', {
           token,
           email: this.profileForm.value.email
         }).subscribe((data) => {

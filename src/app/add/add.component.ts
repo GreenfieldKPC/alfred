@@ -6,7 +6,10 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
 import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
+import { ProfileService } from '../profile.service';
 declare var google: any;
+declare var stripe: any;
+
 interface LatLng {
   lat: number;
   lng: number;
@@ -23,11 +26,13 @@ export class AddComponent{
   selectedCategory: string;
   suggestedPay = [15, 20, 30, 40, 50];
   selectedPay: number;
+  customer: any;
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
     private dashboardService: DashboardService, 
     public mapsApiLoader: MapsAPILoader,
-    private formBuilder: FormBuilder, private http: HttpClient, private router: Router
+    private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+    private _profileService: ProfileService
   ) { 
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -62,21 +67,65 @@ export class AddComponent{
       })
     });
   }   
-  addChore() {
+   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
     this.choreForm.value.suggestedPay = this.selectedPay
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
+
     this.getlatlng(addr).then(() => {
+
       console.log(JSON.stringify(this.choreForm.value));
-      this.dashboardService.searchCat(this.selectedCategory)
-        .subscribe((catObj) => {
-          this.choreForm.value.category = catObj[0].id;
-          this.addService.addPost(this.choreForm.value)
-            .subscribe((data) => {
-              console.log(data);
-              this.router.navigateByUrl('/dashboard');
-            })
-        })
+      return this.dashboardService.searchCat(this.selectedCategory)    
+    }).then((catObj) => {
+
+      this.choreForm.value.category = catObj[0].id;
+    }).then(() => {
+
+     return  this.addService.addPost(this.choreForm.value)
+    }).then(() => {
+
+      // console.log(data, 'stripe id line 84');
+      //add charge here 
+      //add chore must charge user account for pay amount 
+      //alert user of charge to account?
+      //******************************************** */
+      let payment = this.selectedPay.toString().concat('00');
+      return this._profileService.chargeUser(payment);
+      //******************************************** */
     })
+    // .then((data) => {
+    //   // console.log(data, 'stripe id line 84');
+    //   //add charge here 
+    //   //add chore must charge user account for pay amount 
+    //   //alert user of charge to account?
+    //   //******************************************** */
+    //   let payment = this.selectedPay.toString().concat('00');
+    //   this.customer = data;
+    //   console.log(payment, data, 'payment and id');
+    //   (async function () {
+    //     const { charge, error } = stripe.charges.create({
+    //       amount: payment, // amount of suggested payment plus 00 to convert to dollars
+    //       currency: 'usd',
+    //       customer: this.customer.id, // id from customer object
+    //     });
+    //     if (error) {
+    //       console.log('Something is wrong:', error);
+    //     } else {
+    //       console.log("successful charge!", charge);
+    //     }
+    //   })();
+
+    // //******************************************** */
+    // })
+    .then((data) => {
+      if(data === true) {
+        // console.log(data)
+        alert("Job Posted!")
+        this.router.navigateByUrl('/dashboard');
+      } else {
+        alert('Something went wrong');
+        console.log('Something is wrong:', data);
+      }
+    });
   }
 }
