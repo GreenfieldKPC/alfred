@@ -23,4 +23,15 @@ export class JobComponent implements OnInit {
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
   }
 
+  completeJob(job) {
+    this._jobService.updateJobCompletion(job).then((data) => {
+      if (data === true) {
+        alert('Awesome! Job Completed!');
+      } else {
+        alert('There was a problem completing this job!');
+        console.log(data);
+      }
+    });
+  }
+
 }

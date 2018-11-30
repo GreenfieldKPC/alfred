@@ -7,158 +7,157 @@
       <img src="{{logo}}">
     </div>
   </div>
-  <!-- these must be a collapse accordian inside a scrrollable div -->
-  <!-- <div class="col-md-12 chores">
-    <ul>
+<div id='chores'>
+  <div id="accordionT row">
+    <div class="col-md-12 chores">
       <h3>To-Do</h3>
-      <li *ngFor="let chore of jobsTaken" class="chore">
-        <div *ngIf="!chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <a>{{ chore.description }}</a>
-          </div>
-          <div class="col-xs-4">
-            Date Posted
-          </div>
-        </div>
-        <div *ngIf="!chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.address }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p class="payment">Available earnings: ${{ chore.payment }}</p>
-          </div>
-        </div> 
-      </li>
-    </ul>
-    <p *ngIf='!jobsTaken[0]'> None Yet!</p>
-    <ul *ngIf='jobsTaken[0]'>
-      <h3>Completed</h3>
-      <li *ngFor="let chore of jobsTaken" class="chore">
-        <div *ngIf="chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.description }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p>Date Posted</p>
-          </div>
-        </div>
-        <div *ngIf="chore.completed" class="col-md-12" >
-          <div class="col-xs-8">
-            <p>{{ chore.address }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p class="payment">Amount earned: ${{ chore.payment }}</p>
-          </div>
-        </div> 
-      </li>
-    </ul>
-    <span></span>
-    <ul>
-      <h3>Posted</h3>
-      <li *ngFor="let chore of jobsPosted" class="chore">
-        <div class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.description }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p>Date Posted</p>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="col-xs-8">
-            <p class="payment">Amount paid: ${{ chore.payment }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p *ngIf="chore.completed"> Completed! </p>
-            <p *ngIf="!chore.completed"> Not done yet </p>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <p *ngIf='!jobsPosted[0]'> None Yet!</p>
-  </div> -->
-
-  <div id="practice_Accordian//////////////">
-
-    <div id="accordion">
-      <!-- <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
-              aria-controls="collapseOne">
-              Collapsible Group Item #1
-            </button>
-          </h5>
-        </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-          <div class="card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-          </div>
-        </div>
-      </div> -->
-
-      <div class="bs-example">
-        <div class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let chore of jobsTaken; let i = index;">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">
-                  <div class="col-xs-8">
-                    <a>{{ chore.description }}</a>
+      <p *ngIf='!jobsTaken[0]'> None Yet!</p>
+      <div class="card chore" [attr.id]="'accordionT_' + i" *ngFor="let chore of jobsTaken; let i = index;">
+        <div class="panel panel-default">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionT_' + i" [attr.href]="'#collapseOneT_' + i">
+                  <div *ngIf="!chore.completed" class="col-md-12">
+                    <div class="col-xs-8">
+                      <a>{{ chore.description }}</a>
+                    </div>
+                    <div class="col-xs-4">
+                      Date Posted
+                    </div>
                   </div>
-                  <div class="col-xs-4">
-                    Date Posted
+                  <div *ngIf="!chore.completed" class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.address }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                    </div>
                   </div>
-                </a>
-              </h4>
-            </div>
-            <div [attr.id]="'collapseOne_' + i" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <div class="col-xs-8">
-                  <p>{{ chore.address }}</p>
+                </button>
+          </div>
+          <div [attr.id]="'collapseOneT_' + i" class="collapse in row">
+            <div class="card-body col-md-12">
+              <div class="col-xs-12">
+                <div class="col-xs-6">
+                  <!-- //job poster piofile pic, name, rating -->
+                  <img>
+                  <div id="rating">* * * * *</div>
+                  <p>User name</p>
+                </div>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info" (click)='uploadImage(job)'>Upload Pic!</button>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='message(job)'>message</button>
                 </div>
                 <div class="col-xs-4">
-                  <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                  <button type="button" class="btn btn-info" (click)='navigate(job)'>navigate</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='completeJob(job)'>Complete!</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="bs-example">
-        <div class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let chore of jobsPosted; let i = index;">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">
-                  <div class="col-xs-8">
-                    <a>{{ chore.description }}</a>
-                  </div>
-                  <div class="col-xs-4">
-                    Date Posted
-                  </div>
-                </a>
-              </h4>
-            </div>
-            <div [attr.id]="'collapseOne_' + i" class="panel-collapse collapse in">
-              <div class="panel-body">
-                <div class="col-xs-8">
-                  <p>{{ chore.address }}</p>
-                </div>
-                <div class="col-xs-4">
-                  <p class="payment">Available earnings: ${{ chore.payment }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-
   </div>
 
+    <div id="accordionC row">
+      <h3 *ngIf='jobsTaken[0]'>Completed</h3>
+      <div  class="card chore" [attr.id]="'accordionC_' + i" *ngFor="let chore of jobsTaken; let i = index;">
+        <div class="panel panel-default" *ngIf="chore.completed">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionC_' + i" [attr.href]="'#collapseOneC_' + i">
+                  <div class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.description }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p>Date Posted</p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.address }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p class="payment">Amount earned: ${{ chore.payment }}</p>
+                    </div>
+                  </div>
+                </button>
+          </div>
+          <div [attr.id]="'collapseOneC_' + i" class="collapse in row">
+            <div class="card-body col-md-12">
+              <div class="col-md-12">
+                <div class="col-xs-6">
+                  <!-- //job poster piofile pic, name, rating -->
+                  <img>
+                  <div id="rating">* * * * *</div>
+                  <p>User name</p>
+                </div>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info" (click)='uploadImage(job)'>Upload Pic!</button>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='message(job)'>message</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='navigate(job)'>navigate</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='completeJob(job)'>Complete!</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <span></span>
 
-
+    <div id="accordionP row">
+      <h3>Posted</h3>
+      <p *ngIf='!jobsPosted[0]'> None Yet!</p>
+      <div class="card chore" [attr.id]="'accordionP_' + i" *ngFor="let chore of jobsPosted; let i = index;">
+        <div class="panel panel-default">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" [attr.data-target]="'#accordionP_' + i" [attr.data-parent]="'#accordionP_' + i" [attr.href]="'#collapseOneP_' + i">
+                <div class="col-md-12">
+                  <div class="col-xs-8">
+                    <p>{{ chore.description }}</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <p>Date Posted</p>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="col-xs-8">
+                    <p class="payment">Amount paid: ${{ chore.payment }}</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <p *ngIf="chore.completed"> Completed! </p>
+                    <p *ngIf="!chore.completed"> Not done yet </p>
+                  </div>
+                </div>
+              </button>
+          </div>
+          <div [attr.id]="'collapseOneP_' + i" class="collapse in row">
+            <div class="card-body row">
+              <div class="col-xs-8">
+                <p>{{ chore.address }}</p>
+              </div>
+              <div class="col-xs-4">
+                <p class="payment">Available earnings: ${{ chore.payment }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </div>
