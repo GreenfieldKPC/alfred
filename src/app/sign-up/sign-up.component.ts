@@ -78,7 +78,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
           token,
           email: this.profileForm.value.email
         }).subscribe((data) => {
-          // console.log(data, 'signup line 76')
+          console.log(data, 'signup line 76')
           if(data !== false) {
             this.customer = data;
             this.profileForm.value.stripeId = this.customer.id;
