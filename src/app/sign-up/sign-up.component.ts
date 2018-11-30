@@ -29,6 +29,9 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   error: string;
   
   public logo = "assets/images/logo.png";
+  image: any;
+  imageFile: any;
+  imageUrl: any;
   profileForm: FormGroup;
   signupSuccess = false;
   constructor(
@@ -36,13 +39,13 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private router: Router,
-    private cd: ChangeDetectorRef, 
+    private cd: ChangeDetectorRef
     ) { }
   imageSrc:string;
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  customer: any;
+  customer:any;
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -61,6 +64,24 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
+  previewFile() {
+    console.log('its firing')
+    var files = (<HTMLInputElement>document.getElementById('photo')).files
+    this.imageFile = files[0]
+    console.log(this.imageFile)
+    var reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      this.image = reader.result;
+    }, false);
+
+    if (this.imageFile) {
+      reader.readAsDataURL(this.imageFile);
+    }
+
+  }
+
+  
 
   async onSubmitStripe(e) {
     /////////////// STRIPE ELEMENT ////////////////////
@@ -79,14 +100,14 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
           email: this.profileForm.value.email
         }).subscribe((data) => {
           // console.log(data, 'signup line 76')
-          if(data !== false) {
+          if (data !== false) {
             this.customer = data;
             this.profileForm.value.stripeId = this.customer.id;
             alert('Successful Stripe account creation!');
-          // console.log(this.profileForm.value, 'signup line 81')
+            // console.log(this.profileForm.value, 'signup line 81')
           } else {
             alert('Error creating Stripe account!');
-          } 
+          }
         });
       }
     } 
@@ -100,14 +121,22 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.profileForm.value.category = this.selectedCategory
       this.username = e;
       this.signupSuccess = true;
-      this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
-        this.profileForm.value.category = catObj[0].id;
-        this.signupService.addUser(this.profileForm.value).subscribe((data) => {
-          console.log(data, 'adduser service');
-          this.router.navigateByUrl('/login');
-        });
-      });
+      this.http.post('/photo', { image: this.image }).subscribe((image) => {
+        this.image = image
+        this.imageUrl = this.image.url;
+        console.log(this.imageUrl)
+
+        this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
+          this.profileForm.value.category = catObj[0].id;
+          this.profileForm.value.image = this.imageUrl;
+          this.signupService.addUser(this.profileForm.value).subscribe((data) => {
+            console.log(data, 'service');
+            this.router.navigateByUrl('/login');
+          })
+        })
+      })
     }
+
   }
 
   ngAfterViewInit() {

@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "adminuser",
+    "password": "adminuser1",
+    "database": "alfred",
+    "host": "thesis.cjcaqsxvwydd.us-east-2.rds.amazonaws.com",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "adminuser",
+    "password": "adminuser1",
+    "database": "alfred",
+    "host": "thesis.cjcaqsxvwydd.us-east-2.rds.amazonaws.com",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "adminuser",
+    "password": "adminuser1",
+    "database": "alfred",
+    "host": "thesis.cjcaqsxvwydd.us-east-2.rds.amazonaws.com",
+    "dialect": "postgres"
+  }
+}
