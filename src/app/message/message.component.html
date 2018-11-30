@@ -1,15 +1,26 @@
-<p>
-  message works!
-</p>
-<header>
+
   <div class="container">
-  <ul>
-    <li><a >messages between users</a></li>
+    <div *ngFor="let user of users" (click)="read()">
+      {{user}}
+      <div *ngIf="isRead" >
+        <div *ngFor="let messageTo of messagesTo">
+
+          <div>{{messageTo.text}}</div>
+        </div>
+      </div>
+    </div>
+    <!-- <ul>
+
+    <div *ngFor='let messageTo of messagesTo'>
+      <div>{{messageTo.text}}</div>
+      
+    </div>
+  </ul> -->
+    <!-- <li><a >messages between users</a></li>
     <li><a>messages between users</a></li>
-    <li><a>messages between users</a></li>
-  </ul>
+    <li><a>messages between users</a></li> -->
   </div>
-</header>
+
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Message</h4>

@@ -29,9 +29,9 @@ cloudinary.config({
 });
 
 app.use(bodyParser.json({
-   parameterLimit: 100000,
-     limit: '50mb',
-     extended: true
+  parameterLimit: 100000,
+  limit: '50mb',
+  extended: true
 }))
 app.use(bodyParser.urlencoded({
   parameterLimit: 100000,
@@ -91,7 +91,7 @@ passport.deserializeUser((function (id, done) {
 app.post('/signUp', (req, res) => {
 
   var picture;
-  
+
   var area_id;
   var generateHash = function (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -127,7 +127,7 @@ app.post('/signUp', (req, res) => {
                     console.log('succes');
                     res.end("user added");
                   }
-                }).then((data) => {res.json(data) })
+                }).then((data) => { res.json(data) })
 
             } else {
               res.end("user exists");
@@ -156,7 +156,7 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => { res.json(data)})
+            }).then((data) => { res.json(data) })
 
         } else {
           res.end("user exists");
@@ -316,7 +316,23 @@ app.post("/message", (req,res) => {
 res.send('message inserted')
 })
 
+app.get('/message', (req, res) => {
+  const { userId } = req.session;
+  db.sequelize.query(`SELECT * FROM messages WHERE id_from = '${userId}';`)
+    .then((to) => {
+      console.log(to, 'message');
+      db.sequelize.query(`SELECT * FROM messages WHERE id_to = '${userId}';`)
+        .then((from) => {
+          db.sequelize.query(`SELECT * FROM users`)
+            .then((users) => {
+              const message = [to[0], from[0]];
+              message.push(users[0]);
+              res.send(message);
 
+            })
+        })
+    })
+})
 
 
 
@@ -324,7 +340,7 @@ res.send('message inserted')
 //*****************getting intial user data*****//
 app.get('/user', (req, res) => {
   console.log(req.session)
-  
+
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`)
     .then((user) => {
       const profile = user[0][0];
@@ -369,10 +385,10 @@ app.post('/searchJobs', ((req, res) => {
 app.post('/photo', (req, res) => {
   console.log('hellllloooooo')
   cloudinary.v2.uploader.upload(req.body.image, {
-      width: 500,
-      height: 500,
-      crop: "limit"
-    },
+    width: 500,
+    height: 500,
+    crop: "limit"
+  },
     function (error, result) {
       console.log(result, error)
       res.send(result)
@@ -399,13 +415,13 @@ app.post('/stripe/signup', (req, res) => {
     source: req.body.token.id,
     email: req.body.email,
   })
-  .then((customer) => {
-    // console.log('customer:', customer)
-    res.json(customer);
-  }).catch((err) => {
-    console.log(err);
-    res.json(false)
-  })
+    .then((customer) => {
+      // console.log('customer:', customer)
+      res.json(customer);
+    }).catch((err) => {
+      console.log(err);
+      res.json(false)
+    })
 });
 //******************************************/
 
@@ -415,8 +431,8 @@ app.post('/stripe/charge', (req, res) => {
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
   db.sequelize.query(q).then((user) => {
     console.log('post incomming charge', req.body);
-   return  stripe.charges.create({
-      amount: req.body.payment, 
+    return stripe.charges.create({
+      amount: req.body.payment,
       currency: 'usd',
       customer: user[0][0].id_stripe, // id from customer object
     });
