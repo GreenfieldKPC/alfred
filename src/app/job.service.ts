@@ -14,6 +14,7 @@ export class JobService {
     return this.http.get(this._url + '/jobs/taken').toPromise();
   }
   getUserJobsPosted() {
+    //maybe need observable instead of promise?
     return this.http.get(this._url + '/jobs/posted').toPromise();
   }
 }
