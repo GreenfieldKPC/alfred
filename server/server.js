@@ -316,7 +316,18 @@ app.post("/message", (req,res) => {
 res.send('message inserted')
 })
 
-
+app.get('/message', (req, res) => {
+  const { userId } = req.session;
+  db.sequelize.query(`SELECT * FROM messages WHERE id_from = '${userId}';`)
+    .then((to) => {
+      console.log(to, 'message');
+      db.sequelize.query(`SELECT * FROM messages WHERE id_to = '${userId}';`)
+        .then((from) => {
+          console.log([to, from]);
+          res.send([to, from]);
+        })
+    })
+})
 
 
 

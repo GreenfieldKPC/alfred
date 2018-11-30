@@ -1,15 +1,17 @@
-<p>
-  message works!
-</p>
-<header>
+
   <div class="container">
-  <ul>
-    <li><a >messages between users</a></li>
-    <li><a>messages between users</a></li>
-    <li><a>messages between users</a></li>
+    <ul>
+
+    <div *ngFor='let message of messages'>
+      <div>{{message.text}}</div>
+      
+    </div>
   </ul>
+    <!-- <li><a >messages between users</a></li>
+    <li><a>messages between users</a></li>
+    <li><a>messages between users</a></li> -->
   </div>
-</header>
+
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Message</h4>
