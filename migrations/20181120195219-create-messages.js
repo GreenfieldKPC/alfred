@@ -17,6 +17,9 @@ module.exports = {
       id_to: {
         type: Sequelize.STRING
       },
+      read: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -12,6 +12,7 @@ import { TakenComponent } from './taken/taken.component';
 import { PostedComponent } from './posted/posted.component';
 import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
+import { UploadComponent } from './upload/upload.component';
 
 const routes: Routes = [
   { path: '', component: SplashComponent },
