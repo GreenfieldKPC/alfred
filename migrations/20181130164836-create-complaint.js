@@ -26,7 +26,9 @@ module.exports = {
       created_at: {
         type: Sequelize.DATE
       },
-
+  resolved: {
+    type: Sequelize.BOOLEAN
+  },
     });
   },
   down: (queryInterface, Sequelize) => {

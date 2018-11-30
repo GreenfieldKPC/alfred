@@ -13,6 +13,7 @@ import { JobService } from './job.service';
 import { UploadComponent } from './upload/upload.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { HelpComponent } from './help/help.component';
+import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HelpComponent } from './help/help.component';
     routingComponents,
     UploadComponent,
     EmployeeComponent,
-    HelpComponent
+    HelpComponent,
+    EmployeeLoginComponent
   ],
   imports:[
     BrowserModule,

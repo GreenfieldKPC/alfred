@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.INTEGER,
     id_user: DataTypes.INTEGER,
     photo: DataTypes.STRING,
+    resolved: DataTypes.BOOLEAN
   }, {});
   complaint.associate = function(models) {
     // associations can be defined here
