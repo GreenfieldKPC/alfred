@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     picture: DataTypes.STRING,
     id_area: DataTypes.INTEGER,
     hashed_password: DataTypes.STRING,
-    id_category: DataTypes.INTEGER
+    id_category: DataTypes.INTEGER,
+    is_employee: DataTypes.BOOLEAN
   }, {});
   
   users.associate = function(models) {

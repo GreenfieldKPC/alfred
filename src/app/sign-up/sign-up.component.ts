@@ -64,7 +64,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
-  previewFile() {
+  processFile() {
     console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
