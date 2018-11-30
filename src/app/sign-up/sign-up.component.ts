@@ -74,7 +74,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       } else {
         // console.log('Success!', token);
         // ...send the token to the your backend to process the charge
-        this.http.post('/stripe', {
+        this.http.post('/stripe/signup', {
           token,
           email: this.profileForm.value.email
         }).subscribe((data) => {
@@ -103,7 +103,6 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
         this.profileForm.value.category = catObj[0].id;
         this.signupService.addUser(this.profileForm.value).subscribe((data) => {
-          console.log(data, 'adduser service');
           this.router.navigateByUrl('/login');
         });
       });
