@@ -84,40 +84,11 @@ export class AddComponent{
      return  this.addService.addPost(this.choreForm.value)
     }).then(() => {
 
-      // console.log(data, 'stripe id line 84');
-      //add charge here 
-      //add chore must charge user account for pay amount 
-      //alert user of charge to account?
-      //******************************************** */
       let payment = this.selectedPay.toString().concat('00');
       return this._profileService.chargeUser(payment);
-      //******************************************** */
     })
-    // .then((data) => {
-    //   // console.log(data, 'stripe id line 84');
-    //   //add charge here 
-    //   //add chore must charge user account for pay amount 
-    //   //alert user of charge to account?
-    //   //******************************************** */
-    //   let payment = this.selectedPay.toString().concat('00');
-    //   this.customer = data;
-    //   console.log(payment, data, 'payment and id');
-    //   (async function () {
-    //     const { charge, error } = stripe.charges.create({
-    //       amount: payment, // amount of suggested payment plus 00 to convert to dollars
-    //       currency: 'usd',
-    //       customer: this.customer.id, // id from customer object
-    //     });
-    //     if (error) {
-    //       console.log('Something is wrong:', error);
-    //     } else {
-    //       console.log("successful charge!", charge);
-    //     }
-    //   })();
-
-    // //******************************************** */
-    // })
     .then((data) => {
+      
       if(data === true) {
         // console.log(data)
         alert("Job Posted!")
