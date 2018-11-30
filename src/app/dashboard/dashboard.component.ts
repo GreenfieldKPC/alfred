@@ -207,7 +207,7 @@ export class DashboardComponent implements OnInit {
         })
     } else {
       this.dashboardService.searchCat(this.selectedCategory)
-        .subscribe((catObj) => {
+        .then((catObj) => {
           category = catObj[0].id;
           this.dashboardService.searchArea(this.location.address_state)
             .subscribe((areaObj) => {

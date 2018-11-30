@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+// const users = require('./models/users')()
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
@@ -60,7 +61,7 @@ app.use(express.static('dist/browser'))
 //*********** PASSPORT CONFIG ************//
 passport.use(new LocalStrategy(function (username, password, done) {
   db.sequelize.query(` SELECT * FROM users WHERE username = '${username}'`).then(function (user) {
-    console.log(user[0][0], 'server line 50');
+    // console.log(user[0][0], 'server line 50');
     if (!user[0][0]) {
       return done(null, false);
     } else if (bcrypt.compareSync(password, user[0][0].hashed_password) === false) {
@@ -111,7 +112,6 @@ app.post('/signUp', (req, res) => {
         }).then(() => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-              //insert id_stripe from req.body.stripeId !!!!
               db.sequelize.query(
                 `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category)
                  VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}')`,
@@ -127,7 +127,6 @@ app.post('/signUp', (req, res) => {
                     console.log('succes');
                     res.end("user added");
                   }
-
                 }).then((data) => {res.json(data) })
 
             } else {
@@ -168,8 +167,6 @@ app.post('/signUp', (req, res) => {
 })
 // **********************************//
 
-
-
 //********* HANDELING LOGIN********//
 app.post('/login', function (req, res, next) {
   passport.authenticate('local', function (err, user) {
@@ -198,14 +195,15 @@ app.post('/login', function (req, res, next) {
   })(req, res, next);
 });
 // ***************************************//
+
 // ************** universal category id finder****//
 app.post('/category', (req, res) => {
   db.sequelize.query(`SELECT * FROM categories WHERE name = '${req.body.category}';`).then((category) => {
     res.send(category[0]);
   })
 })
-// ************universal area id finder*****//
 
+// ************universal area id finder*****//
 app.post('/areas', (req, res) => {
   db.sequelize.query(`SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((areaObj) => {
     if (areaObj[0][0] === undefined || areaObj[0][0].id === undefined) {
@@ -231,16 +229,16 @@ app.post("/add", (req, res) => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
             profile.area = area[0][0].id;
           }).then(() => {
-            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
-              res.send("job added")
+            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+              // res.send("job added")
               res.end()
             })
           })
         })
       } else {
         profile.area = area[0][0].id;
-        db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.electedCategory}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then(() => {
-          res.send("job added")
+        db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+          // res.send("job added")
           res.end()
         })
       }
@@ -361,7 +359,6 @@ app.post('/searchJobs', ((req, res) => {
         res.send(searchObj);
       });
     })
-
   }
 }))
 // ****************************************//
@@ -391,11 +388,10 @@ app.get("/logOUt", (req, res) => {
   req.session.destroy();
   res.send(true);
 })
-
 //**************************************//
 
 //************ CREATE STRIPE CUSTOMER ***************/
-app.post('/stripe', function (req, res) {
+app.post('/stripe/signup', (req, res) => {
   console.log('post incomming');
   // console.log('token id:', req.body.token.id)
 
@@ -413,6 +409,27 @@ app.post('/stripe', function (req, res) {
 });
 //******************************************/
 
+
+//******************** STRIPE CREATE CHARGE **********************/
+app.post('/stripe/charge', (req, res) => {
+  const q = `SELECT * from users WHERE id = ${req.session.userId}`;
+  db.sequelize.query(q).then((user) => {
+    console.log('post incomming charge', req.body);
+   return  stripe.charges.create({
+      amount: req.body.payment, 
+      currency: 'usd',
+      customer: user[0][0].id_stripe, // id from customer object
+    });
+  }).then((charge) => {
+    console.log('charge:', charge)
+    res.send('true');
+  }).catch(err => {
+    console.log(err)
+    res.send('false');
+  });
+});
+
+//******************************************/
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
