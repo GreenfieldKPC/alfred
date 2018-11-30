@@ -13,6 +13,7 @@ export class JobComponent implements OnInit {
   public logo = "assets/images/logo.png";
 
   constructor(private _jobService: JobService) {
+    //these jobs must lesd to another page or popup modal
     this.jobsTaken = [];
     this.jobsPosted = [];
    }

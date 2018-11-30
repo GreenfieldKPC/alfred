@@ -7,8 +7,8 @@
       <img src="{{logo}}">
     </div>
   </div>
-
-  <div class="col-md-12 chores">
+  <!-- these must be a collapse accordian inside a scrrollable div -->
+  <!-- <div class="col-md-12 chores">
     <ul>
       <h3>To-Do</h3>
       <li *ngFor="let chore of jobsTaken" class="chore">
@@ -76,5 +76,60 @@
       </li>
     </ul>
     <p *ngIf='!jobsPosted[0]'> None Yet!</p>
+  </div> -->
+
+  <div id="practice_Accordian//////////////">
+
+    <div id="accordion">
+      <!-- <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+              aria-controls="collapseOne">
+              Collapsible Group Item #1
+            </button>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+          </div>
+        </div>
+      </div> -->
+
+      <div class="bs-example">
+        <div class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let chore of jobsTaken; let i = index;">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">
+                  <div class="col-xs-8">
+                    <a>{{ chore.description }}</a>
+                  </div>
+                  <div class="col-xs-4">
+                    Date Posted
+                  </div>
+                </a>
+              </h4>
+            </div>
+            <div [attr.id]="'collapseOne_' + i" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <div class="col-xs-8">
+                  <p>{{ chore.address }}</p>
+                </div>
+                <div class="col-xs-4">
+                  <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
   </div>
+
+
+
 </div>

@@ -122,9 +122,9 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.username = e;
       this.signupSuccess = true;
       this.http.post('/photo', { image: this.image }).subscribe((image) => {
-        this.image = image
-        this.imageUrl = this.image.url;
-        console.log(this.imageUrl)
+        // this.image = image
+        // this.imageUrl = this.image.url;
+        // console.log(this.imageUrl)
 
         this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
           this.profileForm.value.category = catObj[0].id;
