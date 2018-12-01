@@ -1,18 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from '../message.service';
+import { HttpClient } from '@angular/common/http';
+interface Message {
+  userid: number;
+  message: string;
+}
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent {
+  chats: Message;
+  message: string;
+  sending: boolean;
   messages:any;
   messagesTo:any;
   messagesFrom:any;
   users:any = [];
   isRead:boolean = false;
   constructor(
+      private http: HttpClient,
       config: NgbModalConfig, 
       private modalService: NgbModal,
       private messageService: MessageService,
@@ -38,7 +47,7 @@ export class MessageComponent {
           this.messagesFrom.forEach((ob) => {
             if (obj.id === ob.id_from){
               if(!this.users.includes(obj.username)) {
-                this.users.push(obj.username);
+                this.users.push(obj);
 
               } else {
                 return;
@@ -51,6 +60,20 @@ export class MessageComponent {
         console.log(this.messagesFrom, 'from');
         console.log(this.messagesTo, 'to');
       });
+  }
+  sendMessage(id) {
+    console.log(id);
+    // id = Number(id);
+    this.chats = {
+      userid: id,
+      message: this.message,
+    }
+    this.sending = true;
+    console.log(this.chats);
+    // this.http.post('/message', this.chats).subscribe((data) => {
+    //   console.log(data);
+    // })
+    this.message = '';
   }
   read() {
     this.isRead = !this.isRead;
