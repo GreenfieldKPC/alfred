@@ -17,4 +17,8 @@ export class JobService {
     //maybe need observable instead of promise?
     return this.http.get(this._url + '/jobs/posted').toPromise();
   }
+  updateJobCompletion(chore) {
+    return this.http.patch('/jobs/complete', { choreId: chore.id }).toPromise();
+  }
+
 }
