@@ -229,7 +229,7 @@ app.post("/add", (req, res) => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
             profile.area = area[0][0].id;
           }).then(() => {
-            db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+            db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
               // res.send("job added")
               res.end()
             })

@@ -41,7 +41,8 @@ export class AddComponent{
   ngOnInit(e) {
     
     this.choreForm = this.formBuilder.group({
-      // category: [''],
+     // category: [''],
+     title:[''],
       description: [''],
       address: [''],
       city: [''],
