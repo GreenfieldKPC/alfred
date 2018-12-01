@@ -3,11 +3,13 @@ import { JobService } from '../job.service'
 import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileService } from '../profile.service'
 
 interface Message {
   userid: number;
   message: string;
 }
+
 
 @Component({
   selector: 'app-job',
@@ -30,8 +32,8 @@ export class JobComponent implements OnInit {
     private _jobService: JobService,
     private _messageService: MessageService,
     private _photoService: PhotoService,
+    private _profileService: ProfileService,
     ) {
-    //these jobs must lesd to another page or popup modal
     this.jobsTaken = [];
     this.jobsPosted = [];
    }
@@ -87,5 +89,13 @@ export class JobComponent implements OnInit {
   delete(chore) {
     // delete request to jobs endpoint
   }
+  getJobPoster(job) {
+    this._profileService.getUserProfile(job.poster).then((data) => {
+      console.log(data);
+      // display user thumbnail, rating, username in job description
+    });
+  }
+
+  
 
 }
