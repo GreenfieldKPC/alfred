@@ -13,6 +13,7 @@ export class JobComponent implements OnInit {
   public logo = "assets/images/logo.png";
 
   constructor(private _jobService: JobService) {
+    //these jobs must lesd to another page or popup modal
     this.jobsTaken = [];
     this.jobsPosted = [];
    }
@@ -20,6 +21,17 @@ export class JobComponent implements OnInit {
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
+  }
+
+  completeJob(job) {
+    this._jobService.updateJobCompletion(job).then((data) => {
+      if (data === true) {
+        alert('Awesome! Job Completed!');
+      } else {
+        alert('There was a problem completing this job!');
+        console.log(data);
+      }
+    });
   }
 
 }
