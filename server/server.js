@@ -468,7 +468,7 @@ app.post('/complaint',(req,res)=>{
 // **********************getting complaints*************//
 app.get('/complaints',(req,res)=>{
 db.sequelize.query(`SELECT * FROM complaints`).then((complaints) =>{
-  res.send(comlaints[0]);
+  res.send(complaints[0]);
 })
 
 })
