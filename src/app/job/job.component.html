@@ -9,7 +9,6 @@
   </div>
 <div id='chores'>
   <div id="accordionT row">
-    <div class="col-md-12 chores">
       <h3>To-Do</h3>
       <p *ngIf='!jobsTaken[0]'> None Yet!</p>
       <div class="card chore" [attr.id]="'accordionT_' + i" *ngFor="let chore of jobsTaken; let i = index;">
@@ -44,7 +43,7 @@
                   <p>User name</p>
                 </div>
                 <div class="col-xs-6">
-                  <button type="button" class="btn btn-info" (click)='uploadImage(chore)'>Upload Pic!</button>
+                  <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
                 </div>
               </div>
               <div class="col-xs-12">
@@ -83,9 +82,9 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 <span *ngIf='jobsTaken[0]'></span>
+
     <div id="accordionC row">
       <h3 *ngIf='jobsTaken[0]'>Completed</h3>
       <div  class="card chore" [attr.id]="'accordionC_' + i" *ngFor="let chore of jobsTaken; let i = index;">
@@ -158,11 +157,15 @@
           </div>
           <div [attr.id]="'collapseOneP_' + i" class="collapse in row">
             <div class="card-body col-md-12">
-              <div class="col-xs-8">
-                <p>{{ chore.address }}</p>
-              </div>
-              <div class="col-xs-4">
-                <p class="payment">Available earnings: ${{ chore.payment }}</p>
+              
+              <div class="col-xs-12">
+                <div class="col-xs-6">
+                  <p>{{ chore.address }}</p>
+                </div>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info" (click)="edit(chore)">Edit</button>
+                  <button type="button" class="btn btn-info" (click)='delete(chore)'>Delete</button>
+                </div>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
 import { MessageService } from '../message.service';
+import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface Message {
@@ -28,6 +29,7 @@ export class JobComponent implements OnInit {
     private modalService: NgbModal,
     private _jobService: JobService,
     private _messageService: MessageService,
+    private _photoService: PhotoService,
     ) {
     //these jobs must lesd to another page or popup modal
     this.jobsTaken = [];
@@ -55,7 +57,6 @@ export class JobComponent implements OnInit {
   }
 
   sendMessage(id) {
-
     this.chats = {
       userid: id,
       message: this.message,
@@ -65,8 +66,26 @@ export class JobComponent implements OnInit {
     this._messageService.sendMessage(this.chats).then((data) => {
       console.log(data);
       this.message = '';
+    });  
+  }
+
+  uploadPhoto(chore, photo) {
+    //must open camera of mobile device and upload the picture taken
+    // must save chore id with photo to recall for later use
+    this._photoService.uploadPhoto(photo).then((data) => {
+      console.log(data);
     });
-    
+  }
+
+  navigate(chore) {
+    // upen google maps with directions to chore address
+  }
+  edit(chore) {
+    // patch request to jobs endpoint with update of information
+  }
+
+  delete(chore) {
+    // delete request to jobs endpoint
   }
 
 }
