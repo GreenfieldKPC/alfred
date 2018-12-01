@@ -13,8 +13,11 @@
   max-height: 15vw;
   width: auto;
 }
+.collapse.show {
+  visibility: visible;
+}
 
-.chores {
+#chores {
   background-color: white;
   min-height: 75vh;
 }
@@ -45,7 +48,7 @@ span {
   border: 2px solid #45CAA6;
 }
 
-.chore {
+.chore .col-md-12{
   text-align: left;
 }
 
