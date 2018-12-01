@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
+import { ProfileService } from '../profile.service'
 
 @Component({
   selector: 'app-job',
@@ -12,8 +13,10 @@ export class JobComponent implements OnInit {
   public jobsPosted;
   public logo = "assets/images/logo.png";
 
-  constructor(private _jobService: JobService) {
-    //these jobs must lesd to another page or popup modal
+  constructor(
+    private _jobService: JobService,
+    private _profileService: ProfileService,
+    ) {
     this.jobsTaken = [];
     this.jobsPosted = [];
    }
@@ -33,5 +36,14 @@ export class JobComponent implements OnInit {
       }
     });
   }
+
+  getJobPoster(job) {
+    this._profileService.getUserProfile(job.poster).then((data) => {
+      console.log(data);
+      // display user thumbnail, rating, username in job description
+    });
+  }
+
+  
 
 }

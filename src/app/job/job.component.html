@@ -141,7 +141,8 @@
                 <p>{{ chore.address }}</p>
               </div>
               <div class="col-xs-4">
-                <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                <p *ngIf="chore.completed"> Completed! </p>
+                <p *ngIf="!chore.completed"> Not done yet </p>
               </div>
             </div>
           </div>
