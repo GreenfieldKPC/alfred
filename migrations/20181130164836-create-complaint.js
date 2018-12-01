@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       created_at: {
-        type: Sequelize.DATE
+        type: Sequelize.NUMERIC
       },
   resolved: {
     type: Sequelize.BOOLEAN

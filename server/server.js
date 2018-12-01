@@ -462,6 +462,7 @@ app.post('/stripe/charge', (req, res) => {
 
 // ***********Submitting a complaint*****************//
 app.post('/complaint',(req,res)=>{
+  console.log(req.session);
   db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
 })
 // {
@@ -475,6 +476,24 @@ app.post('/complaint',(req,res)=>{
 
 
 // *************************************************//
+
+
+// **********************getting complaints*************//
+app.get('/complaints',(req,res)=>{
+db.sequelize.query(`SELECT * FROM complaints`).then((complaints) =>{
+  res.send(complaints[0]);
+})
+
+})
+
+
+
+
+
+
+
+
+// ****************************************************//
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
