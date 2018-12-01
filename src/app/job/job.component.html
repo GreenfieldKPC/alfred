@@ -14,10 +14,10 @@
       <div class="card chore" [attr.id]="'accordionT_' + i" *ngFor="let chore of jobsTaken; let i = index;">
         <div *ngIf="!chore.completed" class="panel panel-default">
           <div class="card-header">
-              <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionT_' + i" [attr.href]="'#collapseOneT_' + i">
+              <button class="col-md-12" data-toggle="collapse" (click)="getJobPoster(chore.poster)" [attr.data-parent]="'#accordionT_' + i" [attr.href]="'#collapseOneT_' + i">
                   <div *ngIf="!chore.completed" class="col-md-12">
                     <div class="col-xs-8">
-                      <a>{{ chore.description }}</a>
+                      <a>{{ chore.title }}</a>
                     </div>
                     <div class="col-xs-4">
                       Date Posted
@@ -36,17 +36,22 @@
           <div [attr.id]="'collapseOneT_' + i" class="collapse in row">
             <div *ngIf="!chore.completed" class="card-body col-md-12">
               <div class="col-xs-12">
-                <div class="col-xs-6">
-                  <!-- //job poster piofile pic, name, rating -->
-                  <img>
-                  <div id="rating">* * * * *</div>
-                  <p>User name</p>
+                <div class="col-xs-6 profile">
+                  <!-- //job poster profile pic, name, rating -->
+                  <img src="{{ chorePhoto }}">
+                  <div id="rating">
+                    <ngb-rating [(rate)]="choreRating"></ngb-rating>
+                    <p>{{ choreUsername }}</p>
+                  </div>  
                 </div>
                 <div class="col-xs-6">
                   <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
                 </div>
               </div>
               <div class="col-xs-12">
+                <div class="col-xs-12">
+                  <p>{{ chore.description }}</p>
+                </div>
                 <div class="col-xs-4">
                   <button type="button" class="btn btn-info" (click)="open(content)">message</button>
                 </div>
@@ -93,7 +98,7 @@
               <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionC_' + i" [attr.href]="'#collapseOneC_' + i">
                   <div class="col-md-12">
                     <div class="col-xs-8">
-                      <p>{{ chore.description }}</p>
+                      <p>{{ chore.title }}</p>
                     </div>
                     <div class="col-xs-4">
                       <p>Date Posted</p>
@@ -138,7 +143,7 @@
               <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionP_' + i" [attr.href]="'#collapseOneP_' + i">
                 <div class="col-md-12">
                   <div class="col-xs-8">
-                    <p>{{ chore.description }}</p>
+                    <p>{{ chore.title }}</p>
                   </div>
                   <div class="col-xs-4">
                     <p>Date Posted</p>
