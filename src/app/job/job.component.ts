@@ -99,7 +99,7 @@ export class JobComponent implements OnInit {
     // delete request to jobs endpoint
   }
   getJobPoster(id) {
-     // display user thumbnail, rating, username in job description
+     // display user photo, rating, username in job description
 
     this._profileService.getUserName(id).then((username) => {
       // display chore poster username on chore

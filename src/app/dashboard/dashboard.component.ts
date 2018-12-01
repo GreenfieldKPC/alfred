@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit {
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
-      // console.log(this.geocoder);
     });
   }
   open(content) {
@@ -105,9 +104,7 @@ export class DashboardComponent implements OnInit {
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
     this.http.post('/message',this.chats).subscribe((data) => {
-      console.log(data);
     })
     this.message = '';
   }
@@ -151,7 +148,6 @@ export class DashboardComponent implements OnInit {
     this.geocoder.geocode({
       'address': address
     }, (results, status) => {
-      console.log(results);
       if (status == google.maps.GeocoderStatus.OK) {
         for (var i = 0; i < results[0].address_components.length; i++) {
           let types = results[0].address_components[i].types
@@ -220,7 +216,6 @@ export class DashboardComponent implements OnInit {
                   this.searchJob = data;
                   this.searchUser = this.searchJob.users;
                   this.searchJob = this.searchJob.jobs;
-                  console.log(this.searchUser);
                 })
               })
             })
@@ -245,7 +240,6 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
-      console.log(this.jobs);
       });
   }
   ngOnInit() {
