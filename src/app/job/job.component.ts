@@ -73,9 +73,7 @@ export class JobComponent implements OnInit {
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
     this._messageService.sendMessage(this.chats).then((data) => {
-      console.log(data);
       this.message = '';
     });  
   }

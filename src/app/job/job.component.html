@@ -37,21 +37,18 @@
             <div *ngIf="!chore.completed" class="card-body col-md-12">
               <div class="col-xs-12">
                 <div class="col-xs-6 profile">
-                  <!-- //job poster profile pic, name, rating -->
                   <img src="{{ chorePhoto }}">
                   <div id="rating">
                     <ngb-rating [(rate)]="choreRating"></ngb-rating>
                     <p>{{ choreUsername }}</p>
                   </div>  
                 </div>
-                <div class="col-xs-6">
+                <div class="col-xs-6">  
                   <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
                 </div>
               </div>
               <div class="col-xs-12">
-                <div class="col-xs-12">
-                  <p>{{ chore.description }}</p>
-                </div>
+                <div class="col-xs-12"> <p>{{ chore.description }}</p> </div>
                 <div class="col-xs-4">
                   <button type="button" class="btn btn-info" (click)="open(content)">message</button>
                 </div>
@@ -165,6 +162,7 @@
               <div class="col-xs-12">
                 <div class="col-xs-6">
                   <p>{{ chore.address }}</p>
+                  <p>{{ chore.description }}</p>
                 </div>
                 <div class="col-xs-6">
                   <button type="button" class="btn btn-info" (click)="edit(chore)">Edit</button>
