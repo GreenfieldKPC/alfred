@@ -324,7 +324,8 @@ app.patch("/dashboard/takeChore", (req, res) => {
 app.post("/message", (req,res) => {
   console.log(req.body)
  db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
-res.send('message inserted')
+  // res.send('message inserted')
+  res.end();
 })
 
 app.get('/message', (req, res) => {
