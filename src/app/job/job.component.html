@@ -49,7 +49,7 @@
               </div>
               <div class="col-xs-12">
                 <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)='message(chore)'>message</button>
+                  <button type="button" class="btn btn-info" (click)="open(content)">message</button>
                 </div>
                 <div class="col-xs-4">
                   <button type="button" class="btn btn-info" (click)='navigate(chore)'>navigate</button>
@@ -58,13 +58,34 @@
                   <button type="button" class="btn btn-info" (click)='completeJob(chore)'>Complete!</button>
                 </div>
               </div>
+
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Message</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span class="close"aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="chatbox">
+                    <div *ngIf="sending">
+                      {{chats.message}}
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(chore.poster)">
+                </div>
+                <button class="btn btn-primary" (click)="sendMessage(chore.poster)">Send</button>
+              </ng-template>
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
+<span *ngIf='jobsTaken[0]'></span>
     <div id="accordionC row">
       <h3 *ngIf='jobsTaken[0]'>Completed</h3>
       <div  class="card chore" [attr.id]="'accordionC_' + i" *ngFor="let chore of jobsTaken; let i = index;">
