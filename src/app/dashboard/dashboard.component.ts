@@ -242,7 +242,6 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
-      console.log(this.jobs);
       });
   }
   ngOnInit() {
