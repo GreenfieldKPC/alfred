@@ -462,6 +462,7 @@ app.post('/stripe/charge', (req, res) => {
 
 // ***********Submitting a complaint*****************//
 app.post('/complaint',(req,res)=>{
+  console.log(req.session);
   db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
 })
 // {
