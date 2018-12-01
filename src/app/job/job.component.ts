@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
 import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileService } from '../profile.service'
 
 interface Message {
   userid: number;
   message: string;
 }
+
 
 @Component({
   selector: 'app-job',
@@ -19,21 +21,30 @@ export class JobComponent implements OnInit {
 
   public jobsTaken;
   public jobsPosted;
+  public choreRating: number;
+  public choreUsername: string;
+  public chorePhoto: any;
   public logo = "assets/images/logo.png";
+  public defaultPhoto = "assets/images/non.png";
   chats: Message;
   message: string;
   sending: boolean;
 
   constructor(
-    config: NgbModalConfig,
+    config: NgbRatingConfig,
     private modalService: NgbModal,
     private _jobService: JobService,
     private _messageService: MessageService,
     private _photoService: PhotoService,
+    private _profileService: ProfileService,
     ) {
-    //these jobs must lesd to another page or popup modal
+    config.max = 5;
+    config.readonly = true;
     this.jobsTaken = [];
     this.jobsPosted = [];
+    this.choreRating = 5;
+    this.choreUsername = '';
+    this.chorePhoto = this.defaultPhoto;
    }
 
   ngOnInit() {
@@ -62,9 +73,7 @@ export class JobComponent implements OnInit {
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
     this._messageService.sendMessage(this.chats).then((data) => {
-      console.log(data);
       this.message = '';
     });  
   }
@@ -87,5 +96,29 @@ export class JobComponent implements OnInit {
   delete(chore) {
     // delete request to jobs endpoint
   }
+  getJobPoster(id) {
+     // display user photo, rating, username in job description
+
+    this._profileService.getUserName(id).then((username) => {
+      // display chore poster username on chore
+
+      this.choreUsername = username.username;
+      return this._profileService.getUserRating(id);
+    }).then((rating) => {
+      // display chore poster rating on chore
+
+      return this._profileService.getUserPhoto(id);
+    }).then((photo) => {
+      // display chore poster photo on chore
+      if (photo.url !== undefined && photo.url !== 'undefined') {
+        console.log('new photo!')
+        this.chorePhoto = photo.url;
+      } 
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  
 
 }

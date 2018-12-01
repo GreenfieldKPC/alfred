@@ -6,12 +6,21 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProfileService {
 
-  //how to get app url for endpoints
-  private _url: string = 'http://localhost:8080';
-
   constructor(private http: HttpClient) { }
 
-  getUserProfile() {
-    return this.http.get(this._url + "/profile").toPromise();
+  getUserProfile(id) {
+    return this.http.get<any>(`/user/profile/${id}`).toPromise();
+  }
+
+  getUserRating(id) {
+    return this.http.get<any>(`/user/rating/${id}`).toPromise();
+  }
+
+  getUserName(id) {
+    return this.http.get<any>(`/user/username/${id}`).toPromise();
+  }
+
+  getUserPhoto(id) {
+    return this.http.get<any>(`/user/photo/${id}`).toPromise();
   }
 }

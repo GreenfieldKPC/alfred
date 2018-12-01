@@ -297,7 +297,7 @@ app.patch('/jobs/complete', (req, res) => {
 app.patch("/dashboard/takeChore", (req, res) => {
   // console.log(req.body, '///', req.session.userId);
   const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
-  db.sequelize.query(q, function (err) {
+  db.sequelize.query(q, (err) => {
     if (err) {
       return res.json(400, {
         response: {
@@ -349,7 +349,7 @@ app.get('/message', (req, res) => {
 
 
 //*************************************************************//
-//*****************getting intial user data*****//
+//***************** GET USER DATA *****//
 app.get('/user', (req, res) => {
   console.log(req.session)
 
@@ -362,7 +362,94 @@ app.get('/user', (req, res) => {
         res.end();
       })
     })
-})
+});
+
+app.get('/user/photo/:id', (req, res) => {
+  // console.log(req.body, '///', req.body.userId);
+  const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error retrieving user'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    //return url for user photo
+    res.send({ url: data[0][0].picture})
+  }).catch((err) => console.log(err));
+});
+
+
+
+app.get('/user/username/:id', (req, res) => {
+  const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error retrieving user'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    //return username of user
+    res.send({username: data[0][0].username});
+  }).catch((err) => console.log(err));
+
+});
+
+app.get('/user/rating/:id', (req, res) => {
+  // query rating table for all with id, then return average
+  const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error retrieving user'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    console.log(data[0], 'user server line 425');
+    // query rating table for all with id, then return average
+    // return rating of user
+    res.send({rating: 5});
+  }).catch((err) => console.log(err));
+
+});
+
+app.get('/user/profile/:id', (req, res) => {
+  // console.log(req.params, 'params////');
+  const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error retrieving user'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+    console.log(data[0][0], 'user server line 446');
+    //return profile info of user
+    res.send({ user: data[0][0]});
+  }).catch((err) => console.log(err));
+
+});
 // ******************************************************//
 
 

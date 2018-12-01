@@ -55,3 +55,12 @@ span:not(.close) {
 .payment {
   color: #F896EA;
 }
+
+#rating ngb-rating {
+  /* font-size: 1.5rem; */
+  color: yellow;
+}
+
+.profile {
+  text-align: center;
+}
