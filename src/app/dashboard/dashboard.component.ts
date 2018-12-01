@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var google: any;
 
@@ -76,6 +76,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(AgmMap) map: AgmMap;
   constructor(
     config: NgbModalConfig,
+    rateConfig: NgbRatingConfig,
     private modalService: NgbModal,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
@@ -84,6 +85,8 @@ export class DashboardComponent implements OnInit {
     ) {
     config.backdrop = 'static';
     config.keyboard = false;
+    rateConfig.max = 5;
+    rateConfig.readonly = true;
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
