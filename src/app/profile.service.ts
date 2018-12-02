@@ -5,8 +5,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ProfileService {
+  
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
 
   getUserProfile(id) {
     return this.http.get<any>(`/user/profile/${id}`).toPromise();
@@ -22,5 +24,14 @@ export class ProfileService {
 
   getUserPhoto(id) {
     return this.http.get<any>(`/user/photo/${id}`).toPromise();
+  }
+
+  updateUserPhoto(url) {
+    //patch request to user table, update picture url
+    return this.http.patch<any>(`/user/photo`, { url }).toPromise();
+  }
+
+  updateUserInfo(options) {
+    return this.http.patch<any>('/user/update', options).toPromise();
   }
 }
