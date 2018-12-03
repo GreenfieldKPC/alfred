@@ -9,8 +9,17 @@
   </div>
 
   <form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
+<div class="col-md-12">
+  <label for="cat">Job</label><br>
+  <select class="form-control dropdown-toggle" name="priority" [(ngModel)]="selectedJob" [ngModelOptions]="{standalone: true}"
+    required>
+    <option *ngFor="let list of jobsList" [value]="list">
+      {{list}}
+    </option>
+  </select>
+</div>
     <div class="col-md-12">
-      <label for="cat">Categor</label><br>
+      <label for="cat">Category</label><br>
       <select class="form-control dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
         required>
         <option *ngFor="let list of categoryLists" [value]="list">
@@ -36,7 +45,7 @@
     </div>
     <div class="form-group col-md-12">
       <label for="user">input</label>
-<input id="photo" (change)="previewFile()" type="file" class="text-center center-block file-upload" formControlName="photoData">
+<input id="photo" (change)="previewFile()" type="file" class="text-center center-block file-upload" >
     </div>
     <div class="col-md-12 post-btn text-right">
       <button type="submit" class="btn btn-primary">+Post</button>
