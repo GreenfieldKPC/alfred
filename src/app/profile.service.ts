@@ -34,4 +34,8 @@ export class ProfileService {
   updateUserInfo(options) {
     return this.http.patch<any>('/user/update', options).toPromise();
   }
+
+  rateUser(options) {
+    return this.http.post('user/rating', options).toPromise();
+  }
 }
