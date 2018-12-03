@@ -196,6 +196,40 @@ app.post('/login', function (req, res, next) {
 });
 // ***************************************//
 
+//********* HANDELING EMPLOYEE LOGIN ********//
+app.post('/login/employee', function (req, res, next) {
+  passport.authenticate('local', function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    // Redirect if it fails
+    if (!user) {
+      res.writeHead(401, {
+        'Content-Type': 'application/json'
+      });
+      return res.end();
+    } else if (!user.is_employee) {
+      console.log('User is not an employee!');
+      res.json({ message: 'User is not an employee!'});
+    } else {
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        const temp = req.session.passport;
+        return req.session.regenerate(() => {
+          req.session.passport = temp;
+          req.session.user = user.username;
+          req.session.userId = user.id;
+          res.send('true');
+        });
+      });
+    }
+    
+  })(req, res, next);
+});
+// ***************************************//
+
 // ************** universal category id finder****//
 app.post('/category', (req, res) => {
   db.sequelize.query(`SELECT * FROM categories WHERE name = '${req.body.category}';`).then((category) => {

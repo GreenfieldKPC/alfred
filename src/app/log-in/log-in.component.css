@@ -10,6 +10,9 @@
   flex-grow: 1;
 }
 
+#login-logo-container {
+  margin-top: 20vh;
+} 
 #login img {
   max-height: 50vw;
   min-height: 20px;
@@ -22,7 +25,7 @@
   border: 0;
   border-radius: 20px;
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
   font-size: 4vh;
   margin: 4vh;
   padding: 1vw 7vw 1vw 7vw;
@@ -44,7 +47,7 @@ input {
 
 h2, p{
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 p {
