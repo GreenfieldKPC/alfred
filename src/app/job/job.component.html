@@ -92,7 +92,7 @@
       <div  class="card chore" [attr.id]="'accordionC_' + i" *ngFor="let chore of jobsTaken; let i = index;">
         <div class="panel panel-default" *ngIf="chore.completed">
           <div class="card-header">
-              <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionC_' + i" [attr.href]="'#collapseOneC_' + i">
+              <button class="col-md-12" data-toggle="collapse" (click)="getJobPoster(chore.poster)"  [attr.data-parent]="'#accordionC_' + i" [attr.href]="'#collapseOneC_' + i">
                   <div class="col-md-12">
                     <div class="col-xs-8">
                       <p>{{ chore.title }}</p>
@@ -113,12 +113,15 @@
           </div>
           <div [attr.id]="'collapseOneC_' + i" class="collapse in row">
             <div class="card-body col-md-12">
-              <div class="col-md-12">
-                <div class="col-xs-6">
-                  <!-- //job poster piofile pic, name, rating -->
-                  <img>
-                  <div id="rating">* * * * *</div>
-                  <p>User name</p>
+              <div class="col-xs-12">
+                <div class="col-xs-6 profile">
+                  <p>{{ choreUsername }}</p>
+                  <img src="{{ chorePhoto }}">
+                  <div id="rating">
+                    <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
+                  <br>
+                    <a (click)="submitRating(chore)">Rate!</a> 
+                  </div>
                 </div>
                 <div class="col-xs-6">
                   <button type="button" class="btn btn-info" (click)='help(chore)'>Help</button>
