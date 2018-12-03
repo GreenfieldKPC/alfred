@@ -9,6 +9,7 @@ export class PhotoService {
   constructor(private http: HttpClient) { }
 
   uploadPhoto(photo) {
-    return this.http.post('/photo', photo).toPromise();
+    return this.http.post<any>('/photo', { image: photo }).toPromise();
   }
+
 }

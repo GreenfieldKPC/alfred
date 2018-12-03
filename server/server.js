@@ -311,6 +311,7 @@ app.patch("/dashboard/takeChore", (req, res) => {
   }).then((data) => {
     console.log(data);
     // add check for doer id not assigned already
+
     if (data[1].rowCount > 0) {
       res.send(true);
     } else {
@@ -450,6 +451,28 @@ app.get('/user/profile/:id', (req, res) => {
   }).catch((err) => console.log(err));
 
 });
+
+app.patch('/user/photo', (req, res) => {
+  const q = `UPDATE users SET picture='${req.body.url}' WHERE id='${req.session.userId}'`
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error retrieving user'
+        }
+      });
+    } else {
+      console.log('success');
+    }
+  }).then((data) => {
+      if (data[1].rowCount > 0) {
+        res.send(data);
+      } else {
+        res.send(false);
+      }
+  }).catch((err) => console.log(err));
+});
 // ******************************************************//
 
 
@@ -482,14 +505,14 @@ app.post('/searchJobs', ((req, res) => {
 // *************handling photo uploads*******//
 
 app.post('/photo', (req, res) => {
-  // console.log('hellllloooooo')
+  console.log('hellllloooooo cloudinary')
   cloudinary.v2.uploader.upload(req.body.image, {
     width: 500,
     height: 500,
     crop: "limit"
   },
     function (error, result) {
-      console.log(result, error)
+      console.log(result, 'result', error, 'error')
       res.send(result)
     })
 })

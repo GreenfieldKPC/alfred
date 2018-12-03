@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { JobService } from '../job.service'
-// import { toArray } from 'rxjs/operators';
+import { PhotoService } from '../photo.service'
+import { ProfileService } from '../profile.service'
 import { DashboardService } from '../dashboard.service';
 @Component({
   selector: 'app-profile',
@@ -12,20 +13,32 @@ export class ProfileComponent implements OnInit {
   selectedCategory: string;
   hold:any;
   info:any;
+  image: any;
+  imageFile: any;
+  imageUrl: any;
   public takenCount: Number;
   public postedCount: Number;
+  public defaultPhoto = "assets/images/non.png";
+  public userPhoto: any;
 
   constructor(
     private _jobService: JobService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private _photoService: PhotoService,
+    private _profileService: ProfileService,
     ) {
+    this.userPhoto = this.defaultPhoto;
     this.takenCount = 0;
     this.postedCount = 0;
+    this.image;
   }
   userInfo() {
     this.dashboardService.getUser()
       .subscribe((data) => {
         this.info = data;
+        if (this.info.picture !== undefined && this.info.picture !== 'undefined') {
+          this.userPhoto = this.info.picture;
+        }
         console.log(this.info);
       })
   }
@@ -33,15 +46,43 @@ export class ProfileComponent implements OnInit {
 
     this.userInfo();
     this._jobService.getUserJobsTaken().then(data => {
-      console.log(data)
       this.hold = data;
       this.takenCount = this.hold.length;
     });
     this._jobService.getUserJobsPosted().then(data => {
-      console.log(data)
       this.hold = data;
       this.postedCount = this.hold.length;
     });
+  }
+
+  processFile() {
+    var files = (<HTMLInputElement>document.getElementById('photo')).files
+    this.imageFile = files[0]
+    console.log(this.imageFile)
+    var reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      this.image = reader.result;
+    }, false);
+
+    if (this.imageFile) {
+      reader.readAsDataURL(this.imageFile);
+    }
+
+  }
+
+  updatePhoto(image) {
+
+    this._photoService.uploadPhoto(image).then((image) => {
+      console.log('uploading', image.url)
+      return this._profileService.updateUserPhoto(image.url)
+    }).then((imageUrl) => {
+      this.userPhoto = imageUrl;
+      console.log(this.userPhoto, 'user photo updated');
+    }).catch(err => {
+      alert('Something went wrong with upload');
+      console.log(err);
+    })
   }
 
 }
