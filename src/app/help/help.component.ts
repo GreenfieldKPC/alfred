@@ -6,6 +6,7 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
 import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
+import { JobService } from '../job.service';
 declare var google: any;
 declare var stripe: any;
 
@@ -22,13 +23,18 @@ export class HelpComponent {
   geocoder: any;
   complaintForm: FormGroup;
   categoryLists = ['Unsafe conditions', 'No equipment', 'Harassment', 'Unable to complete job','Other'];
+  jobsList = [];
   selectedCategory: string;
+  selectedJob: string;
   imageFile: any;
   image: any;
   imageUrl:any;
   customer: any;
+  jobs:any;
+  job:any;
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
+     private _jobService: JobService,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
@@ -57,7 +63,26 @@ export class HelpComponent {
   }
 
   ngOnInit(e) {
+    this.jobs = [];
+    this._jobService.getUserJobsTaken().then(data => {
+   for (var job in data){
+     this.jobs.push(data[job])
+   }
+      
+    });
+    this._jobService.getUserJobsPosted().then(data => {
+      for (var job in data) {
+        this.jobs.push(data[job])
+      }
+      ;
+      for (var i = 0; i < this.jobs.length; i++) {
+        this.jobsList.push(this.jobs[i].title)
+       
+      }
+    });
+  
 
+ console.log(this.jobsList)
     this.complaintForm = this.formBuilder.group({
       // category: [''],
       description: [''],
@@ -69,6 +94,7 @@ export class HelpComponent {
 
     })
     this.selectedCategory = e;
+    this.selectedJob = e;
     
   }
   getlatlng(address: string) {
@@ -84,8 +110,15 @@ export class HelpComponent {
     });
   }
   addComplaint() {
+for(var i = 0; i < this.jobs.length; i++){
+  if (this.selectedJob === this.jobs[i].title){
+    this.job = this.jobs[i]
+  }
+}
+    console.log(this.selectedJob);
     this.complaintForm.value.electedCategory = this.selectedCategory
      console.log(this.complaintForm.value);
+     this.complaintForm.value.job = this.job;
     var addr = this.complaintForm.value.address + "," + this.complaintForm.value.city + "," + this.complaintForm.value.zipcode
     this.complaintForm.value.addr = addr;
     this.http.post('/category', { category: this.complaintForm.value.electedCategory} ).subscribe((category) =>{
