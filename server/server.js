@@ -409,7 +409,7 @@ app.get('/user/username/:id', (req, res) => {
 
 app.get('/user/rating/:id', (req, res) => {
   // query rating table for all with id, then return average
-  const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
+  const q = `SELECT * FROM ratings WHERE to = '${req.params.id}';`
   db.sequelize.query(q, (err) => {
     if (err) {
       return res.json(400, {
@@ -473,6 +473,25 @@ app.patch('/user/photo', (req, res) => {
       }
   }).catch((err) => console.log(err));
 });
+
+app.post('/user/rating', (req, res) => {
+  console.log(req.body, 'rating body');
+  const q = `INSERT INTO ratings( value, id_job ) VALUES(${req.body.rating},${req.body.job})`;
+  db.sequelize.query(q, (err) => {
+    if (err) {
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error sending rating'
+        }
+      });
+    } else {
+      console.log('successful rating!');
+    }
+  }).then((data) => {
+    console.log(data);
+    }).catch(err => console.log(err))
+})
 // ******************************************************//
 
 

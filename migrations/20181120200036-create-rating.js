@@ -11,7 +11,7 @@ module.exports = {
       value: {
         type: Sequelize.INTEGER
       },
-      job_id: {
+      id_job: {
         type: Sequelize.INTEGER
       },
       to: {

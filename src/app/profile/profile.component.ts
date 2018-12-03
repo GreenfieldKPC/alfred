@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JobService } from '../job.service'
 import { PhotoService } from '../photo.service'
 import { ProfileService } from '../profile.service'
@@ -18,19 +19,24 @@ export class ProfileComponent implements OnInit {
   imageUrl: any;
   public takenCount: Number;
   public postedCount: Number;
+  public rating: number;
   public defaultPhoto = "assets/images/non.png";
   public userPhoto: any;
 
   constructor(
+    config: NgbRatingConfig,
     private _jobService: JobService,
     private dashboardService: DashboardService,
     private _photoService: PhotoService,
     private _profileService: ProfileService,
     ) {
+    config.max = 5;
+    config.readonly = true;
     this.userPhoto = this.defaultPhoto;
     this.takenCount = 0;
     this.postedCount = 0;
     this.image;
+    this.rating = 5;
   }
   userInfo() {
     this.dashboardService.getUser()
