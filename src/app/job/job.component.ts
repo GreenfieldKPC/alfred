@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
+import { AddService } from '../add.service'
 import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,9 +35,10 @@ export class JobComponent implements OnInit {
   isClassHidden: false;
 
   constructor(
+    private _jobService: JobService,
+    private _addService: AddService,
     config: NgbRatingConfig,
     private modalService: NgbModal,
-    private _jobService: JobService,
     private _messageService: MessageService,
     private _photoService: PhotoService,
     private _profileService: ProfileService,
@@ -111,14 +113,34 @@ export class JobComponent implements OnInit {
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
   }
 
+  complete(payment) {
+    this._addService.payUser(payment).then((data) => {
+
+    }).catch(err => {
+      alert('Something went wrong!');
+    });
+  }
+
   completeJob(job) {
-    this._jobService.updateJobCompletion(job).then((data) => {
-      if (data === true) {
-        alert('Awesome! Job Completed!');
-      } else {
-        alert('There was a problem completing this job!');
-        console.log(data);
-      }
+    // verify photo upload first
+    let payout = job.payment * .85;
+    console.log(payout, " job line 80")
+    
+    this._addService.payUser(payout).then((payment) => {
+      console.log(payment);
+      // if (data === true) {
+      //   alert('Awesome! Job Completed!');
+      // } else {
+      //   alert('There was a problem completing this job!');
+      //   console.log(data);
+      // }
+      
+      // return this._jobService.updateJobCompletion(job);
+    }).then((payment) => {
+      //notify both users of payment and completion
+    }).catch((err) => {
+      alert('There was a problem completing this chore!');
+      console.log(err, 'problem completing this chore');
     });
   }
 
