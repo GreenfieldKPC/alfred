@@ -120,7 +120,7 @@
                   <div id="rating">
                     <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
                   <br>
-                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore)">Rate!</a> 
+                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'doer')">Rate!</a> 
                   </div>
                 </div>
                 <div class="col-xs-6">
@@ -154,7 +154,14 @@
                     <p class="payment">Amount paid: ${{ chore.payment }}</p>
                   </div>
                   <div class="col-xs-4">
-                    <p *ngIf="chore.completed"> Completed! </p>
+                    <div *ngIf="chore.completed">
+                      <p> Completed! </p>
+                      <div id="rating">
+                        <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
+                        <br>
+                        <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'poster')">Rate!</a>
+                      </div>
+                    </div>
                     <p *ngIf="!chore.completed"> Not done yet </p>
                   </div>
                 </div>
