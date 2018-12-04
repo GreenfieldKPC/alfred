@@ -489,7 +489,7 @@ app.get('/user/username/:id', (req, res) => {
 
 app.get('/user/rating/:id', (req, res) => {
   // query rating table for all with id, then return average
-  const q = `SELECT * FROM ratings WHERE to = '${req.params.id}';`
+  const q = `SELECT * FROM ratings WHERE id_to = '${req.params.id}';`
   db.sequelize.query(q, (err) => {
     if (err) {
       return res.json(400, {
@@ -505,7 +505,15 @@ app.get('/user/rating/:id', (req, res) => {
     console.log(data[0], 'user server line 425');
     // query rating table for all with id, then return average
     // return rating of user
-    res.send({rating: 5});
+    let ratings = data[0];
+    let count = ratings.length;
+    let total = ratings.reduce((total, rating) => {
+      total += rating.value;
+      return total;
+    }, 0);
+    let avg = ((50 + total) / (10 + count)).toFixed(1);
+
+    res.send({rating: avg});
   }).catch((err) => console.log(err));
 
 });
@@ -556,7 +564,7 @@ app.patch('/user/photo', (req, res) => {
 
 app.post('/user/rating', (req, res) => {
   console.log(req.body, 'rating body');
-  const q = `INSERT INTO ratings( value, id_job ) VALUES(${req.body.rating},${req.body.job})`;
+  const q = `INSERT INTO ratings(value, id_job, id_to, id_from ) VALUES(${req.body.rating},${req.body.job}, ${req.body.to}, ${req.session.userId})`;
   db.sequelize.query(q, (err) => {
     if (err) {
       return res.json(400, {
@@ -570,7 +578,11 @@ app.post('/user/rating', (req, res) => {
     }
   }).then((data) => {
     console.log(data);
-    }).catch(err => console.log(err))
+    res.end();
+    }).catch(err => {
+      console.log(err)
+      res.end();
+    })
 })
 // ******************************************************//
 
