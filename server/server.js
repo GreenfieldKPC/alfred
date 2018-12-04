@@ -616,6 +616,7 @@ app.post('/searchJobs', ((req, res) => {
 
 app.post('/photo', (req, res) => {
   console.log('hellllloooooo cloudinary')
+  console.log(req.body.image);
   cloudinary.v2.uploader.upload(req.body.image, {
     width: 500,
     height: 500,
