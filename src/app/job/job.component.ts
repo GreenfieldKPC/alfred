@@ -135,9 +135,15 @@ export class JobComponent implements OnInit {
     });
   }
 
-  submitRating(chore) {
+  submitRating(chore, user) {
+    let to;
+    if (user === 'doer') {
+      to = chore.poster
+    } else if (user === 'poster') {
+      to = chore.doer
+    }
     this._profileService.rateUser({ 
-      to: chore.poster, 
+      to: to, 
       rating: this.selected,
       job: chore.id
     }).then(() => {
