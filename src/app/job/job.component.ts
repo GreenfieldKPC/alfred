@@ -31,6 +31,7 @@ export class JobComponent implements OnInit {
   chats: Message;
   message: string;
   sending: boolean;
+  isClassHidden: false;
 
   constructor(
     config: NgbRatingConfig,
@@ -110,12 +111,12 @@ export class JobComponent implements OnInit {
       return this._profileService.getUserRating(id);
     }).then((rating) => {
       // display chore poster rating on chore
-
+      this.choreRating = rating.rating;
+      this.selected = rating.rating;
       return this._profileService.getUserPhoto(id);
     }).then((photo) => {
       // display chore poster photo on chore
       if (photo.url !== undefined && photo.url !== 'undefined') {
-        console.log('new photo!')
         this.chorePhoto = photo.url;
       } else {
         this.chorePhoto = this.defaultPhoto;
@@ -130,8 +131,8 @@ export class JobComponent implements OnInit {
       to: chore.poster, 
       rating: this.selected,
       job: chore.id
-    }).then((data) => {
-      console.log(data);
+    }).then(() => {
+      alert('Success!');
     }).catch((err) => {
       alert('Error sending rating')
       console.log(err);
