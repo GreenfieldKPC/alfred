@@ -502,7 +502,6 @@ app.get('/user/rating/:id', (req, res) => {
       console.log('success');
     }
   }).then((data) => {
-    console.log(data[0], 'user server line 425');
     // query rating table for all with id, then return average
     // return rating of user
     let ratings = data[0];
