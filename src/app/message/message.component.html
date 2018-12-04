@@ -1,16 +1,16 @@
 
   <div class="container">
-    <div *ngFor="let user of users; let i = index " >
-      <div (click)="read(user)">
+    <div [class.active]="active === i" (click)="onClick(i)" *ngFor="let user of users; let i = index " >
+      <!-- <div (click)="read(user)"> -->
         <h1 >{{user.username}}</h1>
-        <div *ngIf='string'>
+        <div *ngIf='i - 1'>
           <div class="container">
             <div *ngFor="let me of box">
               {{me.text}}
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
       
       
 

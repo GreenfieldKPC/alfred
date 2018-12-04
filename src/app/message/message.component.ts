@@ -12,6 +12,7 @@ interface Message {
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent {
+  active:number;
   string: string;
   chats: Message;
   message: string;
@@ -60,6 +61,11 @@ export class MessageComponent {
         console.log(this.messagesTo, 'to');
       });
   }
+  onClick(index) {
+    console.log(index);
+    this.active = index;
+    this.read(this.users[index]);
+  }
   sendMessage(id) {
     console.log(id);
     this.chats = {
@@ -91,9 +97,8 @@ export class MessageComponent {
     // this.box.read = this.isRead;
   }
   read(ev) {
-    console.log(ev);
     this.filterMess(ev.username);
-    this.selectedUser(ev.username);
+    // this.selectedUser(ev.username);
     console.log(this.box);
     this.isRead = !this.isRead;
     if (this.isRead === false){
@@ -101,9 +106,9 @@ export class MessageComponent {
     }
     
   }
-  selectedUser(name) {
-    this.string = name;
-  }
+  // selectedUser(name) {
+  //   this.string = name;
+  // }
   ngOnInit() {
     this.getMess();
   }
