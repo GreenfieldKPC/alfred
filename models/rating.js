@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     value: DataTypes.INTEGER,
-    job: DataTypes.INTEGER,
+    id_job: DataTypes.INTEGER,
     to: DataTypes.INTEGER,
     from: DataTypes.INTEGER
   }, {});

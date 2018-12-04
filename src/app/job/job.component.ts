@@ -22,6 +22,8 @@ export class JobComponent implements OnInit {
   public jobsTaken;
   public jobsPosted;
   public choreRating: number;
+  public selected: number;
+  public hovered: number;
   public choreUsername: string;
   public chorePhoto: any;
   public logo = "assets/images/logo.png";
@@ -43,6 +45,8 @@ export class JobComponent implements OnInit {
     this.jobsTaken = [];
     this.jobsPosted = [];
     this.choreRating = 5;
+    this.selected = this.choreRating;
+    this.hovered = this.choreRating;
     this.choreUsername = '';
     this.chorePhoto = this.defaultPhoto;
    }
@@ -113,12 +117,25 @@ export class JobComponent implements OnInit {
       if (photo.url !== undefined && photo.url !== 'undefined') {
         console.log('new photo!')
         this.chorePhoto = photo.url;
-      } 
+      } else {
+        this.chorePhoto = this.defaultPhoto;
+      }
     }).catch((err) => {
       console.log(err);
     });
   }
 
-  
+  submitRating(chore) {
+    this._profileService.rateUser({ 
+      to: chore.poster, 
+      rating: this.selected,
+      job: chore.id
+    }).then((data) => {
+      console.log(data);
+    }).catch((err) => {
+      alert('Error sending rating')
+      console.log(err);
+    });
+  }
 
 }

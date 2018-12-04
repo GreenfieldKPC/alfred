@@ -14,7 +14,7 @@ import { MessageComponent } from './message/message.component';
 import { JobComponent } from './job/job.component';
 import { HelpComponent } from './help/help.component';
 import { EmployeeComponent } from './employee/employee.component';
-
+import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 
 const routes: Routes = [
   { path: '', component: SplashComponent },
@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: 'job', component: JobComponent },
   { path: 'help', component: HelpComponent },
   { path: 'employee', component: EmployeeComponent },
+  { path: 'employee-login', component: EmployeeLoginComponent },
 
 ];
 
