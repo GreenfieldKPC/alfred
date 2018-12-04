@@ -120,7 +120,7 @@
                   <div id="rating">
                     <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
                   <br>
-                    <a (click)="submitRating(chore)">Rate!</a> 
+                    <a class="'rating' + chore.id" (click)="submitRating(chore)">Rate!</a> 
                   </div>
                 </div>
                 <div class="col-xs-6">

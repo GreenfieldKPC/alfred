@@ -110,7 +110,8 @@ export class JobComponent implements OnInit {
       return this._profileService.getUserRating(id);
     }).then((rating) => {
       // display chore poster rating on chore
-
+      this.choreRating = rating.rating;
+      this.selected = rating.rating;
       return this._profileService.getUserPhoto(id);
     }).then((photo) => {
       // display chore poster photo on chore
@@ -131,7 +132,10 @@ export class JobComponent implements OnInit {
       rating: this.selected,
       job: chore.id
     }).then((data) => {
+      let rating = document.getElementsByClassName(`rating${chore.id}`);
+      // rating.css = 'none';
       console.log(data);
+      alert('Success!');
     }).catch((err) => {
       alert('Error sending rating')
       console.log(err);
