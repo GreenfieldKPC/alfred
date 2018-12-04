@@ -4,8 +4,7 @@ import { AddService } from '../add.service'
 import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileService } from '../profile.service'
-
+import { ProfileService } from '../profile.service';
 interface Message {
   userid: number;
   message: string;
@@ -19,7 +18,8 @@ interface Message {
 })
 
 export class JobComponent implements OnInit {
-
+  private lat: any;
+  private lon: any;
   public jobsTaken;
   public jobsPosted;
   public choreRating: number;
@@ -52,8 +52,62 @@ export class JobComponent implements OnInit {
     this.hovered = this.choreRating;
     this.choreUsername = '';
     this.chorePhoto = this.defaultPhoto;
-   }
+  }
+  getPosition = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        resolve(position.coords);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+  selectedFile = null;
 
+  onFileSelected(event) {
+    this.selectedFile = event.target.files[0].url;
+  }
+  distance(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+      return 0;
+    }
+    else {
+      const radlat1 = Math.PI * lat1 / 180;
+      const radlat2 = Math.PI * lat2 / 180;
+      const theta = lon1 - lon2;
+      const radtheta = Math.PI * theta / 180;
+      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180 / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit == "K") { dist = dist * 1.609344 }
+      if (unit == "N") { dist = dist * 0.8684 }
+      return dist;
+    }
+  }
+  onUpload(chore) {
+    this.getPosition().then((coords) => {
+      this.lat = coords['latitude'];
+      this.lon = coords['longitude'];
+      let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
+      if(radius > 2.5) {
+        alert('to far away');
+      } else {
+        alert('ok');
+        this._photoService.uploadPhoto(this.selectedFile)
+          .then((data) => {
+            console.log(data);
+            if (data === true) {
+              this._jobService.updateJobCompletion(chore.id)
+            } 
+        });
+      }
+    });
+    console.log(this.selectedFile);
+  }
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
@@ -105,13 +159,13 @@ export class JobComponent implements OnInit {
     });  
   }
 
-  uploadPhoto(chore, photo) {
-    //must open camera of mobile device and upload the picture taken
-    // must save chore id with photo to recall for later use
-    this._photoService.uploadPhoto(photo).then((data) => {
-      console.log(data);
-    });
-  }
+  // uploadPhoto(chore, photo) {
+  //   //must open camera of mobile device and upload the picture taken
+  //   // must save chore id with photo to recall for later use
+  //   this._photoService.uploadPhoto(photo).then((data) => {
+  //     console.log(data);
+  //   });
+  // }
 
   navigate(chore) {
     // upen google maps with directions to chore address
