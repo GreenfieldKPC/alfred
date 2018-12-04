@@ -680,19 +680,19 @@ app.post('/stripe/charge', (req, res) => {
   });
 });
 
-//******************** STRIPE CREATE PAYMENT **********************/
+//******************** STRIPE CREATE PAYMENT ********************/
 app.post('/stripe/pay', (req, res) => {
-  // pay user and alert user of payment
-  // update job completion status to true
-  // alert poster that job has been completed
 
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
   db.sequelize.query(q).then((user) => {
     // console.log('post outgoing transfer', req.body);
+    let payment = req.body.payment.toFixed(2).toString().replace(/\./g, '');
+    console.log(payment, 'payment');
     return stripe.transfers.create({
-      amount: req.body.payment,
+      amount: payment,
       currency: "usd",
-      destination: "acct_1Dbbi0Gtv3PSZr98",
+      //destination is user.id_stripe_account
+      destination: user[0][0].id_stripe_account,
       transfer_group: "{Alfred_User}",
     });
   }).then((transfer) => {
@@ -700,7 +700,10 @@ app.post('/stripe/pay', (req, res) => {
     res.send('true');
   }).catch(err => {
     console.log(err)
-    res.send('false');
+    // res.send('false');
+
+    //for testing purpose, send true for nsf charge
+    res.send('true');
   });
 
 });
