@@ -681,9 +681,6 @@ app.post('/stripe/charge', (req, res) => {
 
 //******************** STRIPE CREATE PAYMENT **********************/
 app.post('/stripe/pay', (req, res) => {
-  // pay user and alert user of payment
-  // update job completion status to true
-  // alert poster that job has been completed
 
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
   db.sequelize.query(q).then((user) => {
