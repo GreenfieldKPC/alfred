@@ -21,6 +21,7 @@ const path = require('path');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const request = require('request');
 
 cloudinary.config({
   cloud_name: process.env.cloud_name,
@@ -113,7 +114,7 @@ app.post('/signUp', (req, res) => {
           db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
             if ((user[0][0] === undefined || user[0][0].id === undefined)) {
               db.sequelize.query(
-                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category,is_employee)
+                `INSERT INTO users (username, name_first, name_last, phone, email, id_stripe_customer, picture, id_area, hashed_password,id_category,is_employee)
                  VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}','${false}')`,
                 function (err) {
                   if (err) {
@@ -141,7 +142,7 @@ app.post('/signUp', (req, res) => {
       area_id = area[0][0].id
       db.sequelize.query(` SELECT * FROM users WHERE username = '${req.body.username.toLowerCase()}';`).then((user) => {
         if ((user[0][0] === undefined || user[0][0].id === undefined)) {
-          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe, picture, id_area, hashed_password,id_category,is_employee)
+          db.sequelize.query(`INSERT INTO users (username, name_first, name_last, phone, email, id_stripe_customer, picture, id_area, hashed_password,id_category,is_employee)
           VALUES ('${req.body.username}','${req.body.firstName}','${req.body.lastName}','${req.body.phone}','${req.body.email}','${req.body.stripeId}','${req.body.image}','${area_id}','${userPassword}','${req.body.category}','${false}')`,
             function (err) {
               if (err) {
@@ -343,7 +344,6 @@ app.patch("/dashboard/takeChore", (req, res) => {
       console.log('success');
     }
   }).then((data) => {
-    console.log(data);
     // add check for doer id not assigned already
 
     if (data[1].rowCount > 0) {
@@ -666,7 +666,9 @@ app.post('/stripe/charge', (req, res) => {
     return stripe.charges.create({
       amount: req.body.payment,
       currency: 'usd',
-      customer: user[0][0].id_stripe, // id from customer object
+      customer: user[0][0].id_stripe_customer, // id from customer object
+      // source: "tok_visa",
+      transfer_group: "{Alfred_User}",
     });
   }).then((charge) => {
     console.log('charge:', charge)
@@ -678,25 +680,76 @@ app.post('/stripe/charge', (req, res) => {
 });
 
 //******************** STRIPE CREATE PAYMENT **********************/
-app.post('stripe/pay', (req, res) => {
-  // maybe have to wait until job is complete before creating initial charge for poster?
+app.post('/stripe/pay', (req, res) => {
   // pay user and alert user of payment
   // update job completion status to true
   // alert poster that job has been completed
 
-  // stripe.charges.create({
-  //   amount: 1000,
-  //   currency: "usd",
-  //   source: "tok_visa",
-  //   destination: {
-  //     account: "{CONNECTED_STRIPE_ACCOUNT_ID}",
-  //   },
-  // }).then(function (charge) {
-  //   // asynchronously called
-  // });
+  const q = `SELECT * from users WHERE id = ${req.session.userId}`;
+  db.sequelize.query(q).then((user) => {
+    // console.log('post outgoing transfer', req.body);
+    return stripe.transfers.create({
+      amount: req.body.payment,
+      currency: "usd",
+      destination: "acct_1Dbbi0Gtv3PSZr98",
+      transfer_group: "{Alfred_User}",
+    });
+  }).then((transfer) => {
+    console.log('transfer:', transfer)
+    res.send('true');
+  }).catch(err => {
+    console.log(err)
+    res.send('false');
+  });
+
 });
 
 //******************************************/
+
+//************** STRIPE REDIRECT **********/
+app.get('/oauth/callback', (req, res) => {
+  var code = req.query.code;
+  console.log('code: ', code)
+  // Make /oauth/token endpoint POST request
+  request.post({
+    url: `https://connect.stripe.com/oauth/token?client_secret=sk_test_9sVeSfkTNBDozqwFlDTzavxt&code=${code}&grant_type=authorization_code`,
+    form: {
+      grant_type: 'authorization_code',
+      client_id: 'ca_E5tfHJicmsEM7yImGKJv30DqYfd2koHB',
+      code: code,
+      client_secret: 'sk_test_9sVeSfkTNBDozqwFlDTzavxt',
+    }
+  }, function (err, r, body) {
+    console.log(body, 'body')
+    var accessToken = JSON.parse(body).access_token;
+    console.log('access: ', accessToken)
+    // Do something with your accessToken
+    // save token to user in database
+    console.log(JSON.parse(body).stripe_user_id, 'stripe account id');
+
+    const q = `UPDATE users SET id_stripe_account='${JSON.parse(body).stripe_user_id}' WHERE id='${req.session.userId}'`;
+    db.sequelize.query(q).then((data) => {
+      console.log(data);
+      if (data[1].rowCount > 0) {
+        //success redirect back to profile page
+        res.redirect('/');
+      } else {
+        // error, redirect to profile page?
+        res.redirect('/');
+      }
+    }).catch((err) => {
+      console.log(err);
+      return res.json(400, {
+        response: {
+          code: 400,
+          message: 'An error creating account with Stripe!'
+        }
+      });
+    })
+  });
+});
+
+//****************************************** */
 
 
 // ***********Submitting a complaint*****************//
