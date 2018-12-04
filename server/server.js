@@ -680,7 +680,7 @@ app.post('/stripe/charge', (req, res) => {
   });
 });
 
-//******************** STRIPE CREATE PAYMENT **********************/
+//******************** STRIPE CREATE PAYMENT ********************/
 app.post('/stripe/pay', (req, res) => {
 
   const q = `SELECT * from users WHERE id = ${req.session.userId}`;
