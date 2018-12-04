@@ -115,6 +115,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   }
   
   onSubmit(e) {
+    //alert user must upload photo!
+    
     if (!this.customer) {
       alert('Please create account with Stripe to Sign up!')
     } else if (!this.image) {
