@@ -41,39 +41,19 @@ export class MessageComponent {
         this.messages = data;
         this.messagesFrom = this.messages[1];
         this.messagesTo = this.messages[0];
-        // this.messages[2].forEach((obj) => {
-        //   this.messagesFrom.forEach((ob) => {
-        //     if (obj.id === ob.id_from){
-        //       if(!this.users.hasOwnProperty(obj.username)) {
-        //         this.users.push(obj);
-
-        //       } else {
-        //         return;
-        //       }
-        //     }
-
-          // })
-        // });
         this.users = this.messages[2];
-        console.log(this.messages, 'data');
-        console.log(this.users, 'data');
-        console.log(this.messagesFrom, 'from');
-        console.log(this.messagesTo, 'to');
       });
   }
   onClick(index) {
-    console.log(index);
     this.active = index;
     this.read(this.users[index]);
   }
   sendMessage(id) {
-    console.log(id);
     this.chats = {
       userid: id,
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
     this.http.post('/message', this.chats).subscribe((data) => {
       console.log(data);
     })
@@ -99,7 +79,6 @@ export class MessageComponent {
   read(ev) {
     this.filterMess(ev.username);
     // this.selectedUser(ev.username);
-    console.log(this.box);
     this.isRead = !this.isRead;
     if (this.isRead === false){
       this.box = [];

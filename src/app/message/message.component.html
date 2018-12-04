@@ -1,7 +1,6 @@
 
   <div class="container">
     <div [class.active]="active === i" (click)="onClick(i)" *ngFor="let user of users; let i = index " >
-      <!-- <div (click)="read(user)"> -->
         <h1 >{{user.username}}</h1>
         <div *ngIf='i - 1'>
           <div class="container">
@@ -10,21 +9,6 @@
             </div>
           </div>
         </div>
-      <!-- </div> -->
-      
-      
-
-      
-      
-          <!-- <div *ngFor="let messageTo of messagesTo">
-            
-            <div>To: {{messageTo.text}}</div>
-          </div>
-          
-          <div *ngFor="let messageFrom of messagesFrom">
-            
-            <div>From: {{messageFrom.text}}</div> 
-          </div>  -->
           <ng-template #content let-c="close" let-d="dismiss">
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Message</h4>
@@ -45,7 +29,6 @@
           </ng-template>
           <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button>
         </div> 
-       
     
   </div>
 
