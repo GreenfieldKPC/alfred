@@ -365,14 +365,60 @@ app.post("/message", (req,res) => {
 
 app.get('/message', (req, res) => {
   const { userId } = req.session;
+  const mess = [];
+  let tos;
+  let fromm;
+  let userss;
   db.sequelize.query(`SELECT * FROM messages WHERE id_from = '${userId}';`)
     .then((to) => {
       console.log(to, 'message');
+      tos = to[0];
       db.sequelize.query(`SELECT * FROM messages WHERE id_to = '${userId}';`)
         .then((from) => {
+          fromm = from[0];
           db.sequelize.query(`SELECT * FROM users`)
             .then((users) => {
-              const message = [to[0], from[0]];
+              userss = users[0];
+              console.log('hello', [tos, fromm, userss], 'hello');
+              const too = tos.map((obj) => {
+                const result = {};
+                result.text = obj.text;
+                result.read = obj.read;
+                result.created = obj.created;
+                result.id_from = obj.id_from;
+                result.id_to = obj.id_to;
+                userss.forEach((user) => {
+                  
+                  if (Number(obj.id_from) === Number(user.id) && obj.id_from !==null) {
+                    result.id_from_username = user.username;
+                  }
+                  if (Number(obj.id_to) === Number(user.id) && obj.id_to !== null) {
+                    result.id_to_username = user.username;
+                  }
+                });
+                return result;
+              });
+              const froms = fromm.map((obj) => {
+                const result = {};
+                result.text = obj.text;
+                result.read = obj.read;
+                result.created = obj.created;
+                result.id_from = obj.id_from;
+                result.id_to = obj.id_to;
+                userss.forEach((user) => {
+
+                  if (Number(obj.id_from) === Number(user.id) && obj.id_from !== null) {
+                    result.id_from_username = user.username;
+                  }
+                  if (Number(obj.id_to) === Number(user.id) && obj.id_to !== null) {
+                    result.id_to_username = user.username;
+                  }
+                });
+                return result;
+              });
+              
+              const message = [too, froms];
+              console.log(message);
               message.push(users[0]);
               res.send(message);
 

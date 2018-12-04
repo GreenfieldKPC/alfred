@@ -10,7 +10,7 @@ import { AuthService } from './../auth/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  isUser: boolean;
+  isVisable: boolean = false;
   public isCollapse: boolean = false;
   isLoggedIn$: Observable<boolean>;
 
@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
     private http: HttpClient,
     private authService: AuthService
     ) { }
-
+  
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
   }
