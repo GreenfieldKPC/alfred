@@ -13,8 +13,11 @@
   max-height: 15vw;
   width: auto;
 }
+.collapse.show {
+  visibility: visible;
+}
 
-.chores {
+#chores {
   background-color: white;
   min-height: 75vh;
 }
@@ -32,23 +35,36 @@ li {
 
 h1, h3 {
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 h3 {
   text-align: center;
 }
 
-span {
+span:not(.close) {
   display: inline-block;
   width: 80vw;
   border: 2px solid #45CAA6;
 }
 
-.chore {
+.chore .col-md-12{
   text-align: left;
 }
 
 .payment {
   color: #F896EA;
+}
+
+#rating ngb-rating {
+  /* font-size: 1.5rem; */
+  color: yellow;
+}
+
+.profile {
+  text-align: center;
+}
+
+.hide {
+  display: none;
 }

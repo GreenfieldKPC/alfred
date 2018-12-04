@@ -64,7 +64,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
 
     })
   }
-  previewFile() {
+  processFile() {
     console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
@@ -119,6 +119,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     
     if (!this.customer) {
       alert('Please create account with Stripe to Sign up!')
+    } else if (!this.image) {
+      alert('Please upload profile pic!')
     } else {
       this.profileForm.value.category = this.selectedCategory
       this.username = e;

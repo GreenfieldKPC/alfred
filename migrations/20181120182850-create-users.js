@@ -37,7 +37,10 @@ module.exports = {
        },
        id_category: {
          type: Sequelize.INTEGER
-       }
+       },
+         is_employee: {
+         type: Sequelize.BOOLEAN
+       },
     });
   },
   down: (queryInterface, Sequelize) => {

@@ -9,6 +9,10 @@
   flex-grow: 1;
 }
 
+#splash-logo-container {
+  margin-top: 20vh;
+}
+
 #splash img {
   max-height: 50vw;
   min-height: 20px;
@@ -21,8 +25,14 @@
   border: 0;
   border-radius: 20px;
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
   font-size: 4vh;
   margin: 4vh;
   padding: 1vw 7vw 1vw 7vw;
+}
+
+a {
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 2vh;
+  color: #5A6978; 
 }

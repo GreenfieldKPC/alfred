@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
-import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 declare var google: any;
 
@@ -76,6 +76,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild(AgmMap) map: AgmMap;
   constructor(
     config: NgbModalConfig,
+    rateConfig: NgbRatingConfig,
     private modalService: NgbModal,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
@@ -84,12 +85,13 @@ export class DashboardComponent implements OnInit {
     ) {
     config.backdrop = 'static';
     config.keyboard = false;
+    rateConfig.max = 5;
+    rateConfig.readonly = true;
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
-      // console.log(this.geocoder);
     });
   }
   open(content) {
@@ -102,8 +104,9 @@ export class DashboardComponent implements OnInit {
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
-    this.message = undefined;
+    this.http.post('/message',this.chats).subscribe((data) => {
+    })
+    this.message = '';
   }
   addInfoWindow(marker, content, markerIndex) {
     google.maps.event.addListener(marker, 'click', () => {
@@ -145,7 +148,6 @@ export class DashboardComponent implements OnInit {
     this.geocoder.geocode({
       'address': address
     }, (results, status) => {
-      console.log(results);
       if (status == google.maps.GeocoderStatus.OK) {
         for (var i = 0; i < results[0].address_components.length; i++) {
           let types = results[0].address_components[i].types
@@ -214,7 +216,6 @@ export class DashboardComponent implements OnInit {
                   this.searchJob = data;
                   this.searchUser = this.searchJob.users;
                   this.searchJob = this.searchJob.jobs;
-                  console.log(this.searchUser);
                 })
               })
             })
@@ -239,7 +240,6 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
-      console.log(this.jobs);
       });
   }
   ngOnInit() {

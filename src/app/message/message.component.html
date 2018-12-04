@@ -1,28 +1,51 @@
-<p>
-  message works!
-</p>
-<header>
+
   <div class="container">
-  <ul>
-    <li><a >messages between users</a></li>
-    <li><a>messages between users</a></li>
-    <li><a>messages between users</a></li>
-  </ul>
-  </div>
-</header>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Message</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
+    <div *ngFor="let user of users; let i = index " >
+      <div (click)="read(user)">
+        <h1 >{{user.username}}</h1>
+        <div *ngIf='string'>
+          <div class="container">
+            <div *ngFor="let me of box">
+              {{me.text}}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+
+      
+      
+          <!-- <div *ngFor="let messageTo of messagesTo">
+            
+            <div>To: {{messageTo.text}}</div>
+          </div>
+          
+          <div *ngFor="let messageFrom of messagesFrom">
+            
+            <div>From: {{messageFrom.text}}</div> 
+          </div>  -->
+          <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Message</h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="sending">
+                {{chats.message}}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input class="form-control" [(ngModel)]="message">
+            </div>
+            <button class="btn btn-primary" (click)="sendMessage(user.id)">Send</button>
+          
+          </ng-template>
+          <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button>
+        </div> 
+       
     
   </div>
-  <div class="modal-footer">
-    <input class="form-control" [(ngModel)]="message">
-  </div>
-</ng-template>
 
-<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button>

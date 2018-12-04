@@ -1,0 +1,9 @@
+.avatar {
+  max-height: 20vh;
+}
+
+ngb-rating {
+  font-size: 1.5rem;
+  color: yellow;
+  
+}
