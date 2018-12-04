@@ -86,9 +86,6 @@ export class HelpComponent {
     this.complaintForm = this.formBuilder.group({
       // category: [''],
       description: [''],
-      address: [''],
-      city: [''],
-      zipcode: [''],
       // suggestedPay: [''],
       //time needs to be converted to timestamp
 
@@ -118,9 +115,8 @@ for(var i = 0; i < this.jobs.length; i++){
     console.log(this.selectedJob);
     this.complaintForm.value.electedCategory = this.selectedCategory
      console.log(this.complaintForm.value);
-     this.complaintForm.value.job = this.job;
-    var addr = this.complaintForm.value.address + "," + this.complaintForm.value.city + "," + this.complaintForm.value.zipcode
-    this.complaintForm.value.addr = addr;
+     
+    this.complaintForm.value.address = this.job.address  
     this.http.post('/category', { category: this.complaintForm.value.electedCategory} ).subscribe((category) =>{
       this.complaintForm.value.category = category[0].id
     this.http.post('/photo', { image: this.image }).subscribe((image) => {
@@ -128,6 +124,7 @@ for(var i = 0; i < this.jobs.length; i++){
       this.imageUrl = this.image.url;
       this.complaintForm.value.image = this.imageUrl
       console.log(this.imageUrl)
+      console.log(this.complaintForm.value)
       this.http.post('/complaint',this.complaintForm.value).subscribe((data) =>{
         console.log(data)
       })

@@ -11,23 +11,15 @@ module.exports = {
       value: {
         type: Sequelize.INTEGER
       },
-      job_id: {
+      id_job: {
         type: Sequelize.INTEGER
       },
-      to: {
+     id_to: {
         type: Sequelize.INTEGER
       },
-      from: {
+      id_from: {
         type: Sequelize.INTEGER
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: (queryInterface, Sequelize) => {

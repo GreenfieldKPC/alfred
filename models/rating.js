@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     value: DataTypes.INTEGER,
-    job: DataTypes.INTEGER,
-    to: DataTypes.INTEGER,
-    from: DataTypes.INTEGER
+    id_job: DataTypes.INTEGER,
+   id_to: DataTypes.INTEGER,
+    id_from: DataTypes.INTEGER
   }, {});
   rating.associate = function(models) {
     // associations can be defined here

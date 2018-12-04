@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+
 // const users = require('./models/users')()
 const db = require('../models');
 const passport = require('passport');
@@ -573,7 +574,8 @@ app.post('/stripe/charge', (req, res) => {
 // ***********Submitting a complaint*****************//
 app.post('/complaint',(req,res)=>{
   console.log(req.session);
-  db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
+  console.log(req.body);
+  // db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
 })
 // {
 //   description: 'okfnb',
@@ -604,6 +606,15 @@ db.sequelize.query(`SELECT * FROM complaints`).then((complaints) =>{
 
 
 // ****************************************************//
+
+// **************************handling lex endpoint****//
+app.post('/lex',(req,res) =>{
+  
+})
+
+
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
