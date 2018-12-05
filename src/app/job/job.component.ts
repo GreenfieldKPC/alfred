@@ -5,6 +5,7 @@ import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profile.service';
+import { HttpClient } from '@angular/common/http';
 interface Message {
   userid: number;
   message: string;
@@ -42,6 +43,7 @@ export class JobComponent implements OnInit {
     private _messageService: MessageService,
     private _photoService: PhotoService,
     private _profileService: ProfileService,
+    private http: HttpClient,
     ) {
     config.max = 5;
     config.readonly = true;
@@ -62,10 +64,23 @@ export class JobComponent implements OnInit {
       });
     });
   }
+  image:any;
+  imageFile:any;
   selectedFile = null;
+  processFile() {
+    console.log('its firing')
+    var files = (<HTMLInputElement>document.getElementById('photo')).files
+    this.imageFile = files[0]
+    var reader = new FileReader();
 
-  onFileSelected(event) {
-    this.selectedFile = event.target.files[0];
+    reader.addEventListener("load", () => {
+      this.image = reader.result;
+    }, false);
+
+    if (this.imageFile) {
+      reader.readAsDataURL(this.imageFile);
+    }
+
   }
   distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -88,16 +103,17 @@ export class JobComponent implements OnInit {
       return dist;
     }
   }
-  onUpload(chore) {
+  onUpload(chore, image) {
     this.getPosition().then((coords) => {
       this.lat = coords['latitude'];
       this.lon = coords['longitude'];
       let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
       if(radius > 2.5) {
         alert('to far away');
-      } else {
+      } 
+      else {
         alert('ok');
-        this._photoService.uploadPhoto(this.selectedFile)
+        this._photoService.uploadPhoto(image)
           .then((data) => {
             console.log(data);
             if (data === true) {
@@ -106,7 +122,6 @@ export class JobComponent implements OnInit {
         });
       }
     });
-    console.log(this.selectedFile);
   }
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
@@ -181,7 +196,10 @@ export class JobComponent implements OnInit {
   }
 
   delete(chore) {
-    // delete request to jobs endpoint
+ this.http.post('delete/job',chore).subscribe((data)=>{
+   console.log(data)
+ })
+  
   }
   getJobPoster(id) {
      // display user photo, rating, username in job description

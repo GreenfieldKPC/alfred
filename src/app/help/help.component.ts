@@ -65,9 +65,9 @@ export class HelpComponent {
   ngOnInit(e) {
     this.jobs = [];
     this._jobService.getUserJobsTaken().then(data => {
-   for (var job in data){
-     this.jobs.push(data[job])
-   }
+    for (var job in data){
+      this.jobs.push(data[job])
+    }
       
     });
     this._jobService.getUserJobsPosted().then(data => {
@@ -77,7 +77,6 @@ export class HelpComponent {
       ;
       for (var i = 0; i < this.jobs.length; i++) {
         this.jobsList.push(this.jobs[i].title)
-       
       }
     });
   

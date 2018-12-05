@@ -47,6 +47,15 @@ export class MessageComponent {
   onClick(index) {
     this.active = index;
     this.read(this.users[index]);
+    
+  }
+  keep() {
+    var x = document.getElementById('messagebox');
+    if (x.style.display === 'none') {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
   }
   sendMessage(id) {
     this.chats = {

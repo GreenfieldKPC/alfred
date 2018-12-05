@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-
 aws4 = require('aws4')
 // import entire SDK
 var AWS = require('aws-sdk');
@@ -26,7 +25,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');;
+const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -226,6 +225,7 @@ app.post('/login/employee', function (req, res, next) {
       });
       return res.end();
     } else if (!user.is_employee) {
+      console.log(user)
       console.log('User is not an employee!');
       res.json({
         message: 'User is not an employee!'
@@ -348,28 +348,29 @@ app.patch('/jobs/complete', (req, res) => {
 
 //********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
+  console.log(req.body)
   // console.log(req.body, '///', req.session.userId);
-  const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
-  db.sequelize.query(q, (err) => {
-    if (err) {
-      return res.json(400, {
-        response: {
-          code: 400,
-          message: 'An error addding job to your profile.'
-        }
-      });
-    } else {
-      console.log('success');
-    }
-  }).then((data) => {
-    // add check for doer id not assigned already
+  // const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
+  // db.sequelize.query(q, (err) => {
+  //   if (err) {
+  //     return res.json(400, {
+  //       response: {
+  //         code: 400,
+  //         message: 'An error addding job to your profile.'
+  //       }
+  //     });
+  //   } else {
+  //     console.log('success');
+  //   }
+  // }).then((data) => {
+  //   // add check for doer id not assigned already
 
-    if (data[1].rowCount > 0) {
-      res.send(true);
-    } else {
-      res.send(false);
-    }
-  }).catch((err) => console.log(err));
+  //   if (data[1].rowCount > 0) {
+  //     res.send(true);
+  //   } else {
+  //     res.send(false);
+  //   }
+  // }).catch((err) => console.log(err));
 });
 //***********************************************//
 //********************posting message to database*********//
@@ -745,12 +746,7 @@ app.get('/oauth/callback', (req, res) => {
   // Make /oauth/token endpoint POST request
   request.post({
     url: `https://connect.stripe.com/oauth/token?client_secret=sk_test_9sVeSfkTNBDozqwFlDTzavxt&code=${code}&grant_type=authorization_code`,
-    form: {
-      grant_type: 'authorization_code',
-      client_id: 'ca_E5tfHJicmsEM7yImGKJv30DqYfd2koHB',
-      code: code,
-      client_secret: 'sk_test_9sVeSfkTNBDozqwFlDTzavxt',
-    }
+
   }, function (err, r, body) {
     console.log(body, 'body')
     var accessToken = JSON.parse(body).access_token;
