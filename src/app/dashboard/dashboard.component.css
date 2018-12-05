@@ -20,4 +20,9 @@ border: 1px solid #5A6978;
 #info {
   border: 3px solid #5A6978;
   background-color: white;
+  min-height: 40vh;
+}
+
+#choreImage {
+  height: 10vh;
 }
