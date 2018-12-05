@@ -69,3 +69,35 @@ span:not(.close) {
 .hide {
   display: none;
 }
+
+.help, .complete {
+  background-color: #F896EA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
+}
+
+.messageBtn, .edit {
+  background-color: #969FAA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
+}
+.delete, .nav {
+  background-color: #45CAA6;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
+}

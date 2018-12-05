@@ -56,13 +56,13 @@
               <div class="col-xs-12">
                 <div class="col-xs-12"> <p>{{ chore.description }}</p> </div>
                 <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)="open(content)">message</button>
+                  <button type="button" class="btn btn-info messageBtn" (click)="open(content)">message</button>
                 </div>
                 <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)='navigate(chore)'>navigate</button>
+                  <button type="button" class="btn btn-info nav" (click)='navigate(chore)'>navigate</button>
                 </div>
                 <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)='completeJob(chore)'>Complete!</button>
+                  <button type="button" class="btn btn-info complete" (click)='completeJob(chore)'>Complete!</button>
                 </div>
               </div>
 
@@ -126,11 +126,11 @@
                   <div id="rating">
                     <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
                   <br>
-                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'doer')">Rate!</a> 
+                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'doer')">Rate Chore!</a> 
                   </div>
                 </div>
                 <div class="col-xs-6">
-                  <button type="button" class="btn btn-info" (click)='help(chore)'>Help</button>
+                  <button type="button" class="btn btn-info help" routerLink="/help">Help</button>
                 </div>
               </div>
             </div>
@@ -165,7 +165,7 @@
                       <div id="rating">
                         <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
                         <br>
-                        <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'poster')">Rate!</a>
+                        <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'poster')">Rate Chore!</a>
                       </div>
                     </div>
                     <p *ngIf="!chore.completed"> Not done yet </p>
@@ -181,8 +181,9 @@
                   <p>{{ chore.description }}</p>
                 </div>
                 <div class="col-xs-6">
-                  <button type="button" class="btn btn-info" (click)="edit(chore)">Edit</button>
-                  <button type="button" class="btn btn-info" (click)='delete(chore)'>Delete</button>
+                  <button type="button" class="btn btn-info edit" (click)="edit(chore)">Edit</button>
+                  <button type="button" class="btn btn-info delete" (click)='delete(chore)'>Delete</button>
+                  <button type="button" class="btn btn-info help" routerLink="/help">Help</button>
                 </div>
               </div>
             </div>

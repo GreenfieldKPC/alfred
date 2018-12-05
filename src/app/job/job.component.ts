@@ -128,41 +128,38 @@ export class JobComponent implements OnInit {
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
   }
 
-  complete(payment) {
-    this._addService.payUser(payment).then((data) => {
-
-    }).catch(err => {
-      alert('Something went wrong!');
-    });
-  }
-
   completeJob(job) {
     // verify photo upload first
-    let payout = job.payment * .85;
-    console.log(payout, " job line 80")
+    if (job.photo) {
+      let payout = job.payment * .85;
+      console.log(payout, " job line 80")
 
-    this._addService.payUser(payout).then((payment) => {
-      console.log(payment);
-      if (payment === true) {
-        alert('Awesome! Job Completed!');
-      } else {
-        alert('There was a problem completing this job!');
-        // console.log(data);
-      }
+      this._addService.payUser(payout).then((payment) => {
+        console.log(payment);
+        if (payment === true) {
+          //send message upon payment
+          alert('Awesome! Job Completed!');
+        } else {
+          alert('There was a problem completing this job!');
+          // console.log(data);
+        }
 
-      return this._jobService.updateJobCompletion(job);
-    }).then((job) => {
-      //notify both users of payment and completion
-      if (job === true) {
-        alert('Awesome! Job Completed!');
-      } else {
-        alert('There was a problem completing this job!');
-        // console.log(data);
-      }
-    }).catch((err) => {
-      alert('There was a problem completing this chore!');
-      console.log(err, 'problem completing this chore');
-    });
+        return this._jobService.updateJobCompletion(job);
+      }).then((job) => {
+        //notify both users of payment and completion
+        if (job === true) {
+          alert('Awesome! Job Completed!');
+        } else {
+          alert('There was a problem completing this job!');
+          // console.log(data);
+        }
+      }).catch((err) => {
+        alert('There was a problem completing this chore!');
+        console.log(err, 'problem completing this chore');
+      });
+    } else {
+      alert('Please upload photo');
+    }  
   }
 
   open(content) {
