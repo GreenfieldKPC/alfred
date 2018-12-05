@@ -84,13 +84,8 @@ export class HelpComponent {
 
  console.log(this.jobsList)
     this.complaintForm = this.formBuilder.group({
-      // category: [''],
-      description: [''],
-      address: [''],
-      city: [''],
-      zipcode: [''],
-      // suggestedPay: [''],
-      //time needs to be converted to timestamp
+      title: [''],
+    
 
     })
     this.selectedCategory = e;
@@ -110,29 +105,10 @@ export class HelpComponent {
     });
   }
   addComplaint() {
-for(var i = 0; i < this.jobs.length; i++){
-  if (this.selectedJob === this.jobs[i].title){
-    this.job = this.jobs[i]
-  }
-}
-    console.log(this.selectedJob);
-    this.complaintForm.value.electedCategory = this.selectedCategory
-     console.log(this.complaintForm.value);
-     this.complaintForm.value.job = this.job;
-    var addr = this.complaintForm.value.address + "," + this.complaintForm.value.city + "," + this.complaintForm.value.zipcode
-    this.complaintForm.value.addr = addr;
-    this.http.post('/category', { category: this.complaintForm.value.electedCategory} ).subscribe((category) =>{
-      this.complaintForm.value.category = category[0].id
-    this.http.post('/photo', { image: this.image }).subscribe((image) => {
-      this.image = image
-      this.imageUrl = this.image.url;
-      this.complaintForm.value.image = this.imageUrl
-      console.log(this.imageUrl)
-      this.http.post('/complaint',this.complaintForm.value).subscribe((data) =>{
-        console.log(data)
-      })
-    });
-  })
+console.log(this.complaintForm.value)
+this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
+  console.log(data);
+})
   }
 }
 
