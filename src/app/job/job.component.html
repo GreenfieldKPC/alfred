@@ -7,74 +7,185 @@
       <img src="{{logo}}">
     </div>
   </div>
-
-  <div class="col-md-12 chores">
-    <ul>
+<div id='chores'>
+  <div id="accordionT row">
       <h3>To-Do</h3>
-      <li *ngFor="let chore of jobsTaken" class="chore">
-        <div *ngIf="!chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <a>{{ chore.description }}</a>
+      <p *ngIf='!jobsTaken[0]'> None Yet!</p>
+      <div class="card chore" [attr.id]="'accordionT_' + i" *ngFor="let chore of jobsTaken; let i = index;">
+        <div *ngIf="!chore.completed" class="panel panel-default">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" (click)="getJobPoster(chore.poster)" [attr.data-parent]="'#accordionT_' + i" [attr.href]="'#collapseOneT_' + i">
+                  <div *ngIf="!chore.completed" class="col-md-12">
+                    <div class="col-xs-8">
+                      <a>{{ chore.title }}</a>
+                    </div>
+                    <div class="col-xs-4">
+                      Date Posted
+                    </div>
+                  </div>
+                  <div *ngIf="!chore.completed" class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.address }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                    </div>
+                  </div>
+                </button>
           </div>
-          <div class="col-xs-4">
-            Date Posted
+          <div [attr.id]="'collapseOneT_' + i" class="collapse in row">
+            <div *ngIf="!chore.completed" class="card-body col-md-12">
+              <div class="col-xs-12">
+                <div class="col-xs-6 profile">
+                  <img src="{{ chorePhoto }}">
+                  <div id="rating">
+                    <ngb-rating [(rate)]="choreRating"></ngb-rating>
+                    <p>{{ choreUsername }}</p>
+                  </div>  
+                </div>
+                <div class="col-xs-6">
+                  <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" (change)="onFileSelected($event)">
+                  <button type="button" class="btn btn-info" (click)="onUpload(chore)">Upload Pic!</button>
+                  <!-- <input type="file" accept="image/*" capture="capture"> -->
+                  <!-- <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button> -->
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-12"> <p>{{ chore.description }}</p> </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)="open(content)">message</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='navigate(chore)'>navigate</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info" (click)='completeJob(chore)'>Complete!</button>
+                </div>
+              </div>
+
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Message</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span class="close"aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="chatbox">
+                    <div *ngIf="sending">
+                      {{chats.message}}
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(chore.poster)">
+                </div>
+                <button class="btn btn-primary" (click)="sendMessage(chore.poster)">Send</button>
+              </ng-template>
+
+            </div>
           </div>
         </div>
-        <div *ngIf="!chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.address }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p class="payment">Available earnings: ${{ chore.payment }}</p>
-          </div>
-        </div> 
-      </li>
-    </ul>
-    <p *ngIf='!jobsTaken[0]'> None Yet!</p>
-    <ul *ngIf='jobsTaken[0]'>
-      <h3>Completed</h3>
-      <li *ngFor="let chore of jobsTaken" class="chore">
-        <div *ngIf="chore.completed" class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.description }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p>Date Posted</p>
-          </div>
-        </div>
-        <div *ngIf="chore.completed" class="col-md-12" >
-          <div class="col-xs-8">
-            <p>{{ chore.address }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p class="payment">Amount earned: ${{ chore.payment }}</p>
-          </div>
-        </div> 
-      </li>
-    </ul>
-    <span></span>
-    <ul>
-      <h3>Posted</h3>
-      <li *ngFor="let chore of jobsPosted" class="chore">
-        <div class="col-md-12">
-          <div class="col-xs-8">
-            <p>{{ chore.description }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p>Date Posted</p>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="col-xs-8">
-            <p class="payment">Amount paid: ${{ chore.payment }}</p>
-          </div>
-          <div class="col-xs-4">
-            <p *ngIf="chore.completed"> Completed! </p>
-            <p *ngIf="!chore.completed"> Not done yet </p>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <p *ngIf='!jobsPosted[0]'> None Yet!</p>
+      </div>
   </div>
+<span *ngIf='jobsTaken[0]'></span>
+
+    <div id="accordionC row">
+      <h3 *ngIf='jobsTaken[0]'>Completed</h3>
+      <div  class="card chore" [attr.id]="'accordionC_' + i" *ngFor="let chore of jobsTaken; let i = index;">
+        <div class="panel panel-default" *ngIf="chore.completed">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" (click)="getJobPoster(chore.poster)"  [attr.data-parent]="'#accordionC_' + i" [attr.href]="'#collapseOneC_' + i">
+                  <div class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.title }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p>Date Posted</p>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="col-xs-8">
+                      <p>{{ chore.address }}</p>
+                    </div>
+                    <div class="col-xs-4">
+                      <p class="payment">Amount earned: ${{ chore.payment }}</p>
+                    </div>
+                  </div>
+                </button>
+          </div>
+          <div [attr.id]="'collapseOneC_' + i" class="collapse in row">
+            <div class="card-body col-md-12">
+              <div class="col-xs-12">
+                <div class="col-xs-6 profile">
+                  <p>{{ choreUsername }}</p>
+                  <img src="{{ chorePhoto }}">
+                  <div id="rating">
+                    <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
+                  <br>
+                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'doer')">Rate!</a> 
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info" (click)='help(chore)'>Help</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <span></span>
+
+    <div id="accordionP row">
+      <h3>Posted</h3>
+      <p *ngIf='!jobsPosted[0]'> None Yet!</p>
+      <div class="card chore" [attr.id]="'accordionP_' + i" *ngFor="let chore of jobsPosted; let i = index;">
+        <div class="panel panel-default">
+          <div class="card-header">
+              <button class="col-md-12" data-toggle="collapse" [attr.data-parent]="'#accordionP_' + i" [attr.href]="'#collapseOneP_' + i">
+                <div class="col-md-12">
+                  <div class="col-xs-8">
+                    <p>{{ chore.title }}</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <p>Date Posted</p>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="col-xs-8">
+                    <p class="payment">Amount paid: ${{ chore.payment }}</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <div *ngIf="chore.completed">
+                      <p> Completed! </p>
+                      <div id="rating">
+                        <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
+                        <br>
+                        <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'poster')">Rate!</a>
+                      </div>
+                    </div>
+                    <p *ngIf="!chore.completed"> Not done yet </p>
+                  </div>
+                </div>
+              </button>
+          </div>
+          <div [attr.id]="'collapseOneP_' + i" class="collapse in row">
+            <div class="card-body col-md-12">
+              <div class="col-xs-12">
+                <div class="col-xs-6">
+                  <p>{{ chore.address }}</p>
+                  <p>{{ chore.description }}</p>
+                </div>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info" (click)="edit(chore)">Edit</button>
+                  <button type="button" class="btn btn-info" (click)='delete(chore)'>Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </div>

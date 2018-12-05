@@ -23,10 +23,10 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
+       id_stripe: {
+         type: Sequelize.STRING
+       },
       picture: {
-        type: Sequelize.STRING
-      },
-      info: {
         type: Sequelize.STRING
       },
       id_area: {
@@ -37,7 +37,10 @@ module.exports = {
        },
        id_category: {
          type: Sequelize.INTEGER
-       }
+       },
+         is_employee: {
+         type: Sequelize.BOOLEAN
+       },
     });
   },
   down: (queryInterface, Sequelize) => {

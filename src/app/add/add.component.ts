@@ -4,7 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
+import { AddService } from '../add.service';
+import { DashboardService } from '../dashboard.service';
 declare var google: any;
+declare var stripe: any;
+
 interface LatLng {
   lat: number;
   lng: number;
@@ -21,9 +25,12 @@ export class AddComponent{
   selectedCategory: string;
   suggestedPay = [15, 20, 30, 40, 50];
   selectedPay: number;
+  customer: any;
   public logo = "assets/images/logo.png";
-  constructor(public mapsApiLoader: MapsAPILoader,
-    private formBuilder: FormBuilder, private http: HttpClient, private router: Router
+  constructor(private addService: AddService,
+    private dashboardService: DashboardService, 
+    public mapsApiLoader: MapsAPILoader,
+    private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
   ) { 
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -34,7 +41,8 @@ export class AddComponent{
   ngOnInit(e) {
     
     this.choreForm = this.formBuilder.group({
-      // category: [''],
+     // category: [''],
+     title:[''],
       description: [''],
       address: [''],
       city: [''],
@@ -58,20 +66,36 @@ export class AddComponent{
       })
     });
   }   
-  addChore() {
+   addChore() {
     this.choreForm.value.electedCategory = this.selectedCategory
     this.choreForm.value.suggestedPay = this.selectedPay
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
+
     this.getlatlng(addr).then(() => {
+
       console.log(JSON.stringify(this.choreForm.value));
-      this.http.post('/category', { 'category': this.selectedCategory, }).subscribe((catObj) => {
-          console.log(catObj);
-        this.choreForm.value.category = catObj[0].id;
-        this.http.post("/add", this.choreForm.value).subscribe((data) => {
-          console.log(data);
-        }) 
-      })
-      this.router.navigateByUrl('/dashboard');
+      return this.dashboardService.searchCat(this.selectedCategory)    
+    }).then((catObj) => {
+
+      this.choreForm.value.category = catObj[0].id;
+    }).then(() => {
+
+     return  this.addService.addPost(this.choreForm.value)
+    }).then(() => {
+
+      let payment = this.selectedPay.toString().concat('00');
+      return this.addService.chargeUser(payment);
     })
+    .then((data) => {
+      
+      if(data === true) {
+        // console.log(data)
+        alert("Job Posted!")
+        this.router.navigateByUrl('/dashboard');
+      } else {
+        alert('Something went wrong');
+        console.log('Something is wrong:', data);
+      }
+    });
   }
 }

@@ -1,8 +1,7 @@
 import { isPlatformBrowser , DOCUMENT} from '@angular/common';
 import { environment } from '../environments/environment';
 import { Component , OnInit, Inject, PLATFORM_ID, ViewChild, AfterViewInit} from '@angular/core';
-import { LogInComponent } from './log-in/log-in.component';
-import { LoginService } from './login.service';
+
 @Component({
 selector: 'app-root',
 templateUrl: './app.component.html',

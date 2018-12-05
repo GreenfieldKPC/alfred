@@ -17,14 +17,12 @@ module.exports = {
       id_to: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      read: {
+        type: Sequelize.BOOLEAN
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+     created: {
+       type: Sequelize.NUMERIC
+     }
     });
   },
   down: (queryInterface, Sequelize) => {

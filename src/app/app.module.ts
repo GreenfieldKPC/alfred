@@ -10,11 +10,19 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { JobService } from './job.service';
+import { UploadComponent } from './upload/upload.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { HelpComponent } from './help/help.component';
+import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents
+    routingComponents,
+    UploadComponent,
+    EmployeeComponent,
+    HelpComponent,
+    EmployeeLoginComponent
   ],
   imports:[
     BrowserModule,
