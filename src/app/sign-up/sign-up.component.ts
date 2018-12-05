@@ -10,7 +10,6 @@ import {
   ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
 
 declare var stripe: any;
 declare var elements: any;
@@ -27,6 +26,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
+  customer: any;
   
   public logo = "assets/images/logo.png";
   image: any;
@@ -45,7 +45,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  customer:any;
+  
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],

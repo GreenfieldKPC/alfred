@@ -11,7 +11,6 @@ var AWS = require('aws-sdk');
    region: 'us-east-1'
  });
 
-// const users = require('./models/users')()
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
