@@ -1,11 +1,11 @@
 .sebm-google-map-container {
-  height: 300px;
+  height: 300px !important;
+  /* z-index: -1; */
 }
 
 #searchbar {
   /* background-color: white; */
 }
-
 #searchbtn {
 background-color: #45CAA6;
 border: 0;
