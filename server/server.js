@@ -25,7 +25,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');;
+const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
