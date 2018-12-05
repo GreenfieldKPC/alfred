@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-var request = require("request");
 aws4 = require('aws4')
 // import entire SDK
 var AWS = require('aws-sdk');
