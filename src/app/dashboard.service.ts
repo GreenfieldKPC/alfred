@@ -17,6 +17,7 @@ export class DashboardService {
 
   }
   takeChore(job): Observable<object>{
+    console.log(job)
     return this.http.patch<object>('/dashboard/takeChore', {choreId: job.id})
   }
   searchArea(address): Observable<object>{

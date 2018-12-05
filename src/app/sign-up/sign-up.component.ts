@@ -65,10 +65,9 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     })
   }
   processFile() {
-    console.log('its firing')
+
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
-    console.log(this.imageFile)
     var reader = new FileReader();
 
     reader.addEventListener("load", () => {
@@ -128,8 +127,6 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.http.post('/photo', { image: this.image }).subscribe((image) => {
         this.image = image
         this.imageUrl = this.image.url;
-        console.log(this.imageUrl)
-
         this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
           this.profileForm.value.category = catObj[0].id;
           this.profileForm.value.image = this.imageUrl;

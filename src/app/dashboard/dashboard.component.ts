@@ -42,7 +42,7 @@ interface Message {
 
 
 export class DashboardComponent implements OnInit {
-  chats:Message;
+  chats: Message;
   message: string;
   sending: boolean;
   currentRate: number = 7;
@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
     private zone: NgZone,
     private wrapper: GoogleMapsAPIWrapper,
     private _profileService: ProfileService,
-    ) {
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
     rateConfig.max = 5;
@@ -108,14 +108,14 @@ export class DashboardComponent implements OnInit {
   open(content) {
     this.modalService.open(content);
   }
-  sendMessage( id) {
-    
+  sendMessage(id) {
+
     this.chats = {
       userid: id,
       message: this.message,
     }
     this.sending = true;
-    this.http.post('/message',this.chats).subscribe((data) => {
+    this.http.post('/message', this.chats).subscribe((data) => {
     })
     this.message = '';
   }
@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
     });
   }
   getlatlng(address: string) {
-    
+
     let geocoder = new google.maps.Geocoder();
     return Observable.create(observer => {
       geocoder.geocode({ 'address': address }, function (results, status) {
@@ -148,9 +148,7 @@ export class DashboardComponent implements OnInit {
 
   takeChore(job) {
     this.dashboardService.takeChore(job).subscribe((data) => {
-      console.log(data, 'dashboard');
-      // update job with doer of current user id
-    alert("Added to My Chores!"); 
+      alert("Added to My Chores!");
     })
   }
 
@@ -198,8 +196,7 @@ export class DashboardComponent implements OnInit {
 
   }
   testing($event) {
-    console.log('hello');
-    console.log($event);
+
   }
   getList() {
     var category;
@@ -229,30 +226,30 @@ export class DashboardComponent implements OnInit {
                   this.searchUser = this.searchJob.users;
                   this.searchJob = this.searchJob.jobs;
                 })
-              })
             })
-          }
-          this.updateOnMap();
-    
+        })
+    }
+    this.updateOnMap();
+
   }
   getuser() {
     this.dashboardService.getUser()
-    .subscribe((user) => {
-      this.user = user;
-      this.getlatlng(this.user.area).subscribe(result => {
-        this.zone.run(() => {
-          this.lat = result.lat();
-          this.lng = result.lng();
-        });
-      },error => console.log(error),
-      () => console.log('complete'))
+      .subscribe((user) => {
+        this.user = user;
+        this.getlatlng(this.user.area).subscribe(result => {
+          this.zone.run(() => {
+            this.lat = result.lat();
+            this.lng = result.lng();
+          });
+        }, error => console.log(error),
+          () => console.log('complete'))
       });
   }
   getjob() {
     this.dashboardService.getJobs()
-    .subscribe((jobs) => {
-      this.jobs = jobs;
-      this.selectChore(this.jobs[0]);
+      .subscribe((jobs) => {
+        this.jobs = jobs;
+        console.log(jobs)
       });
   }
   ngOnInit() {

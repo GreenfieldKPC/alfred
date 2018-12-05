@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     read: DataTypes.BOOLEAN,
     created: DataTypes.BOOLEAN,
   }, {});
-  messages.associate = function(models) {
+  messages.associate = function (models) {
     // associations can be defined here
   };
   return messages;

@@ -1,15 +1,15 @@
 require('dotenv').config();
 const express = require('express');
-aws4 = require('aws4');
+aws4 = require('aws4')
 // import entire SDK
 var AWS = require('aws-sdk');
 // import AWS object without services
 
- AWS.config.update({
-   accessKeyId: process.env.accessKeyId,
-   secretAccessKey: process.env.secretAccessKey,
-   region: 'us-east-1'
- });
+AWS.config.update({
+  accessKeyId: process.env.accessKeyId,
+  secretAccessKey: process.env.secretAccessKey,
+  region: 'us-east-1'
+});
 
 // const users = require('./models/users')()
 const db = require('../models');
@@ -225,6 +225,7 @@ app.post('/login/employee', function (req, res, next) {
       });
       return res.end();
     } else if (!user.is_employee) {
+      console.log(user)
       console.log('User is not an employee!');
       res.json({
         message: 'User is not an employee!'
@@ -304,7 +305,7 @@ app.get('/jobs', (req, res) => {
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
     profile = user[0][0];
   }).then(() => {
-    db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}';`).then((jobs) => {
+    db.sequelize.query(` SELECT * FROM jobs WHERE id_area = '${profile.id_area}' AND doer = '${0}' ;`).then((jobs) => {
       res.send(jobs[0])
     });
   })
@@ -323,6 +324,11 @@ app.get('/jobs/taken', (req, res) => {
   });
 });
 
+
+// ///////////////////////////////////////////
+
+
+
 app.get('/jobs/posted', (req, res) => {
   const q = `SELECT * from jobs WHERE poster = ${req.session.userId}`
   db.sequelize.query(q).then((data) => {
@@ -330,6 +336,10 @@ app.get('/jobs/posted', (req, res) => {
     res.json(data[0]);
   });
 });
+///////////////////////////////////////////////////////
+
+
+
 
 app.patch('/jobs/complete', (req, res) => {
   const q = `UPDATE jobs SET completed=true WHERE id = ${req.body.choreId}`
@@ -347,28 +357,37 @@ app.patch('/jobs/complete', (req, res) => {
 
 //********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
-  // console.log(req.body, '///', req.session.userId);
-  const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
-  db.sequelize.query(q, (err) => {
-    if (err) {
-      return res.json(400, {
-        response: {
-          code: 400,
-          message: 'An error addding job to your profile.'
+  console.log(req.body)
+  db.sequelize.query(`SELECT * FROM jobs WHERE id=${req.body.choreId}`).then((data) =>{
+    console.log(data[0]);
+    if(data[0][0].doer === 0){
+      console.log(req.body, '///', req.session.userId);
+      const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
+      db.sequelize.query(q, (err) => {
+        if (err) {
+          return res.json(400, {
+            response: {
+              code: 400,
+              message: 'An error addding job to your profile.'
+            }
+          });
+        } else {
+          console.log('success');
         }
-      });
-    } else {
-      console.log('success');
-    }
-  }).then((data) => {
-    // add check for doer id not assigned already
+      }).then((data) => {
+        // add check for doer id not assigned already
 
-    if (data[1].rowCount > 0) {
-      res.send(true);
-    } else {
+        if (data[1].rowCount > 0) {
+          res.send(true);
+        } else {
+          res.send(false);
+        }
+      }).catch((err) => console.log(err));
+    }else{
       res.send(false);
     }
-  }).catch((err) => console.log(err));
+  })
+ 
 });
 //***********************************************//
 //********************posting message to database*********//
@@ -379,6 +398,13 @@ app.post("/message", (req, res) => {
   // res.send('message inserted')
   res.end();
 })
+////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 app.get('/message', (req, res) => {
   const {
@@ -445,6 +471,11 @@ app.get('/message', (req, res) => {
         })
     })
 })
+///////////////////////////////////////////////////////////////////////
+
+
+
+
 
 
 
@@ -463,6 +494,12 @@ app.get('/user', (req, res) => {
       })
     })
 });
+////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 app.get('/user/photo/:id', (req, res) => {
   // console.log(req.body, '///', req.body.userId);
@@ -485,6 +522,8 @@ app.get('/user/photo/:id', (req, res) => {
     })
   }).catch((err) => console.log(err));
 });
+
+///////////////////////////////////////////////////////////////////////
 
 
 
@@ -509,6 +548,11 @@ app.get('/user/username/:id', (req, res) => {
   }).catch((err) => console.log(err));
 
 });
+
+
+/////////////////////////////////////////////////////////////////////////
+
+
 
 app.get('/user/rating/:id', (req, res) => {
   // query rating table for all with id, then return average
@@ -542,6 +586,11 @@ app.get('/user/rating/:id', (req, res) => {
 
 });
 
+
+//////////////////////////////////////////////////////////////////////
+
+
+
 app.get('/user/profile/:id', (req, res) => {
   // console.log(req.params, 'params////');
   const q = `SELECT * FROM users WHERE id = '${req.params.id}';`
@@ -566,6 +615,10 @@ app.get('/user/profile/:id', (req, res) => {
 
 });
 
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+
 app.patch('/user/photo', (req, res) => {
   const q = `UPDATE users SET picture='${req.body.url}' WHERE id='${req.session.userId}'`
   db.sequelize.query(q, (err) => {
@@ -587,6 +640,10 @@ app.patch('/user/photo', (req, res) => {
     }
   }).catch((err) => console.log(err));
 });
+
+
+////////////////////////////////////////////////////////////////////////////
+
 
 app.post('/user/rating', (req, res) => {
   console.log(req.body, 'rating body');
@@ -857,20 +914,22 @@ app.get('/complaints', (req, res) => {
 
 
 app.post('/lex', (req, res) => {
-body = JSON.stringify({inputText:req.body.title})
-var lexruntime = new AWS.LexRuntime();
-var params ={
+  body = JSON.stringify({
+    inputText: req.body.title
+  })
+  var lexruntime = new AWS.LexRuntime();
+  var params = {
     botName: 'Alfred',
     botAlias: '$LATEST',
     userId: req.session.user,
     inputText: req.body.title,
   }
-lexruntime.postText(params, function (err, data) {
-  if (err) console.log(err, err.stack);// an error occurred
-  else console.log(data);
-  res.send(data);
-  res.end()
-});
+  lexruntime.postText(params, function (err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else console.log(data);
+    res.send(data);
+    res.end()
+  });
 })
 
 

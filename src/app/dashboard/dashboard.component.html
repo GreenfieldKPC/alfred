@@ -9,7 +9,7 @@
               <a>Address: {{job.address}}</a><br>
               <a>Description: {{job.description}}</a><br>
               <a>Payment: ${{job.payment}}</a><br>
-              <a>Category: {{categoryLists[job.category]}}</a><br>
+              <a>Category: {{categoryLists[job.category + 1]}}</a><br>
               <!-- <ngb-rating [(rate)]="currentRate"></ngb-rating> -->
             </div>
             <ng-template #content let-c="close" let-d="dismiss">
@@ -108,7 +108,7 @@
           <button class="btn btn-primary message" (click)="open(content)">Send Message</button>
         </div>  
         <div id="add-btn" class="col-xs-12">
-          <button class="btn btn-primary add" (click)='takeChore(search)'>+ Do It! </button>
+<button class="btn btn-primary add" (click)='takeChore(selectedChore)'>+ Do It! </button>
         </div>
       </div>
     </div>

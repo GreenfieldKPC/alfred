@@ -3,9 +3,9 @@
 module.exports = (sequelize, DataTypes) => {
   const users = sequelize.define('Users', {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     username: DataTypes.STRING,
     name_first: DataTypes.STRING,
@@ -20,10 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     id_category: DataTypes.INTEGER,
     is_employee: DataTypes.BOOLEAN
   }, {});
-  
-  users.associate = function(models) {
+
+  users.associate = function (models) {
     // associations can be defined here
   };
   return users;
 };
-
