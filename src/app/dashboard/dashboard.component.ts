@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileService } from '../profile.service';
 
 declare var google: any;
 
@@ -70,9 +71,14 @@ export class DashboardComponent implements OnInit {
   }
   searchJob: any;
   searchUser: any;
+  selectedChore: any;
+  selectedChorePosterUsername: any;
+  selectedChorePosterRating: any;
+  selectedChorePosterPhoto: any;
   test: any;
   test2: string = '2539 Columbus Street, New Orleans, LA';
   infoWindow = new google.maps.InfoWindow();
+  public defaultPhoto = "assets/images/non.png";
   @ViewChild(AgmMap) map: AgmMap;
   constructor(
     config: NgbModalConfig,
@@ -81,7 +87,8 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
-    private wrapper: GoogleMapsAPIWrapper
+    private wrapper: GoogleMapsAPIWrapper,
+    private _profileService: ProfileService,
     ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -89,6 +96,10 @@ export class DashboardComponent implements OnInit {
     rateConfig.readonly = true;
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
+    this.selectedChore;
+    this.selectedChorePosterUsername;
+    this.selectedChorePosterRating;
+    this.selectedChorePosterPhoto;
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -202,6 +213,7 @@ export class DashboardComponent implements OnInit {
               this.searchJob = data;
               this.searchUser = this.searchJob.users;
               this.searchJob = this.searchJob.jobs;
+              this.selectChore(this.searchJob[0]);
             })
         })
     } else {
@@ -240,11 +252,38 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
+      this.selectChore(this.jobs[0]);
       });
   }
   ngOnInit() {
     this.getuser();
     this.getjob();
+  }
+
+  selectChore(chore) {
+    // display user photo, rating, username in job description
+    this.selectedChore = chore;
+    console.log('chore selected!');
+
+    this._profileService.getUserName(chore.poster).then((username) => {
+      // display chore poster username on chore
+
+      this.selectedChorePosterUsername = username.username;
+      return this._profileService.getUserRating(chore.poster);
+    }).then((rating) => {
+      // display chore poster rating on chore
+      this.selectedChorePosterRating = rating.rating;
+      return this._profileService.getUserPhoto(chore.poster);
+    }).then((photo) => {
+      // display chore poster photo on chore
+      if (photo.url !== undefined && photo.url !== 'undefined') {
+        this.selectedChorePosterPhoto = photo.url;
+      } else {
+        this.selectedChorePosterPhoto = this.defaultPhoto;
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
 }

@@ -1,6 +1,16 @@
+/* #map {
+  height: 100%;
+  position: absolute;
+} */
+
 .sebm-google-map-container {
   height: 300px !important;
   /* z-index: -1; */
+}
+
+#rating ngb-rating {
+  font-size: 3vh;
+  color: yellow;
 }
 
 #searchbar {
@@ -20,4 +30,79 @@ border: 1px solid #5A6978;
 #info {
   border: 3px solid #5A6978;
   background-color: white;
+  min-height: 40vh;
+  width: 90vw;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+}
+
+#info p {
+  color: #5A6978;
+  font-size: 2vh;
+  text-align: left;
+}
+
+#info h2 {
+  margin-top: 2vh;
+}
+
+#choreImage {
+  height: 15vh;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.thumbnail {
+  position: relative;
+  width: 15vh;
+  height: 15vh;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+#img-container {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+#add-btn .add {
+  background-color: #F896EA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
+}
+
+#message-btn .message {
+  background-color: #969FAA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
 }
