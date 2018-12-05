@@ -9,7 +9,7 @@
 }
 
 #rating ngb-rating {
-  /* font-size: 1.5rem; */
+  font-size: 3vh;
   color: yellow;
 }
 
@@ -35,11 +35,22 @@ border: 1px solid #5A6978;
   max-width: 600px;
   margin: auto;
   text-align: center;
-  font-size: 3vh;
+}
+
+#info p {
+  color: #5A6978;
+  font-size: 2vh;
+  text-align: left;
+}
+
+#info h2 {
+  margin-top: 2vh;
 }
 
 #choreImage {
   height: 15vh;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .thumbnail {
@@ -48,6 +59,8 @@ border: 1px solid #5A6978;
   height: 15vh;
   border-radius: 50%;
   overflow: hidden;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 .thumbnail img {
   position: absolute;
@@ -58,10 +71,14 @@ border: 1px solid #5A6978;
   -webkit-transform: translate(-50%,-50%);
       -ms-transform: translate(-50%,-50%);
           transform: translate(-50%,-50%);
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 .thumbnail img.portrait {
   width: 100%;
   height: auto;
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 #img-container {
   margin-bottom: 0;
