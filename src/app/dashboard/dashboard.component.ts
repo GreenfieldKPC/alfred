@@ -213,6 +213,7 @@ export class DashboardComponent implements OnInit {
               this.searchJob = data;
               this.searchUser = this.searchJob.users;
               this.searchJob = this.searchJob.jobs;
+              this.selectChore(this.searchJob[0]);
             })
         })
     } else {
@@ -251,6 +252,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
       this.jobs = jobs;
+      this.selectChore(this.jobs[0]);
       });
   }
   ngOnInit() {
