@@ -43,8 +43,11 @@
                     <p>{{ choreUsername }}</p>
                   </div>  
                 </div>
-                <div class="col-xs-6">  
-                  <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
+                <div class="col-xs-6">
+                  <input type="file" capture="camera" accept="image/*" id="cameraInput" name="cameraInput" (change)="onFileSelected($event)">
+                  <button type="button" class="btn btn-info" (click)="onUpload(chore)">Upload Pic!</button>
+                  <!-- <input type="file" accept="image/*" capture="capture"> -->
+                  <!-- <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button> -->
                 </div>
               </div>
               <div class="col-xs-12">

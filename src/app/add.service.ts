@@ -16,4 +16,8 @@ export class AddService {
   chargeUser(payment) {
     return this.http.post("/stripe/charge", { payment }).toPromise();
   }
+
+  payUser(payment) {
+    return this.http.post("/stripe/pay", { payment }).toPromise();
+  }
 }

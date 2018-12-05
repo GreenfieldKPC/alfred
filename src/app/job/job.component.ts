@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from '../job.service'
+import { AddService } from '../add.service'
 import { MessageService } from '../message.service';
 import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileService } from '../profile.service'
-
+import { ProfileService } from '../profile.service';
 interface Message {
   userid: number;
   message: string;
@@ -18,7 +18,8 @@ interface Message {
 })
 
 export class JobComponent implements OnInit {
-
+  private lat: any;
+  private lon: any;
   public jobsTaken;
   public jobsPosted;
   public choreRating: number;
@@ -34,9 +35,10 @@ export class JobComponent implements OnInit {
   isClassHidden: false;
 
   constructor(
+    private _jobService: JobService,
+    private _addService: AddService,
     config: NgbRatingConfig,
     private modalService: NgbModal,
-    private _jobService: JobService,
     private _messageService: MessageService,
     private _photoService: PhotoService,
     private _profileService: ProfileService,
@@ -50,21 +52,101 @@ export class JobComponent implements OnInit {
     this.hovered = this.choreRating;
     this.choreUsername = '';
     this.chorePhoto = this.defaultPhoto;
-   }
+  }
+  getPosition = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        resolve(position.coords);
+      }, (err) => {
+        reject(err);
+      });
+    });
+  }
+  selectedFile = null;
 
+  onFileSelected(event) {
+    this.selectedFile = event.target.files[0].url;
+  }
+  distance(lat1, lon1, lat2, lon2, unit) {
+    if ((lat1 == lat2) && (lon1 == lon2)) {
+      return 0;
+    }
+    else {
+      const radlat1 = Math.PI * lat1 / 180;
+      const radlat2 = Math.PI * lat2 / 180;
+      const theta = lon1 - lon2;
+      const radtheta = Math.PI * theta / 180;
+      let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = dist * 180 / Math.PI;
+      dist = dist * 60 * 1.1515;
+      if (unit == "K") { dist = dist * 1.609344 }
+      if (unit == "N") { dist = dist * 0.8684 }
+      return dist;
+    }
+  }
+  onUpload(chore) {
+    this.getPosition().then((coords) => {
+      this.lat = coords['latitude'];
+      this.lon = coords['longitude'];
+      let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
+      if(radius > 2.5) {
+        alert('to far away');
+      } else {
+        alert('ok');
+        this._photoService.uploadPhoto(this.selectedFile)
+          .then((data) => {
+            console.log(data);
+            if (data === true) {
+              this._jobService.updateJobCompletion(chore.id)
+            } 
+        });
+      }
+    });
+    console.log(this.selectedFile);
+  }
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
     this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
   }
 
+  complete(payment) {
+    this._addService.payUser(payment).then((data) => {
+
+    }).catch(err => {
+      alert('Something went wrong!');
+    });
+  }
+
   completeJob(job) {
-    this._jobService.updateJobCompletion(job).then((data) => {
-      if (data === true) {
+    // verify photo upload first
+    let payout = job.payment * .85;
+    console.log(payout, " job line 80")
+    
+    this._addService.payUser(payout).then((payment) => {
+      console.log(payment);
+      if (payment === true) {
         alert('Awesome! Job Completed!');
       } else {
         alert('There was a problem completing this job!');
-        console.log(data);
+        // console.log(data);
       }
+      
+      return this._jobService.updateJobCompletion(job);
+    }).then((job) => {
+      //notify both users of payment and completion
+      if (job === true) {
+        alert('Awesome! Job Completed!');
+      } else {
+        alert('There was a problem completing this job!');
+        // console.log(data);
+      }
+    }).catch((err) => {
+      alert('There was a problem completing this chore!');
+      console.log(err, 'problem completing this chore');
     });
   }
 
@@ -83,13 +165,13 @@ export class JobComponent implements OnInit {
     });  
   }
 
-  uploadPhoto(chore, photo) {
-    //must open camera of mobile device and upload the picture taken
-    // must save chore id with photo to recall for later use
-    this._photoService.uploadPhoto(photo).then((data) => {
-      console.log(data);
-    });
-  }
+  // uploadPhoto(chore, photo) {
+  //   //must open camera of mobile device and upload the picture taken
+  //   // must save chore id with photo to recall for later use
+  //   this._photoService.uploadPhoto(photo).then((data) => {
+  //     console.log(data);
+  //   });
+  // }
 
   navigate(chore) {
     // upen google maps with directions to chore address
