@@ -1,9 +1,10 @@
-<form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
+<button class="btn" (click)="addComplaint()">kd</button>
+<form [formGroup]="complaintForm" >
 
   <div class="form-group col-md-12">
     <label for="user">Title</label>
+    <input type="text" class="form-control" formControlName="title" placeholder="Title">
     <div class="form-group col-md-4">
-      <label for="cat">Category</label>
       <select class="btn btn-default dropdown-toggle form-control" title="Select category" [(ngModel)]="selectedCategory"
         [ngModelOptions]="{standalone: true}" required>
         <option value="" selected disabled>Select Category</option>
@@ -15,11 +16,16 @@
   </div>
   <body>
     <div class="col-sm-3 col-sm-offset-4 frame">
-      <ul></ul>
+      <div *ngIf='userMess.length > 0'>
+        <ul class="text text-r" *ngFor="let mess of userMess">
+          <li>{{mess}}</li>
+        </ul>
+
+      </div>
       <div>
         <div class="msj-rta macro">
           <div class="text text-r" style="background:whitesmoke !important">
-            <input class="mytext" placeholder="Type a message" />
+            <input class="mytext" [(ngModel)]="string" [ngModelOptions]="{standalone: true}" placeholder="Type a message" (keyup.enter)='show(string)'/>
           </div>
   
         </div>
@@ -30,6 +36,6 @@
     </div>
   </body>
   <div class="col-md-12 post-btn text-right">
-    <button type="submit" class="btn btn-primary">+Post</button>
+    <button type="submit" (ngSubmit)="addComplaint()" class="btn btn-primary">+Post</button>
   </div>
 </form>

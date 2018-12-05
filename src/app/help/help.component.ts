@@ -32,6 +32,8 @@ export class HelpComponent {
   customer: any;
   jobs:any;
   job:any;
+  string:any;
+  userMess:any = [];
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
      private _jobService: JobService,
@@ -91,6 +93,14 @@ export class HelpComponent {
     this.selectedJob = e;
     
   }
+  show(e) {
+    this.string = e;
+    console.log(this.string);
+    this.userMess.push(this.string);
+    this.string = '';
+    // result.push(this.string);
+    // this.userMess.concat(result);
+  }
   getlatlng(address: string) {
     return new Promise((resolve, reject) => {
       this.geocoder = new google.maps.Geocoder();
@@ -104,7 +114,9 @@ export class HelpComponent {
     });
   }
   addComplaint() {
-console.log(this.complaintForm.value)
+console.log(this.complaintForm.value);
+    this.complaintForm.value.category = this.selectedCategory;
+console.log(this.selectedCategory);
 this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
   console.log(data);
 })
