@@ -239,7 +239,13 @@ export class DashboardComponent implements OnInit {
   getjob() {
     this.dashboardService.getJobs()
     .subscribe((jobs) => {
-      this.jobs = jobs;
+     let  currJobs = []
+      jobs.forEach(job => {
+        if (job.doer === 0 || job.completed === false ){
+          currJobs.push(job)
+        }
+      });
+      this.jobs = currJobs;
       });
   }
   ngOnInit() {

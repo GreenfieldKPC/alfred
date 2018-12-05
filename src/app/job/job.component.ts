@@ -65,7 +65,7 @@ export class JobComponent implements OnInit {
   selectedFile = null;
 
   onFileSelected(event) {
-    this.selectedFile = event.target.files[0].url;
+    this.selectedFile = event.target.files[0];
   }
   distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
