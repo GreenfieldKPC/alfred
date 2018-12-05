@@ -2,9 +2,33 @@
 
   <div class="form-group col-md-12">
     <label for="user">Title</label>
-    <input type="text" class="form-control" formControlName="title" placeholder="Title">
+    <div class="form-group col-md-4">
+      <label for="cat">Category</label>
+      <select class="btn btn-default dropdown-toggle form-control" title="Select category" [(ngModel)]="selectedCategory"
+        [ngModelOptions]="{standalone: true}" required>
+        <option value="" selected disabled>Select Category</option>
+        <option *ngFor="let list of categoryLists" [value]="list">
+          {{list}}
+        </option>
+      </select>
+    </div>
   </div>
- 
+  <body>
+    <div class="col-sm-3 col-sm-offset-4 frame">
+      <ul></ul>
+      <div>
+        <div class="msj-rta macro">
+          <div class="text text-r" style="background:whitesmoke !important">
+            <input class="mytext" placeholder="Type a message" />
+          </div>
+  
+        </div>
+        <div style="padding:10px;">
+          <span class="glyphicon glyphicon-share-alt"></span>
+        </div>
+      </div>
+    </div>
+  </body>
   <div class="col-md-12 post-btn text-right">
     <button type="submit" class="btn btn-primary">+Post</button>
   </div>

@@ -62,10 +62,23 @@ export class JobComponent implements OnInit {
       });
     });
   }
+  image:any;
+  imageFile:any;
   selectedFile = null;
+  processFile() {
+    console.log('its firing')
+    var files = (<HTMLInputElement>document.getElementById('photo')).files
+    this.imageFile = files[0]
+    var reader = new FileReader();
 
-  onFileSelected(event) {
-    this.selectedFile = event.target.files[0].url;
+    reader.addEventListener("load", () => {
+      this.image = reader.result;
+    }, false);
+
+    if (this.imageFile) {
+      reader.readAsDataURL(this.imageFile);
+    }
+
   }
   distance(lat1, lon1, lat2, lon2, unit) {
     if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -88,16 +101,17 @@ export class JobComponent implements OnInit {
       return dist;
     }
   }
-  onUpload(chore) {
+  onUpload(chore, image) {
     this.getPosition().then((coords) => {
       this.lat = coords['latitude'];
       this.lon = coords['longitude'];
       let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
       if(radius > 2.5) {
         alert('to far away');
-      } else {
+      } 
+      else {
         alert('ok');
-        this._photoService.uploadPhoto(this.selectedFile)
+        this._photoService.uploadPhoto(image)
           .then((data) => {
             console.log(data);
             if (data === true) {
@@ -106,7 +120,6 @@ export class JobComponent implements OnInit {
         });
       }
     });
-    console.log(this.selectedFile);
   }
   ngOnInit() {
     this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });

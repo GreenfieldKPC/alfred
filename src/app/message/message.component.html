@@ -3,13 +3,35 @@
     <div [class.active]="active === i" (click)="onClick(i)" *ngFor="let user of users; let i = index " >
         <h1 >{{user.username}}</h1>
         <div *ngIf='i - 1'>
-          <div class="container">
-            <div *ngFor="let me of box">
-              {{me.text}}
+          <div id="messagebox">
+            <div class="col-sm-3 col-sm-offset-4 frame">
+              <div *ngFor="let me of box">
+                    <div>
+                      {{me.text}}
+
+                    </div>
+                  
+                <div id="sender" *ngIf="sending">
+                <li>
+                  {{chats.message}}
+                </li>
+              </div>
+              </div>
+              <div>
+                <div class="msj-rta macro">
+                  <div class="text text-r" style="background:whitesmoke !important">
+                    <input class="mytext" [(ngModel)]="message" placeholder="Type a message" (keyup.enter)="sendMessage(user.id)"/>
+                  </div>
+            
+                </div>
+                <div style="padding:10px;">
+                  <span class="glyphicon glyphicon-share-alt" (click)="sendMessage(user.id)"></span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-          <ng-template #content let-c="close" let-d="dismiss">
+          <!-- <ng-template #content let-c="close" let-d="dismiss">
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">Message</h4>
               <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -27,8 +49,7 @@
             <button class="btn btn-primary" (click)="sendMessage(user.id)">Send</button>
           
           </ng-template>
-          <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button>
+          <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button> -->
         </div> 
     
   </div>
-
