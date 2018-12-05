@@ -1,6 +1,6 @@
 .sebm-google-map-container {
-  height: 100vh !important;
-  z-index: -1;
+  height: 300px !important;
+  /* z-index: -1; */
 }
 
 #searchbar {
