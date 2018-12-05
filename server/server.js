@@ -1,5 +1,17 @@
 require('dotenv').config();
 const express = require('express');
+var request = require("request");
+aws4 = require('aws4')
+// import entire SDK
+var AWS = require('aws-sdk');
+// import AWS object without services
+
+ AWS.config.update({
+   accessKeyId: process.env.accessKeyId,
+   secretAccessKey: process.env.secretAccessKey,
+   region: 'us-east-1'
+ });
+
 // const users = require('./models/users')()
 const db = require('../models');
 const passport = require('passport');
@@ -128,7 +140,9 @@ app.post('/signUp', (req, res) => {
                     console.log('succes');
                     res.end("user added");
                   }
-                }).then((data) => { res.json(data) })
+                }).then((data) => {
+                res.json(data)
+              })
 
             } else {
               res.end("user exists");
@@ -157,7 +171,9 @@ app.post('/signUp', (req, res) => {
                 res.end("user added");
               }
 
-            }).then((data) => { res.json(data) })
+            }).then((data) => {
+            res.json(data)
+          })
 
         } else {
           res.end("user exists");
@@ -211,7 +227,9 @@ app.post('/login/employee', function (req, res, next) {
       return res.end();
     } else if (!user.is_employee) {
       console.log('User is not an employee!');
-      res.json({ message: 'User is not an employee!'});
+      res.json({
+        message: 'User is not an employee!'
+      });
     } else {
       req.logIn(user, function (err) {
         if (err) {
@@ -226,7 +244,7 @@ app.post('/login/employee', function (req, res, next) {
         });
       });
     }
-    
+
   })(req, res, next);
 });
 // ***************************************//
@@ -356,15 +374,17 @@ app.patch("/dashboard/takeChore", (req, res) => {
 //***********************************************//
 //********************posting message to database*********//
 
-app.post("/message", (req,res) => {
+app.post("/message", (req, res) => {
   console.log(req.body)
- db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
+  db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
   // res.send('message inserted')
   res.end();
 })
 
 app.get('/message', (req, res) => {
-  const { userId } = req.session;
+  const {
+    userId
+  } = req.session;
   const mess = [];
   let tos;
   let fromm;
@@ -388,8 +408,8 @@ app.get('/message', (req, res) => {
                 result.id_from = obj.id_from;
                 result.id_to = obj.id_to;
                 userss.forEach((user) => {
-                  
-                  if (Number(obj.id_from) === Number(user.id) && obj.id_from !==null) {
+
+                  if (Number(obj.id_from) === Number(user.id) && obj.id_from !== null) {
                     result.id_from_username = user.username;
                   }
                   if (Number(obj.id_to) === Number(user.id) && obj.id_to !== null) {
@@ -416,7 +436,7 @@ app.get('/message', (req, res) => {
                 });
                 return result;
               });
-              
+
               const message = [too, froms];
               console.log(message);
               message.push(users[0]);
@@ -461,7 +481,9 @@ app.get('/user/photo/:id', (req, res) => {
     }
   }).then((data) => {
     //return url for user photo
-    res.send({ url: data[0][0].picture})
+    res.send({
+      url: data[0][0].picture
+    })
   }).catch((err) => console.log(err));
 });
 
@@ -482,7 +504,9 @@ app.get('/user/username/:id', (req, res) => {
     }
   }).then((data) => {
     //return username of user
-    res.send({username: data[0][0].username});
+    res.send({
+      username: data[0][0].username
+    });
   }).catch((err) => console.log(err));
 
 });
@@ -512,7 +536,9 @@ app.get('/user/rating/:id', (req, res) => {
     }, 0);
     let avg = ((50 + total) / (10 + count)).toFixed(1);
 
-    res.send({rating: avg});
+    res.send({
+      rating: avg
+    });
   }).catch((err) => console.log(err));
 
 });
@@ -534,7 +560,9 @@ app.get('/user/profile/:id', (req, res) => {
   }).then((data) => {
     console.log(data[0][0], 'user server line 446');
     //return profile info of user
-    res.send({ user: data[0][0]});
+    res.send({
+      user: data[0][0]
+    });
   }).catch((err) => console.log(err));
 
 });
@@ -553,11 +581,11 @@ app.patch('/user/photo', (req, res) => {
       console.log('success');
     }
   }).then((data) => {
-      if (data[1].rowCount > 0) {
-        res.send(data);
-      } else {
-        res.send(false);
-      }
+    if (data[1].rowCount > 0) {
+      res.send(data);
+    } else {
+      res.send(false);
+    }
   }).catch((err) => console.log(err));
 });
 
@@ -578,10 +606,10 @@ app.post('/user/rating', (req, res) => {
   }).then((data) => {
     console.log(data);
     res.end();
-    }).catch(err => {
-      console.log(err)
-      res.end();
-    })
+  }).catch(err => {
+    console.log(err)
+    res.end();
+  })
 })
 // ******************************************************//
 
@@ -618,10 +646,10 @@ app.post('/photo', (req, res) => {
   console.log('hellllloooooo cloudinary')
   console.log(req.body.image);
   cloudinary.v2.uploader.upload(req.body.image, {
-    width: 500,
-    height: 500,
-    crop: "limit"
-  },
+      width: 500,
+      height: 500,
+      crop: "limit"
+    },
     function (error, result) {
       console.log(result, 'result', error, 'error')
       res.send(result)
@@ -645,9 +673,9 @@ app.post('/stripe/signup', (req, res) => {
   // console.log('token id:', req.body.token.id)
 
   stripe.customers.create({
-    source: req.body.token.id,
-    email: req.body.email,
-  })
+      source: req.body.token.id,
+      email: req.body.email,
+    })
     .then((customer) => {
       // console.log('customer:', customer)
       res.json(customer);
@@ -757,9 +785,10 @@ app.get('/oauth/callback', (req, res) => {
 
 
 // ***********Submitting a complaint*****************//
-app.post('/complaint',(req,res)=>{
+app.post('/complaint', (req, res) => {
   console.log(req.session);
-  db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
+  console.log(req.body);
+  // db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
 })
 // {
 //   description: 'okfnb',
@@ -775,10 +804,10 @@ app.post('/complaint',(req,res)=>{
 
 
 // **********************getting complaints*************//
-app.get('/complaints',(req,res)=>{
-db.sequelize.query(`SELECT * FROM complaints`).then((complaints) =>{
-  res.send(complaints[0]);
-})
+app.get('/complaints', (req, res) => {
+  db.sequelize.query(`SELECT * FROM complaints`).then((complaints) => {
+    res.send(complaints[0]);
+  })
 
 })
 
@@ -790,6 +819,69 @@ db.sequelize.query(`SELECT * FROM complaints`).then((complaints) =>{
 
 
 // ****************************************************//
+
+// **************************handling lex endpoint****//
+// app.post('/lex', (req, res) => {
+//   console.log('sending to lex')
+//   let opts = {
+//     service: 'lex',
+//     region: 'us-east-1',
+//     method: 'POST',
+//     Host: 'runtime.lex.us-east-1.amazonaws.com',
+//     'user-key': '50d9ef140f0ee28b3dd1beea2096b576',
+//     'Content-Type': 'application/json',
+//     Host: 'runtime.lex.us-east-1.amazonaws.com',
+//     url: process.env.lex_url,
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Host': 'runtime.lex.us-east-1.amazonaws.com',
+//     },
+//     body: req.body.title
+//   }
+
+//   return new Promise(resolve => {
+//     request(aws4.sign(opts, {
+//         accessKeyId: process.env.lex_secret_id,
+//         secretAccessKey: process.env.lex_key,
+//       }),
+//       function (error, response, body) {
+//         if (error) {
+//           console.log(error);
+//         }
+//         if (!error)
+//           resolve(response);
+//         console.log('this is the body', body)
+//       })
+//   }).then((data) => {
+//     console.log('this is the data', data)
+//   })
+// })
+
+
+
+
+
+
+app.post('/lex', (req, res) => {
+body = JSON.stringify({inputText:req.body.title})
+var lexruntime = new AWS.LexRuntime();
+var params ={
+    botName: 'Alfred',
+    botAlias: '$LATEST',
+    userId: req.session.user,
+    inputText: req.body.title,
+  }
+lexruntime.postText(params, function (err, data) {
+  if (err) console.log(err, err.stack);// an error occurred
+  else console.log(data);
+  res.send(data);
+  res.end()
+});
+})
+
+
+
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
