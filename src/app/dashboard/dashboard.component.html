@@ -3,7 +3,7 @@
   <header>
     <div class="col-md-12">
       <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
-        <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="work" (markerClick)="addInfoWindow(job, job)">
+        <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="" (markerClick)="addInfoWindow(job, job)">
           <agm-info-window #infoWindow>
             <div>
               <a>Address: {{job.address}}</a><br>
@@ -38,7 +38,7 @@
             <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button>
           </agm-info-window>
         </agm-marker>
-        <agm-marker *ngFor="let search of searchJob" [(latitude)]="search.lat" [(longitude)]="search.lon" label="job"
+        <agm-marker *ngFor="let search of searchJob" [(latitude)]="search.lat" [(longitude)]="search.lon" label=""
           (markerClick)="addInfoWindow(job, job)">
           <agm-info-window #infoWindow>
             <div>

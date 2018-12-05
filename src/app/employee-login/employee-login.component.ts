@@ -17,13 +17,14 @@ export class EmployeeLoginComponent  {
   }
 
   tryLogin() {
-    this.http.post("/employee_login", { username: this.username, password: this.password })
+    this.http.post("/login/employee", { username: this.username, password: this.password })
       .subscribe((data) => {
         if (data === true) {
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/employee');
+          this.authService.employeeLogin(true);
 
         } else {
-          alert('Incorrect username or password.')
+          alert('User is not employee!')
           this.router.navigateByUrl('/');
         }
       });

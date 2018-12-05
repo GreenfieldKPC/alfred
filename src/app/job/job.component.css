@@ -20,6 +20,7 @@
 #chores {
   background-color: white;
   min-height: 75vh;
+  border: 5px solid silver;
 }
 
 ul {
@@ -35,7 +36,7 @@ li {
 
 h1, h3 {
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 h3 {
@@ -63,4 +64,8 @@ span:not(.close) {
 
 .profile {
   text-align: center;
+}
+
+.hide {
+  display: none;
 }

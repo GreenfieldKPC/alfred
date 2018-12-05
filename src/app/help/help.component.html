@@ -1,0 +1,11 @@
+<form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
+
+  <div class="form-group col-md-12">
+    <label for="user">Title</label>
+    <input type="text" class="form-control" formControlName="title" placeholder="Title">
+  </div>
+ 
+  <div class="col-md-12 post-btn text-right">
+    <button type="submit" class="btn btn-primary">+Post</button>
+  </div>
+</form>

@@ -25,7 +25,7 @@ form {
 
 h2, h1 {
   color: #5A6978; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 
 #add .btn-primary {
@@ -33,7 +33,7 @@ h2, h1 {
   border: 0;
   border-radius: 40px;
   color: white; 
-  font-family: 'Playfair Display SC', serif;
+  font-family: 'Fjalla One', sans-serif;
   font-size: 4vh;
   margin: 4vh;
   padding: 1vw 6vw 1vw 4vw;

@@ -17,6 +17,9 @@
     <div col-sm-4>
       <ul class="list-group">
         <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Rating</strong></span>
+          <ngb-rating [(rate)]="rating"></ngb-rating>
+        </li>
         <li class="list-group-item text-right"><span class="pull-left"><strong>Chores Posted</strong></span>
           {{postedCount}}</li>
         <li class="list-group-item text-right"><span class="pull-left"><strong>Chores Taken</strong></span> {{takenCount}}</li>
@@ -61,7 +64,7 @@
             <div class="form-group">
               <div class="col-xs-6">
                 <label for="mobile">
-                  <h4>Mobile</h4>
+                  <h4>Username</h4>
                 </label>
                 <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number"
                   title="enter your mobile number if any.">
