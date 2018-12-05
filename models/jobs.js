@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-    }, 
+    },
     title: DataTypes.STRING,
     poster: DataTypes.INTEGER,
     doer: DataTypes.INTEGER,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     lon: DataTypes.STRING,
     completed: DataTypes.BOOLEAN
   }, {});
-  jobs.associate = function(models) {
+  jobs.associate = function (models) {
     // associations can be defined here
   };
   return jobs;

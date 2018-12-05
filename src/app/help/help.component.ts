@@ -43,15 +43,13 @@ export class HelpComponent {
   ) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
-      console.log(this.geocoder);
+   
     });
   }
 
   previewFile() {
-    console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
-    console.log(this.imageFile)
     var reader = new FileReader();
 
     reader.addEventListener("load", () => {
@@ -81,9 +79,7 @@ export class HelpComponent {
         this.jobsList.push(this.jobs[i].title)
       }
     });
-  
 
- console.log(this.jobsList)
     this.complaintForm = this.formBuilder.group({
       title: [''],
     
@@ -95,7 +91,6 @@ export class HelpComponent {
   }
   show(e) {
     this.string = e;
-    console.log(this.string);
     this.userMess.push(this.string);
     this.string = '';
     // result.push(this.string);
@@ -114,11 +109,10 @@ export class HelpComponent {
     });
   }
   addComplaint() {
-console.log(this.complaintForm.value);
+
     this.complaintForm.value.category = this.selectedCategory;
-console.log(this.selectedCategory);
 this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
-  console.log(data);
+
 })
   }
 }

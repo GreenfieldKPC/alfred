@@ -45,7 +45,6 @@ export class ProfileComponent implements OnInit {
         if (this.info.picture !== undefined && this.info.picture !== 'undefined') {
           this.userPhoto = this.info.picture;
         }
-        console.log(this.info);
       })
   }
   ngOnInit() {
@@ -64,7 +63,6 @@ export class ProfileComponent implements OnInit {
   processFile() {
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
-    console.log(this.imageFile)
     var reader = new FileReader();
 
     reader.addEventListener("load", () => {
@@ -80,7 +78,6 @@ export class ProfileComponent implements OnInit {
   updatePhoto(image) {
 
     this._photoService.uploadPhoto(image).then((image) => {
-      console.log('uploading', image.url)
       return this._profileService.updateUserPhoto(image.url)
     }).then((imageUrl) => {
       this.userPhoto = imageUrl;

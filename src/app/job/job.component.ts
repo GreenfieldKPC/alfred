@@ -44,7 +44,7 @@ export class JobComponent implements OnInit {
     private _photoService: PhotoService,
     private _profileService: ProfileService,
     private http: HttpClient,
-    ) {
+  ) {
     config.max = 5;
     config.readonly = true;
     this.jobsTaken = [];
@@ -64,8 +64,8 @@ export class JobComponent implements OnInit {
       });
     });
   }
-  image:any;
-  imageFile:any;
+  image: any;
+  imageFile: any;
   selectedFile = null;
   processFile() {
     console.log('its firing')
@@ -108,9 +108,9 @@ export class JobComponent implements OnInit {
       this.lat = coords['latitude'];
       this.lon = coords['longitude'];
       let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
-      if(radius > 2.5) {
+      if (radius > 2.5) {
         alert('to far away');
-      } 
+      }
       else {
         alert('ok');
         this._photoService.uploadPhoto(image)
@@ -118,8 +118,8 @@ export class JobComponent implements OnInit {
             console.log(data);
             if (data === true) {
               this._jobService.updateJobCompletion(chore.id)
-            } 
-        });
+            }
+          });
       }
     });
   }
@@ -140,7 +140,7 @@ export class JobComponent implements OnInit {
     // verify photo upload first
     let payout = job.payment * .85;
     console.log(payout, " job line 80")
-    
+
     this._addService.payUser(payout).then((payment) => {
       console.log(payment);
       if (payment === true) {
@@ -149,7 +149,7 @@ export class JobComponent implements OnInit {
         alert('There was a problem completing this job!');
         // console.log(data);
       }
-      
+
       return this._jobService.updateJobCompletion(job);
     }).then((job) => {
       //notify both users of payment and completion
@@ -177,7 +177,7 @@ export class JobComponent implements OnInit {
     this.sending = true;
     this._messageService.sendMessage(this.chats).then((data) => {
       this.message = '';
-    });  
+    });
   }
 
   // uploadPhoto(chore, photo) {
@@ -196,13 +196,13 @@ export class JobComponent implements OnInit {
   }
 
   delete(chore) {
- this.http.post('delete/job',chore).subscribe((data)=>{
-   console.log(data)
- })
-  
+    this.http.post('delete/job', chore).subscribe((data) => {
+      console.log(data)
+    })
+
   }
   getJobPoster(id) {
-     // display user photo, rating, username in job description
+    // display user photo, rating, username in job description
 
     this._profileService.getUserName(id).then((username) => {
       // display chore poster username on chore
@@ -233,8 +233,8 @@ export class JobComponent implements OnInit {
     } else if (user === 'poster') {
       to = chore.doer
     }
-    this._profileService.rateUser({ 
-      to: to, 
+    this._profileService.rateUser({
+      to: to,
       rating: this.selected,
       job: chore.id
     }).then(() => {

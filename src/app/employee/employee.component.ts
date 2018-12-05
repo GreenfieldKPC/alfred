@@ -21,7 +21,7 @@ export class EmployeeComponent implements OnInit {
   ngOnInit() {
     this.http.get('/complaints').subscribe((data) =>{
       this.issues = data;
-      console.log(this.issues)
+      
     })
 
   }
