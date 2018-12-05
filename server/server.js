@@ -744,12 +744,7 @@ app.get('/oauth/callback', (req, res) => {
   // Make /oauth/token endpoint POST request
   request.post({
     url: `https://connect.stripe.com/oauth/token?client_secret=sk_test_9sVeSfkTNBDozqwFlDTzavxt&code=${code}&grant_type=authorization_code`,
-    form: {
-      grant_type: 'authorization_code',
-      client_id: 'ca_E5tfHJicmsEM7yImGKJv30DqYfd2koHB',
-      code: code,
-      client_secret: 'sk_test_9sVeSfkTNBDozqwFlDTzavxt',
-    }
+
   }, function (err, r, body) {
     console.log(body, 'body')
     var accessToken = JSON.parse(body).access_token;

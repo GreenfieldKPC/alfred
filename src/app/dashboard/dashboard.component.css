@@ -1,5 +1,15 @@
+/* #map {
+  height: 100%;
+  position: absolute;
+} */
+
 .sebm-google-map-container {
   height: 300px;
+}
+
+#rating ngb-rating {
+  /* font-size: 1.5rem; */
+  color: yellow;
 }
 
 #searchbar {
@@ -20,4 +30,62 @@ border: 1px solid #5A6978;
 #info {
   border: 3px solid #5A6978;
   background-color: white;
+  min-height: 40vh;
+  width: 90vw;
+  max-width: 600px;
+  margin: auto;
+  text-align: center;
+  font-size: 3vh;
+}
+
+#choreImage {
+  height: 15vh;
+}
+
+.thumbnail {
+  position: relative;
+  width: 15vh;
+  height: 15vh;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+#img-container {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+#add-btn .add {
+  background-color: #F896EA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
+}
+
+#message-btn .message {
+  background-color: #969FAA;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  font-size: 2vh;
+  margin: 1vh;
+  padding: 1vw 2vw 1vw 2vw;
+  width: 15vh;
 }
