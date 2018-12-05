@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-// var request = require("request");
-aws4 = require('aws4')
+aws4 = require('aws4');
 // import entire SDK
 var AWS = require('aws-sdk');
 // import AWS object without services
@@ -26,7 +25,7 @@ cloudinary.config({
   api_key: process.env.cloud_key,
   api_secret: process.env.cloud_secret
 });
-const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');;
+const stripe = require('stripe')('sk_test_9sVeSfkTNBDozqwFlDTzavxt');
 const port = process.env.PORT || 8080;
 const app = express();
 const path = require('path');
@@ -745,12 +744,7 @@ app.get('/oauth/callback', (req, res) => {
   // Make /oauth/token endpoint POST request
   request.post({
     url: `https://connect.stripe.com/oauth/token?client_secret=sk_test_9sVeSfkTNBDozqwFlDTzavxt&code=${code}&grant_type=authorization_code`,
-    form: {
-      grant_type: 'authorization_code',
-      client_id: 'ca_E5tfHJicmsEM7yImGKJv30DqYfd2koHB',
-      code: code,
-      client_secret: 'sk_test_9sVeSfkTNBDozqwFlDTzavxt',
-    }
+
   }, function (err, r, body) {
     console.log(body, 'body')
     var accessToken = JSON.parse(body).access_token;
