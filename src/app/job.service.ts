@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Observable, of, throwError } from 'rxjs';
+import { JSDocCommentStmt } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,5 +21,7 @@ export class JobService {
   updateJobCompletion(chore) {
     return this.http.patch('/jobs/complete', { choreId: chore.id }).toPromise();
   }
-
+  updateJobId(job, url): Observable<object>{
+    return this.http.patch<object>('/jobs/:id', {choreId: job.id, doer: job.doer, photoDoer: url});
+  }
 }

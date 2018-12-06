@@ -337,7 +337,23 @@ app.get('/jobs/posted', (req, res) => {
 });
 ///////////////////////////////////////////////////////
 
-
+app.patch('/jobs/:id', (req, res) => {
+  const { choreId, photoDoer, doer, poster, photoPoster } = req.body;
+  const { userId } = req.session;
+  if (Number(doer) === Number(userId)) {
+    const q = `UPDATE jobs SET photo_doer='${photoDoer}' WHERE id=${choreId};`;
+    db.sequelize.query(q)
+      .then((data) => {
+        res.send();
+      });
+  } else {
+    const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
+    db.sequelize.query(q)
+      .then((data) => {
+        res.send();
+      });
+  }
+});
 
 
 app.patch('/jobs/complete', (req, res) => {
@@ -699,7 +715,7 @@ app.post('/searchJobs', ((req, res) => {
 
 app.post('/photo', (req, res) => {
   console.log('hellllloooooo cloudinary')
-  console.log(req.body.image);
+  
   cloudinary.v2.uploader.upload(req.body.image, {
       width: 500,
       height: 500,
