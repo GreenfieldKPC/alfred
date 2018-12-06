@@ -45,12 +45,9 @@
                 </div>
                 <div class="col-xs-6">
                   <div class="form-group">
-                    <label for="user">Upload Pic!</label>
                     <input id="photo" (change)="processFile()" type="file" class="text-center center-block file-upload">
-                    <button (click)="onUpload(chore, image)">Send Photo</button>
+                    <button class="btn btn-info" (click)="onUpload(chore, image)">Send Photo</button>
                   </div>
-                  <!-- <input type="file" accept="image/*" capture="capture"> -->
-                  <!-- <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button> -->
                 </div>
               </div>
               <div class="col-xs-12">

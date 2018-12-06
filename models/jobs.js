@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     poster: DataTypes.INTEGER,
     doer: DataTypes.INTEGER,
+    photo_poster: DataTypes.STRING,
+    photo_doer: DataTypes.STRING,
     category: DataTypes.INTEGER,
     description: DataTypes.STRING,
     created_at: DataTypes.NUMERIC,

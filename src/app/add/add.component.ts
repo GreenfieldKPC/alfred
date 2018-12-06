@@ -66,7 +66,20 @@ export class AddComponent {
       })
     });
   }
+   addslashes(string) {
+  return string.replace(/\\/g, '\\\\').
+    replace(/\u0008/g, '\\b').
+    replace(/\t/g, '\\t').
+    replace(/\n/g, '\\n').
+    replace(/\f/g, '\\f').
+    replace(/\r/g, '\\r').
+    replace(/'/g, '\\\'').
+    replace(/"/g, '\\"');
+}
   addChore() {
+    this.choreForm.value.title =  this.addslashes(this.choreForm.value.title)
+    console.log(this.choreForm.value.title)
+    this.choreForm.value.description = this.addslashes(this.choreForm.value.description)
     this.choreForm.value.electedCategory = this.selectedCategory
     this.choreForm.value.suggestedPay = this.selectedPay
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode

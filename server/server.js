@@ -337,7 +337,23 @@ app.get('/jobs/posted', (req, res) => {
 });
 ///////////////////////////////////////////////////////
 
-
+app.patch('/jobs/:id', (req, res) => {
+  const { choreId, photoDoer, doer, poster, photoPoster } = req.body;
+  const { userId } = req.session;
+  if (Number(doer) === Number(userId)) {
+    const q = `UPDATE jobs SET photo_doer='${photoDoer}' WHERE id=${choreId};`;
+    db.sequelize.query(q)
+      .then((data) => {
+        res.send();
+      });
+  } else {
+    const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
+    db.sequelize.query(q)
+      .then((data) => {
+        res.send();
+      });
+  }
+});
 
 
 app.patch('/jobs/complete', (req, res) => {
@@ -351,6 +367,53 @@ app.patch('/jobs/complete', (req, res) => {
     }
   });
 });
+
+
+
+app.post('/jobs/delete',(req,res)=>{
+  console.log(req.body);
+  db.sequelize.query(`DELETE FROM jobs WHERE id= '${req.body.choreId}';`).then(() =>{
+    res.end();
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //********************************* */
 
 
@@ -377,13 +440,13 @@ app.patch("/dashboard/takeChore", (req, res) => {
         // add check for doer id not assigned already
 
         if (data[1].rowCount > 0) {
-          res.send(true);
+          res.send({ value: true});
         } else {
-          res.send(false);
+          res.send({value: false});
         }
       }).catch((err) => console.log(err));
     }else{
-      res.send(false);
+      res.send({value: false});
     }
   })
  
@@ -699,7 +762,7 @@ app.post('/searchJobs', ((req, res) => {
 
 app.post('/photo', (req, res) => {
   console.log('hellllloooooo cloudinary')
-  console.log(req.body.image);
+  
   cloudinary.v2.uploader.upload(req.body.image, {
       width: 500,
       height: 500,
@@ -838,7 +901,8 @@ app.get('/oauth/callback', (req, res) => {
 app.post('/complaint', (req, res) => {
   console.log(req.session);
   console.log(req.body);
-  // db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
+  db.sequelize.query(`INSERT INTO complaints(description,category,id_user, id_job,created_at,resolved) VALUES('${req.body.description}','${req.body.category}','${req.session.userId}','${req.body.id_job}','${Date.now()}','${false}')`)
+  res.end();
 })
 // {
 //   description: 'okfnb',

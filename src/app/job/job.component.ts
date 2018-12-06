@@ -6,6 +6,7 @@ import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profile.service';
 import { HttpClient } from '@angular/common/http';
+import { any } from 'bluebird';
 interface Message {
   userid: number;
   message: string;
@@ -34,7 +35,7 @@ export class JobComponent implements OnInit {
   message: string;
   sending: boolean;
   isClassHidden: false;
-
+  imageUrl: any;
   constructor(
     private _jobService: JobService,
     private _addService: AddService,
@@ -66,7 +67,7 @@ export class JobComponent implements OnInit {
   }
   image: any;
   imageFile: any;
-  selectedFile = null;
+  selectedFile:any;
   processFile() {
     console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
@@ -108,17 +109,22 @@ export class JobComponent implements OnInit {
       this.lat = coords['latitude'];
       this.lon = coords['longitude'];
       let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
+      console.log(radius);
       if (radius > 2.5) {
         alert('to far away');
+        
       }
       else {
-        alert('ok');
         this._photoService.uploadPhoto(image)
           .then((data) => {
-            console.log(data);
-            if (data === true) {
-              this._jobService.updateJobCompletion(chore.id)
-            }
+            this.selectedFile = data;
+            this.imageUrl = this.selectedFile.url;
+            console.log(this.imageUrl);
+
+            this._jobService.updateJobId(chore, this.imageUrl)
+              .subscribe((data) => {
+                console.log(data);
+              });
           });
       }
     });
@@ -177,14 +183,6 @@ export class JobComponent implements OnInit {
     });
   }
 
-  // uploadPhoto(chore, photo) {
-  //   //must open camera of mobile device and upload the picture taken
-  //   // must save chore id with photo to recall for later use
-  //   this._photoService.uploadPhoto(photo).then((data) => {
-  //     console.log(data);
-  //   });
-  // }
-
   navigate(chore) {
     // upen google maps with directions to chore address
   }
@@ -193,9 +191,11 @@ export class JobComponent implements OnInit {
   }
 
   delete(chore) {
-    this.http.post('delete/job', chore).subscribe((data) => {
-      console.log(data)
-    })
+    console.log(chore);
+   this._jobService.deleteJob(chore).then((data) =>{
+     console.log(data)
+   });
+    
 
   }
   getJobPoster(id) {
