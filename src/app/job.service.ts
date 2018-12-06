@@ -21,6 +21,13 @@ export class JobService {
   updateJobCompletion(chore) {
     return this.http.patch('/jobs/complete', { choreId: chore.id }).toPromise();
   }
+  updateJob(chore) {
+    return this.http.patch('/jobs/update', { choreId: chore.id }).toPromise();
+  }
+  deleteJob(chore) {
+    return this.http.post('/jobs/delete', { choreId: chore.id }).toPromise();
+  }
+ 
   updateJobId(job, url): Observable<object>{
     return this.http.patch<object>('/jobs/:id', {choreId: job.id, doer: job.doer, photoDoer: url});
   }
