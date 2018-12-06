@@ -12,6 +12,8 @@ interface Message {
   styleUrls: ['./message.component.css']
 })
 export class MessageComponent {
+  active:number;
+  string: string;
   chats: Message;
   message: string;
   sending: boolean;
@@ -20,6 +22,7 @@ export class MessageComponent {
   messagesFrom:any;
   users:any = [];
   isRead:boolean = false;
+  box:any = [];
   constructor(
       private http: HttpClient,
       config: NgbModalConfig, 
@@ -38,46 +41,61 @@ export class MessageComponent {
         this.messages = data;
         this.messagesFrom = this.messages[1];
         this.messagesTo = this.messages[0];
-        
-        // if (this.messages[2].id.includes(this.messagesFrom.id_from)){
-        //   this.user.push(this.messages[2].username);
-        //   console.log(this.user);
-        // }
-        this.messages[2].forEach((obj) => {
-          this.messagesFrom.forEach((ob) => {
-            if (obj.id === ob.id_from){
-              if(!this.users.includes(obj.username)) {
-                this.users.push(obj);
-
-              } else {
-                return;
-              }
-            }
-
-          })
-        });
-        console.log(this.users, 'data');
-        console.log(this.messagesFrom, 'from');
-        console.log(this.messagesTo, 'to');
+        this.users = this.messages[2];
       });
   }
+  onClick(index) {
+    this.active = index;
+    this.read(this.users[index]);
+    
+  }
+  keep() {
+    var x = document.getElementById('messagebox');
+    if (x.style.display === 'none') {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
+  }
   sendMessage(id) {
-    console.log(id);
-    // id = Number(id);
     this.chats = {
       userid: id,
       message: this.message,
     }
     this.sending = true;
-    console.log(this.chats);
-    // this.http.post('/message', this.chats).subscribe((data) => {
-    //   console.log(data);
-    // })
+    this.http.post('/message', this.chats).subscribe((data) => {
+    })
     this.message = '';
   }
-  read() {
-    this.isRead = !this.isRead;
+  filterMess(name) {
+    this.messagesFrom.forEach((obj) => {
+      if (name === obj.id_from_username) {
+        this.box.push(obj);
+      }
+
+    });
+    this.messagesTo.forEach((obj) => {
+      if (name === obj.id_to_username) {
+        this.box.push(obj);
+      }
+    });
+    this.box.sort((a, b) => {
+      return a.created - b.created;
+    })
+    // this.box.read = this.isRead;
   }
+  read(ev) {
+    this.filterMess(ev.username);
+    // this.selectedUser(ev.username);
+    this.isRead = !this.isRead;
+    if (this.isRead === false){
+      this.box = [];
+    }
+    
+  }
+  // selectedUser(name) {
+  //   this.string = name;
+  // }
   ngOnInit() {
     this.getMess();
   }

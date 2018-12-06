@@ -4,17 +4,17 @@
   </div>
   <div id="login-form" class="row text-center">
     <div class="form-group col-md-12">
-      <input type="text" class="form-control" id="user" placeholder="Username" [(ngModel)]="username">
+      <input type="text" class="form-control form-control-lg" id="user" placeholder="Username" [(ngModel)]="username">
     </div>
     <div class="form-group col-md-12">
-      <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="password">
+      <input type="password" class="form-control form-control-lg" id="password" placeholder="Password" [(ngModel)]="password">
     </div>
   </div>
   <div class="col-md-12 login-btn">
     <button type="submit" class="btn btn-primary" (click)="tryLogin()">Login</button>
   </div>
   <div class="col-md-12">
-    <p>Don't have an account?</p><br>
-    <button routerLink="/signup" class="btn btn-primary signup-btn">Sign Up</button>
+    <p>Not an employee?</p><br>
+    <button routerLink="" class="btn btn-primary signup-btn">Go Back</button>
   </div>
 </div>

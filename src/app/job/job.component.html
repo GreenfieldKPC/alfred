@@ -3,7 +3,7 @@
     <div class="col-xs-7">
       <h1>My Chores</h1>
     </div>
-    <div id="add-logo-container" class="col-xs-4">
+    <div id="job-logo-container" class="col-xs-4">
       <img src="{{logo}}">
     </div>
   </div>
@@ -28,7 +28,7 @@
                       <p>{{ chore.address }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                      <p class="payment">Available pay: ${{ chore.payment }}</p>
                     </div>
                   </div>
                 </button>
@@ -43,20 +43,24 @@
                     <p>{{ choreUsername }}</p>
                   </div>  
                 </div>
-                <div class="col-xs-6">  
-                  <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="photo">Select photo!</label>
+                    <input id="photo" (change)="processFile()" type="file" class="text-center center-block file-upload">
+                    <button type="button" class="btn btn-info upload" (click)='onUpload(chore, image)'>Upload Pic</button>
+                  </div>
                 </div>
               </div>
               <div class="col-xs-12">
                 <div class="col-xs-12"> <p>{{ chore.description }}</p> </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)="open(content)">message</button>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info messageBtn" (click)="open(content)">message</button>
                 </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)='navigate(chore)'>navigate</button>
-                </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-info" (click)='completeJob(chore)'>Complete!</button>
+                <!-- <div class="col-xs-4">
+                  <button type="button" class="btn btn-info nav" (click)='navigate(chore)'>navigate</button>
+                </div> -->
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info complete" (click)='completeJob(chore)'>Complete!</button>
                 </div>
               </div>
 
@@ -120,11 +124,11 @@
                   <div id="rating">
                     <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
                   <br>
-                    <a (click)="submitRating(chore)">Rate!</a> 
+                    <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'doer')">Rate Chore!</a> 
                   </div>
                 </div>
                 <div class="col-xs-6">
-                  <button type="button" class="btn btn-info" (click)='help(chore)'>Help</button>
+                  <button type="button" class="btn btn-info help" routerLink="/help">Help</button>
                 </div>
               </div>
             </div>
@@ -154,7 +158,14 @@
                     <p class="payment">Amount paid: ${{ chore.payment }}</p>
                   </div>
                   <div class="col-xs-4">
-                    <p *ngIf="chore.completed"> Completed! </p>
+                    <div *ngIf="chore.completed">
+                      <p> Completed! </p>
+                      <div id="rating">
+                        <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered" [readonly]="false"></ngb-rating>
+                        <br>
+                        <a [ngClass]="{'hide': isClassHidden }" (click)="isClassHidden = !isClassHidden;" (click)="submitRating(chore, 'poster')">Rate Chore!</a>
+                      </div>
+                    </div>
                     <p *ngIf="!chore.completed"> Not done yet </p>
                   </div>
                 </div>
@@ -168,8 +179,9 @@
                   <p>{{ chore.description }}</p>
                 </div>
                 <div class="col-xs-6">
-                  <button type="button" class="btn btn-info" (click)="edit(chore)">Edit</button>
-                  <button type="button" class="btn btn-info" (click)='delete(chore)'>Delete</button>
+                  <button type="button" class="btn btn-info edit" (click)="edit(chore)">Edit</button>
+                  <button type="button" class="btn btn-info delete" (click)='delete(chore)'>Delete</button>
+                  <button type="button" class="btn btn-info help" routerLink="/help">Help</button>
                 </div>
               </div>
             </div>

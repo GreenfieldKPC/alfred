@@ -8,7 +8,7 @@ import { AuthService } from './../auth/auth.service';
   templateUrl: './employee-login.component.html',
   styleUrls: ['./employee-login.component.css']
 })
-export class EmployeeLoginComponent  {
+export class EmployeeLoginComponent {
 
   username = '';
   password = '';

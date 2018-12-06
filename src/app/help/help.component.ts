@@ -20,18 +20,22 @@ interface LatLng {
   styleUrls: ['./help.component.css']
 })
 export class HelpComponent {
+  complaintObj: any;
+  al:any;
   geocoder: any;
   complaintForm: FormGroup;
   categoryLists = ['Unsafe conditions', 'No equipment', 'Harassment', 'Unable to complete job','Other'];
   jobsList = [];
   selectedCategory: string;
-  selectedJob: string;
+  selectedJob: any;
   imageFile: any;
   image: any;
   imageUrl:any;
   customer: any;
   jobs:any;
   job:any;
+  string:any;
+  userMess:any = [];
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
      private _jobService: JobService,
@@ -41,15 +45,13 @@ export class HelpComponent {
   ) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
-      console.log(this.geocoder);
+   
     });
   }
 
   previewFile() {
-    console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
-    console.log(this.imageFile)
     var reader = new FileReader();
 
     reader.addEventListener("load", () => {
@@ -65,9 +67,9 @@ export class HelpComponent {
   ngOnInit(e) {
     this.jobs = [];
     this._jobService.getUserJobsTaken().then(data => {
-   for (var job in data){
-     this.jobs.push(data[job])
-   }
+    for (var job in data){
+      this.jobs.push(data[job])
+    }
       
     });
     this._jobService.getUserJobsPosted().then(data => {
@@ -77,24 +79,15 @@ export class HelpComponent {
       ;
       for (var i = 0; i < this.jobs.length; i++) {
         this.jobsList.push(this.jobs[i].title)
-       
       }
     });
-  
 
- console.log(this.jobsList)
     this.complaintForm = this.formBuilder.group({
-      // category: [''],
-      description: [''],
-      address: [''],
-      city: [''],
-      zipcode: [''],
-      // suggestedPay: [''],
-      //time needs to be converted to timestamp
+      title: [''],
+    
 
     })
     this.selectedCategory = e;
-    this.selectedJob = e;
     
   }
   getlatlng(address: string) {
@@ -109,30 +102,39 @@ export class HelpComponent {
       })
     });
   }
+  bot = [];
   addComplaint() {
-for(var i = 0; i < this.jobs.length; i++){
-  if (this.selectedJob === this.jobs[i].title){
-    this.job = this.jobs[i]
-  }
-}
-    console.log(this.selectedJob);
-    this.complaintForm.value.electedCategory = this.selectedCategory
-     console.log(this.complaintForm.value);
-     this.complaintForm.value.job = this.job;
-    var addr = this.complaintForm.value.address + "," + this.complaintForm.value.city + "," + this.complaintForm.value.zipcode
-    this.complaintForm.value.addr = addr;
-    this.http.post('/category', { category: this.complaintForm.value.electedCategory} ).subscribe((category) =>{
-      this.complaintForm.value.category = category[0].id
-    this.http.post('/photo', { image: this.image }).subscribe((image) => {
-      this.image = image
-      this.imageUrl = this.image.url;
-      this.complaintForm.value.image = this.imageUrl
-      console.log(this.imageUrl)
-      this.http.post('/complaint',this.complaintForm.value).subscribe((data) =>{
-        console.log(data)
-      })
-    });
-  })
+    console.log(this.complaintForm.value);
+
+
+    console.log(this.selectedCategory);
+    this.bot.push(this.complaintForm.value.title)
+    this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
+    this.al = data;
+      if (this.al.dialogState !== 'ReadyForFulfillment'){
+        this.bot.push(this.al.message);
+      } else {
+        let complaint = 'Thnak you ,your complaint has been filed one of our staff will be in touch soon.';
+        console.log(this.jobs);
+        this.jobs.forEach((job) =>{
+          if (job.title === this.selectedCategory ){
+            this.selectedJob = job;
+          }
+        })
+        this.bot.push(complaint);
+        console.log(this.al.slots);
+       this.complaintObj = {},
+          this.complaintObj.category =  this.al.slots.category
+        this.complaintObj.description = this.al.slots.incident_details
+        this.complaintObj.name = this.al.slots.name
+        this.complaintObj.id_job = this.selectedJob.id
+
+        this.http.post('/complaint', this.complaintObj).subscribe((data) =>{
+
+        });
+      }
+})
+  this.complaintForm.reset();
   }
 }
 

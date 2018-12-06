@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     url: DataTypes.STRING,
     verified: DataTypes.BOOLEAN
   }, {});
-  photos.associate = function(models) {
+  photos.associate = function (models) {
     // associations can be defined here
   };
   return photos;

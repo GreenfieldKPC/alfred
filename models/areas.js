@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     city: DataTypes.STRING
   }, {});
-  areas.associate = function(models) {
+  areas.associate = function (models) {
     // associations can be defined here
   };
   return areas;

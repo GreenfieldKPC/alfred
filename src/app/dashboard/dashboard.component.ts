@@ -6,10 +6,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { ProfileService } from '../profile.service';
 declare var google: any;
-
-
 interface Marker {
   lat: number;
   lng: number;
@@ -41,7 +39,7 @@ interface Message {
 
 
 export class DashboardComponent implements OnInit {
-  chats:Message;
+  chats: Message;
   message: string;
   sending: boolean;
   currentRate: number = 7;
@@ -68,11 +66,17 @@ export class DashboardComponent implements OnInit {
     lat: 12,
     lng: 12,
   }
+  data: any;
   searchJob: any;
   searchUser: any;
+  selectedChore: any;
+  selectedChorePosterUsername: any;
+  selectedChorePosterRating: any;
+  selectedChorePosterPhoto: any;
   test: any;
   test2: string = '2539 Columbus Street, New Orleans, LA';
   infoWindow = new google.maps.InfoWindow();
+  public defaultPhoto = "assets/images/non.png";
   @ViewChild(AgmMap) map: AgmMap;
   constructor(
     config: NgbModalConfig,
@@ -81,14 +85,19 @@ export class DashboardComponent implements OnInit {
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader, private router: Router, private http: HttpClient,
     private zone: NgZone,
-    private wrapper: GoogleMapsAPIWrapper
-    ) {
+    private wrapper: GoogleMapsAPIWrapper,
+    private _profileService: ProfileService,
+  ) {
     config.backdrop = 'static';
     config.keyboard = false;
     rateConfig.max = 5;
     rateConfig.readonly = true;
     this.mapsApiLoader = mapsApiLoader;
     this.zone = zone;
+    this.selectedChore;
+    this.selectedChorePosterUsername;
+    this.selectedChorePosterRating;
+    this.selectedChorePosterPhoto;
     this.wrapper = wrapper;
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -97,14 +106,14 @@ export class DashboardComponent implements OnInit {
   open(content) {
     this.modalService.open(content);
   }
-  sendMessage( id) {
-    
+  sendMessage(id) {
+
     this.chats = {
       userid: id,
       message: this.message,
     }
     this.sending = true;
-    this.http.post('/message',this.chats).subscribe((data) => {
+    this.http.post('/message', this.chats).subscribe((data) => {
     })
     this.message = '';
   }
@@ -115,7 +124,7 @@ export class DashboardComponent implements OnInit {
     });
   }
   getlatlng(address: string) {
-    
+
     let geocoder = new google.maps.Geocoder();
     return Observable.create(observer => {
       geocoder.geocode({ 'address': address }, function (results, status) {
@@ -137,9 +146,12 @@ export class DashboardComponent implements OnInit {
 
   takeChore(job) {
     this.dashboardService.takeChore(job).subscribe((data) => {
-      console.log(data, 'dashboard');
-      // update job with doer of current user id
-    alert("Added to My Chores!"); 
+      this.data = data;
+      if(this.data.value === true){
+      alert("Added to My Chores!");
+      }else{
+        alert("Sorry that job is no longer available");
+      }
     })
   }
 
@@ -170,14 +182,11 @@ export class DashboardComponent implements OnInit {
           this.location.marker.draggable = true;
           this.location.viewport = results[0].geometry.viewport;
         }
-
         this.map.triggerResize()
-
       } else {
         alert("Sorry, this search produced no results.");
       }
     })
-
   }
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
@@ -187,8 +196,7 @@ export class DashboardComponent implements OnInit {
 
   }
   testing($event) {
-    console.log('hello');
-    console.log($event);
+
   }
   getList() {
     var category;
@@ -202,6 +210,7 @@ export class DashboardComponent implements OnInit {
               this.searchJob = data;
               this.searchUser = this.searchJob.users;
               this.searchJob = this.searchJob.jobs;
+              this.selectChore(this.searchJob[0]);
             })
         })
     } else {
@@ -217,34 +226,57 @@ export class DashboardComponent implements OnInit {
                   this.searchUser = this.searchJob.users;
                   this.searchJob = this.searchJob.jobs;
                 })
-              })
             })
-          }
-          this.updateOnMap();
-    
+        })
+    }
+    this.updateOnMap();
+
   }
   getuser() {
     this.dashboardService.getUser()
-    .subscribe((user) => {
-      this.user = user;
-      this.getlatlng(this.user.area).subscribe(result => {
-        this.zone.run(() => {
-          this.lat = result.lat();
-          this.lng = result.lng();
-        });
-      },error => console.log(error),
-      () => console.log('complete'))
+      .subscribe((user) => {
+        this.user = user;
+        this.getlatlng(this.user.area).subscribe(result => {
+          this.zone.run(() => {
+            this.lat = result.lat();
+            this.lng = result.lng();
+          });
+        }, error => console.log(error),
+          () => console.log('complete'))
       });
   }
   getjob() {
     this.dashboardService.getJobs()
-    .subscribe((jobs) => {
-      this.jobs = jobs;
+      .subscribe((jobs) => {
+        console.log(jobs);
+        this.jobs = jobs;
+        if(this.jobs[0]) {
+          this.selectChore(this.jobs[0]);
+        }
       });
   }
   ngOnInit() {
     this.getuser();
     this.getjob();
+  }
+
+  selectChore(chore) {
+    this.selectedChore = chore;
+    this._profileService.getUserName(chore.poster).then((username) => {
+      this.selectedChorePosterUsername = username.username;
+      return this._profileService.getUserRating(chore.poster);
+    }).then((rating) => {
+      this.selectedChorePosterRating = rating.rating;
+      return this._profileService.getUserPhoto(chore.poster);
+    }).then((photo) => {
+      if (photo.url !== undefined && photo.url !== 'undefined') {
+        this.selectedChorePosterPhoto = photo.url;
+      } else {
+        this.selectedChorePosterPhoto = this.defaultPhoto;
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
 }

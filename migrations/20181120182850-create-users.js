@@ -23,9 +23,12 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
-       id_stripe: {
+       id_stripe_customer: {
          type: Sequelize.STRING
        },
+        id_stripe_account: {
+          type: Sequelize.STRING
+        },
       picture: {
         type: Sequelize.STRING
       },

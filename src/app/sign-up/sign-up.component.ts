@@ -10,7 +10,6 @@ import {
   ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
 
 declare var stripe: any;
 declare var elements: any;
@@ -27,6 +26,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
+  customer: any;
   
   public logo = "assets/images/logo.png";
   image: any;
@@ -45,7 +45,7 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   username: string;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
   selectedCategory: string;
-  customer:any;
+  
   ngOnInit() {
     this.profileForm = this.formBuilder.group({
       username: [''],
@@ -65,10 +65,9 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
     })
   }
   processFile() {
-    console.log('its firing')
+
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
-    console.log(this.imageFile)
     var reader = new FileReader();
 
     reader.addEventListener("load", () => {
@@ -115,6 +114,8 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
   }
   
   onSubmit(e) {
+    //alert user must upload photo!
+    
     if (!this.customer) {
       alert('Please create account with Stripe to Sign up!')
     } else if (!this.image) {
@@ -126,13 +127,10 @@ export class SignUpComponent implements AfterViewInit, OnDestroy {
       this.http.post('/photo', { image: this.image }).subscribe((image) => {
         this.image = image
         this.imageUrl = this.image.url;
-        console.log(this.imageUrl)
-
         this.signupService.addCategory(this.selectedCategory).subscribe((catObj) => {
           this.profileForm.value.category = catObj[0].id;
           this.profileForm.value.image = this.imageUrl;
           this.signupService.addUser(this.profileForm.value).subscribe((data) => {
-            console.log(data, 'service');
             this.router.navigateByUrl('/login');
           })
         })

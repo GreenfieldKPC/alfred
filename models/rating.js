@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     value: DataTypes.INTEGER,
     id_job: DataTypes.INTEGER,
-    to: DataTypes.INTEGER,
-    from: DataTypes.INTEGER
+    id_to: DataTypes.INTEGER,
+    id_from: DataTypes.INTEGER
   }, {});
-  rating.associate = function(models) {
+  rating.associate = function (models) {
     // associations can be defined here
   };
   return rating;
