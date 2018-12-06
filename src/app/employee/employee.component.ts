@@ -27,6 +27,7 @@ export class EmployeeComponent implements OnInit {
   sending: boolean;
   complaintUsername: string;
   jobPhoto: any;
+  job: any;
 
   constructor(
     private router: Router,
@@ -41,7 +42,7 @@ export class EmployeeComponent implements OnInit {
       config.keyboard = false;
       this.issues = [];
       this.complaintUsername ='';
-      this.jobPhoto = '';
+      this.jobPhoto = "assets/images/default.png";
      }
 
   ngOnInit() {
@@ -51,7 +52,9 @@ export class EmployeeComponent implements OnInit {
     });
 
   }
-
+  open(content) {
+    this.modalService.open(content);
+  }
   sendMessage(id) {
     this.chats = {
       userid: id,
@@ -68,20 +71,22 @@ export class EmployeeComponent implements OnInit {
     this._profileService.getUserName(complaint.id_user).then((username) => {
 
       this.complaintUsername = username.username;
-      return this._jobService.getJobPhoto(complaint.id_job);
-    }).then((photo) => {
-      if (photo.url) {
-        this.jobPhoto = photo.url;
+      return this._jobService.getJob(complaint.id_job);
+    }).then((job) => {
+      console.log(job, 'job employee 76')
+      this.job = job;
+      if(job.url) {
+        this.jobPhoto = job.url;
       } else {
-        this.jobPhoto = "assets/images/non.png";
+        this.jobPhoto = "assets/images/default.png";
       }  
     }).catch((err) => {
       console.log(err);
     });
   }
 
-  resolveIssue(issue) {
-    this._complaintService.resolveComplaint(issue.id).then((data) => {
+  resolveIssue(id) {
+    this._complaintService.resolveComplaint(id).then((data) => {
       console.log(data, 'resolve complaint 85');
     }).catch(err => {
       console.log(err);

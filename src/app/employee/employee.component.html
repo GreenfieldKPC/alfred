@@ -16,42 +16,41 @@
             <button class="col-md-12" data-toggle="collapse" (click)="getUserInfo(complaint)" [attr.data-parent]="'#accordionT_' + i"
               [attr.href]="'#collapseOneT_' + i">
               <div class="col-md-12">
-                <div class="col-xs-9">
+                <div class="col-xs-8">
                   <p>{{ complaint.category }}</p>
                   <p>Job Id# {{ complaint.id_job }}</p>
+                  <p>{{ complaintUsername }}</p>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                   Date Posted: {{ complaint.created_at }}
-                  <div class="col-xs-12">
-                    <button type="button" class="btn btn-info review" (click)='getUserInfo(complaint)'>Review!</button>
-                  </div>
+                  <button type="button" class="btn btn-info review" (click)='getUserInfo(complaint)'>Review!</button>
                 </div>
               </div>
             </button>
           </div>
           <div [attr.id]="'collapseOneT_' + i" class="collapse in row">
             <!-- all questions, responses, image, user details, option to reply/resolve -->
-            <div class="card-body col-md-12">
-              <div class="col-xs-12">
-                <div class="col-xs-6 profile">
-                  <img src="{{ chorePhoto }}">
-                  
-                </div>
-                <div class="col-xs-6">
-                </div>
+            <div *ngIf="job" class="card-body col-md-12">
+              <div class="col-md-12">
+                <img src="{{ jobPhoto }}" class="completion-img">
               </div>
               <div class="col-xs-12">
                 <div class="col-xs-12">
+                  <!-- need to get usernames to display username and id here? -->
+                  <p>Chore poster: {{job.poster}}</p>
+                  <p>Chore doer: {{job.doer}}</p>
+                </div>
+                <div class="col-xs-12">
                   <p>{{ complaint.description }}</p>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                   <button type="button" class="btn btn-info respond" (click)="open(content)">Respond</button>
                 </div>
-                <div class="col-xs-4">
-                  <button type="button" class="btn btn-info resolve" (click)="" >Resolve</button>
+                <div class="col-xs-6">
+                  <button type="button" class="btn btn-info resolve" (click)="resolveIssue(complaint.id)" >Resolve</button>
                 </div>
               </div>
-
+              <!-- message modal -->
               <ng-template #content let-c="close" let-d="dismiss">
                 <div class="modal-header">
                   <h4 class="modal-title" id="modal-basic-title">Reply to user</h4>

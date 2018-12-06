@@ -124,8 +124,13 @@ export class JobComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
-    this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
+    this._jobService.getUserJobsTaken().then(data => { 
+      this.jobsTaken = data; 
+      
+    });
+    this._jobService.getUserJobsPosted().then(data => { 
+      this.jobsPosted = data; 
+    });
   }
 
   completeJob(job) {

@@ -28,7 +28,7 @@
                       <p>{{ chore.address }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p class="payment">Available earnings: ${{ chore.payment }}</p>
+                      <p class="payment">Available pay: ${{ chore.payment }}</p>
                     </div>
                   </div>
                 </button>
@@ -45,9 +45,9 @@
                 </div>
                 <div class="col-xs-6">
                   <div class="form-group">
-                    <label for="user">Upload Pic!</label>
+                    <!-- <label for="user">Upload Pic!</label> -->
                     <input id="photo" (change)="processFile()" type="file" class="text-center center-block file-upload">
-                    <button (click)="onUpload(chore, image)">Send Photo</button>
+                    <button type="button" class="btn btn-info upload" (click)='uploadPhoto(chore, image)'>Upload Pic!</button>
                   </div>
                   <!-- <input type="file" accept="image/*" capture="capture"> -->
                   <!-- <button type="button" class="btn btn-info" (click)='uploadPhoto(chore, image)'>Upload Pic!</button> -->
@@ -55,13 +55,13 @@
               </div>
               <div class="col-xs-12">
                 <div class="col-xs-12"> <p>{{ chore.description }}</p> </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                   <button type="button" class="btn btn-info messageBtn" (click)="open(content)">message</button>
                 </div>
-                <div class="col-xs-4">
+                <!-- <div class="col-xs-4">
                   <button type="button" class="btn btn-info nav" (click)='navigate(chore)'>navigate</button>
-                </div>
-                <div class="col-xs-4">
+                </div> -->
+                <div class="col-xs-6">
                   <button type="button" class="btn btn-info complete" (click)='completeJob(chore)'>Complete!</button>
                 </div>
               </div>
