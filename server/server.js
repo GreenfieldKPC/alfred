@@ -856,6 +856,7 @@ app.post('/complaint', (req, res) => {
 // **********************getting complaints*************//
 app.get('/complaints', (req, res) => {
   db.sequelize.query(`SELECT * FROM complaints`).then((complaints) => {
+    console.log(complaints[0], 'server 859');
     res.send(complaints[0]);
   })
 

@@ -1,7 +1,103 @@
-<ul class="list-group">
-  <li class="list-group-item disabled">Cras justo odio</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Morbi leo risus</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-</ul>
+<div id="issues" class="row text-center">
+  <div id="issues-header" class="row text-center">
+    <div class="col-xs-7">
+      <h1>User Issues</h1>
+    </div>
+    <div id="issues-logo-container" class="col-xs-4">
+      <img src="{{logo}}">
+    </div>
+  </div>
+  <div id='complaints'>
+    <div id="accordionT row">
+      <p *ngIf='!issues[0]'> None Yet!</p>
+      <div class="card issue" [attr.id]="'accordionT_' + i" *ngFor="let complaint of issues; let i = index;">
+        <div class="panel panel-default">
+          <div class="card-header">
+            <button class="col-md-12" data-toggle="collapse" (click)="getJobImage(complaint)" [attr.data-parent]="'#accordionT_' + i"
+              [attr.href]="'#collapseOneT_' + i">
+              <div class="col-md-12">
+                <div class="col-xs-8">
+                  <a>{{ complaint.title }}</a>
+                </div>
+                <div class="col-xs-4">
+                  Date Posted
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-xs-4">
+                  <p>{{ complaint.category }}</p>
+                </div>
+                <div class="col-xs-4">
+                  <p>${{ complaint.jobId }}</p>
+                </div>
+                <div class="col-xs-4">
+                  <p>${{ complaint.username }}</p>
+                </div>
+              </div>
+            </button>
+          </div>
+          <div [attr.id]="'collapseOneT_' + i" class="collapse in row">
+            <!-- all questions, responses, image, user details, option to reply/resolve -->
+            <div class="card-body col-md-12">
+              <div class="col-xs-12">
+                <div class="col-xs-6 profile">
+                  <img src="{{ chorePhoto }}">
+                  <div id="rating">
+                    <ngb-rating [(rate)]="choreRating"></ngb-rating>
+                    <p>{{ choreUsername }}</p>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                  <div class="form-group">
+                    <label for="user">Upload Pic!</label>
+                    <input id="photo" (change)="processFile()" type="file" class="text-center center-block file-upload">
+                    <button (click)="onUpload(chore, image)">Send Photo</button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-12">
+                <div class="col-xs-12">
+                  <p>{{ complaint.description }}</p>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info messageBtn" (click)="open(content)">message</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info nav" (click)='navigate(chore)'>navigate</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info complete" (click)='completeJob(chore)'>Complete!</button>
+                </div>
+                <div class="col-xs-4">
+                  <button type="button" class="btn btn-info help" routerLink="/help">Help</button>
+                </div>
+              </div>
+
+              <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="modal-basic-title">Message</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span class="close" aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="chatbox">
+                    <div *ngIf="sending">
+                      {{chats.message}}
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(chore.poster)">
+                </div>
+                <button class="btn btn-primary" (click)="sendMessage(chore.poster)">Send</button>
+              </ng-template>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
