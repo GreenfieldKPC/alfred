@@ -8,7 +8,7 @@
     width:100%;margin-top:0;margin-bottom:auto;line-height: 13px;font-size: 12px;
 }
 .text > p:last-of-type{
-    width:100%;text-align:right;color:silver;margin-bottom:-7px;margin-top:auto;
+    width:100%;text-align:right;color:black;margin-bottom:-7px;margin-top:auto;
 }
 .text-l{
     float:left;padding-right:10px;
@@ -95,4 +95,10 @@ input:focus{
 }
 :-moz-placeholder { /* Firefox 18- */
     color: #d4d4d4;
+}
+.odd{
+    float:left;padding-right:10px;
+}        
+.even{
+    float:right;padding-left:10px;
 }  
