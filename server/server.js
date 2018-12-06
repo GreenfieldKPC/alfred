@@ -335,6 +335,14 @@ app.get('/jobs/posted', (req, res) => {
     res.json(data[0]);
   });
 });
+
+app.get('/jobs/photo/:id', (req, res) => {
+  const q = `SELECT * from jobs WHERE id = '${req.params.id}';`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0].photo_doer, 'job photo server 342');
+    res.send(data[0].photo_doer);
+  });
+});
 ///////////////////////////////////////////////////////
 
 
@@ -856,11 +864,22 @@ app.post('/complaint', (req, res) => {
 // **********************getting complaints*************//
 app.get('/complaints', (req, res) => {
   db.sequelize.query(`SELECT * FROM complaints`).then((complaints) => {
+    console.log(complaints[0], 'server 859');
     res.send(complaints[0]);
   })
 
 })
 
+app.patch('/complaints/resolve', (req, res) => {
+  const q = `UPDATE complaints SET resolved=true WHERE id=${req.body.complaintId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[1], 'server 876');
+    if (data[1].rowCount > 0) {
+      res.send(data);
+    } else {
+      res.send(false);
+    }
+});
 
 
 
