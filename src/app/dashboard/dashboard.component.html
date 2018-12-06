@@ -106,9 +106,31 @@
         </div>
         <div id="message-btn" class="col-xs-12">
           <button class="btn btn-primary message" (click)="open(content)">Send Message</button>
+          <ng-template #content let-c="close" let-d="dismiss" [ngClass]="popover">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Message</h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="chatbox">
+                <div *ngIf="sending">
+                  {{chats.message}}
+          
+                </div>
+                <!-- <div *ngFor="let chat of chats"> -->
+                <!-- </div> -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(job.poster)">
+            </div>
+            <button class="btn btn-primary send" (click)="sendMessage(job.poster)">Send</button>
+          </ng-template>
         </div>  
         <div id="add-btn" class="col-xs-12">
-<button class="btn btn-primary add" (click)='takeChore(selectedChore)'>+ Do It! </button>
+          <button class="btn btn-primary add" (click)='takeChore(selectedChore)'>+ Do It! </button>
         </div>
       </div>
     </div>
