@@ -262,7 +262,6 @@ export class DashboardComponent implements OnInit {
   selectChore(chore) {
     // display user photo, rating, username in job description
     this.selectedChore = chore;
-    console.log('chore selected!');
 
     this._profileService.getUserName(chore.poster).then((username) => {
       // display chore poster username on chore

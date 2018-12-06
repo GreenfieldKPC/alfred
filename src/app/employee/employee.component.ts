@@ -6,6 +6,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ComplaintsService } from '../complaints.service';
 import { ProfileService } from '../profile.service';
 import { MessageService } from '../message.service';
+import { JobService } from '../job.service';
 
 
 interface Message {
@@ -24,18 +25,23 @@ export class EmployeeComponent implements OnInit {
   chats: Message;
   message: string;
   sending: boolean;
+  complaintUsername: string;
+  jobPhoto: any;
 
   constructor(
     private router: Router,
-    private complaintService: ComplaintsService,
+    private _complaintService: ComplaintsService,
     config: NgbModalConfig,
     private _profileService: ProfileService,
+    private _jobService: JobService,
     private modalService: NgbModal,
     private _messageService: MessageService,
     ) {
       config.backdrop = 'static';
       config.keyboard = false;
       this.issues = [];
+      this.complaintUsername ='';
+      this.jobPhoto = '';
      }
 
   ngOnInit() {
@@ -57,29 +63,25 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
-  getUserInfo(id) {
-    // display user photo, rating, username in job description
+  getUserInfo(complaint) {
 
-    this._profileService.getUserName(id).then((username) => {
-      // display chore poster username on chore
+    this._profileService.getUserName(complaint.id_user).then((username) => {
 
-      this.choreUsername = username.username;
-      return this._profileService.getUserRating(id);
-    }).then((rating) => {
-      // display chore poster rating on chore
-      this.choreRating = rating.rating;
-      this.selected = rating.rating;
-      return this._profileService.getUserPhoto(id);
+      this.complaintUsername = username.username;
+      return this._jobService.getJobPhoto(complaint.id_job);
     }).then((photo) => {
-      // display chore poster photo on chore
-      if (photo.url !== undefined && photo.url !== 'undefined') {
-        this.chorePhoto = photo.url;
+      if (photo.url) {
+        this.jobPhoto = photo.url;
       } else {
-        this.chorePhoto = this.defaultPhoto;
-      }
+        this.jobPhoto = "assets/images/non.png";
+      }  
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  resolveIssue(issue) {
+    this._complaintService
   }
 
 }

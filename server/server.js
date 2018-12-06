@@ -335,6 +335,14 @@ app.get('/jobs/posted', (req, res) => {
     res.json(data[0]);
   });
 });
+
+app.get('/jobs/photo/:id', (req, res) => {
+  const q = `SELECT * from jobs WHERE id = '${req.params.id}';`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0].photo_doer, 'job photo server 342');
+    res.send(data[0].photo_doer);
+  });
+});
 ///////////////////////////////////////////////////////
 
 
