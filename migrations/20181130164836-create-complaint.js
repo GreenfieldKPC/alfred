@@ -11,21 +11,18 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-       address: {
-         type: Sequelize.STRING
-       },
        category: {
-         type: Sequelize.INTEGER
+         type: Sequelize.STRING
        },
       id_user: {
         type: Sequelize.INTEGER
       }, 
-      photo: {
-        type: Sequelize.STRING
-      },
-      created_at: {
-        type: Sequelize.NUMERIC
-      },
+       id_job: {
+         type: Sequelize.INTEGER
+       },
+       created_at: {
+         type: Sequelize.NUMERIC
+       },
   resolved: {
     type: Sequelize.BOOLEAN
   },
