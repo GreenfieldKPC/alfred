@@ -17,6 +17,12 @@ module.exports = {
       doer: {
         type: Sequelize.INTEGER
       },
+      photo_poster: {
+        type: Sequelize.STRING
+      },
+       photo_doer: {
+         type: Sequelize.STRING
+       },
       category: {
         type: Sequelize.INTEGER
       },

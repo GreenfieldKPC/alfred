@@ -20,13 +20,14 @@ interface LatLng {
   styleUrls: ['./help.component.css']
 })
 export class HelpComponent {
+  complaintObj: any;
   al:any;
   geocoder: any;
   complaintForm: FormGroup;
   categoryLists = ['Unsafe conditions', 'No equipment', 'Harassment', 'Unable to complete job','Other'];
   jobsList = [];
   selectedCategory: string;
-  selectedJob: string;
+  selectedJob: any;
   imageFile: any;
   image: any;
   imageUrl:any;
@@ -87,7 +88,6 @@ export class HelpComponent {
 
     })
     this.selectedCategory = e;
-    this.selectedJob = e;
     
   }
   getlatlng(address: string) {
@@ -114,9 +114,24 @@ export class HelpComponent {
       if (this.al.dialogState !== 'ReadyForFulfillment'){
         this.bot.push(this.al.message);
       } else {
-        let complaint = 'Thank you for the responible we will be sending this off and get back to you.';
+        let complaint = 'Thnak you ,your complaint has been filed one of our staff will be in touch soon.';
+        console.log(this.jobs);
+        this.jobs.forEach((job) =>{
+          if (job.title === this.selectedCategory ){
+            this.selectedJob = job;
+          }
+        })
         this.bot.push(complaint);
         console.log(this.al.slots);
+       this.complaintObj = {},
+          this.complaintObj.category =  this.al.slots.category
+        this.complaintObj.description = this.al.slots.incident_details
+        this.complaintObj.name = this.al.slots.name
+        this.complaintObj.id_job = this.selectedJob.id
+
+        this.http.post('/complaint', this.complaintObj).subscribe((data) =>{
+
+        });
       }
 })
   this.complaintForm.reset();
