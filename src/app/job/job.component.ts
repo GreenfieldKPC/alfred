@@ -191,9 +191,11 @@ export class JobComponent implements OnInit {
   }
 
   delete(chore) {
-    this.http.post('delete/job', chore).subscribe((data) => {
-      console.log(data)
-    })
+    console.log(chore);
+   this._jobService.deleteJob(chore).then((data) =>{
+     console.log(data)
+   });
+    
 
   }
   getJobPoster(id) {

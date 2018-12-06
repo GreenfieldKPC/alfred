@@ -367,6 +367,53 @@ app.patch('/jobs/complete', (req, res) => {
     }
   });
 });
+
+
+
+app.post('/jobs/delete',(req,res)=>{
+  console.log(req.body);
+  db.sequelize.query(`DELETE FROM jobs WHERE id= '${req.body.choreId}';`).then(() =>{
+    res.end();
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //********************************* */
 
 
