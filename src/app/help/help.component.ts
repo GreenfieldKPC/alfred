@@ -20,6 +20,7 @@ interface LatLng {
   styleUrls: ['./help.component.css']
 })
 export class HelpComponent {
+  al:any;
   geocoder: any;
   complaintForm: FormGroup;
   categoryLists = ['Unsafe conditions', 'No equipment', 'Harassment', 'Unable to complete job','Other'];
@@ -89,13 +90,6 @@ export class HelpComponent {
     this.selectedJob = e;
     
   }
-  show(e) {
-    this.string = e;
-    this.userMess.push(this.string);
-    this.string = '';
-    // result.push(this.string);
-    // this.userMess.concat(result);
-  }
   getlatlng(address: string) {
     return new Promise((resolve, reject) => {
       this.geocoder = new google.maps.Geocoder();
@@ -108,12 +102,24 @@ export class HelpComponent {
       })
     });
   }
+  bot = [];
   addComplaint() {
+    console.log(this.complaintForm.value);
 
-    this.complaintForm.value.category = this.selectedCategory;
-this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
 
+    console.log(this.selectedCategory);
+    this.bot.push(this.complaintForm.value.title)
+    this.http.post('/lex',this.complaintForm.value).subscribe((data) =>{
+    this.al = data;
+      if (this.al.dialogState !== 'ReadyForFulfillment'){
+        this.bot.push(this.al.message);
+      } else {
+        let complaint = 'Thank you for the responible we will be sending this off and get back to you.';
+        this.bot.push(complaint);
+        console.log(this.al.slots);
+      }
 })
+  this.complaintForm.reset();
   }
 }
 
