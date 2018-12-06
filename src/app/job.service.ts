@@ -20,7 +20,11 @@ export class JobService {
   }
 
   getJobPhoto(id) {
-    return this.http.get<any>(`jobs/photos/${id}`).toPromise();
+    return this.http.get<any>(`/jobs/photos/${id}`).toPromise();
+  }
+
+  getJob(id) {
+    return this.http.get<any>(`/jobs/job/${id}`).toPromise();
   }
 
   updateJob(chore) {
@@ -30,7 +34,7 @@ export class JobService {
     return this.http.post('/jobs/delete', { choreId: chore.id }).toPromise();
   }
  
-  updateJobId(job, url): Observable<object>{
-    return this.http.patch<object>('/jobs/:id', {choreId: job.id, doer: job.doer, photoDoer: url});
+  updateJobId(job, url) {
+    return this.http.patch<object>('/jobs/photos/:id', {choreId: job.id, doer: job.doer, photoDoer: url}).toPromise();
   }
 }
