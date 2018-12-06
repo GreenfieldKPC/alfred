@@ -11,7 +11,6 @@ AWS.config.update({
   region: 'us-east-1'
 });
 
-// const users = require('./models/users')()
 const db = require('../models');
 const passport = require('passport');
 const bcrypt = require('bcrypt');

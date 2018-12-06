@@ -106,3 +106,14 @@ border: 1px solid #5A6978;
   padding: 1vw 2vw 1vw 2vw;
   width: 15vh;
 }
+
+/* .modal-header, .modal-body, .modal-footer {
+  max-width: 80vw;
+}
+
+.modal-window  {
+  max-width: 80vw;
+} */
+.send {
+  background-color: #969FAA;
+}
