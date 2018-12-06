@@ -11,4 +11,8 @@ export class ComplaintsService {
   getComplaints() {
     return this.http.get<any>('/complaints').toPromise();
   }
+
+  resolveComplaint(id) {
+    return this.http.patch('/complaints/resolve', { complaintId: id }).toPromise();
+  }
 }

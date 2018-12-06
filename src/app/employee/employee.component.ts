@@ -45,7 +45,7 @@ export class EmployeeComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.complaintService.getComplaints().then((complaints) => {
+    this._complaintService.getComplaints().then((complaints) => {
       console.log(complaints);
       this.issues = complaints;
     });
@@ -81,7 +81,11 @@ export class EmployeeComponent implements OnInit {
   }
 
   resolveIssue(issue) {
-    this._complaintService
+    this._complaintService.resolveComplaint(issue.id).then((data) => {
+      console.log(data, 'resolve complaint 85');
+    }).catch(err => {
+      console.log(err);
+    });
   }
 
 }

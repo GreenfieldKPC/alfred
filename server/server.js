@@ -870,6 +870,16 @@ app.get('/complaints', (req, res) => {
 
 })
 
+app.patch('/complaints/resolve', (req, res) => {
+  const q = `UPDATE complaints SET resolved=true WHERE id=${req.body.complaintId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[1], 'server 876');
+    if (data[1].rowCount > 0) {
+      res.send(data);
+    } else {
+      res.send(false);
+    }
+});
 
 
 
