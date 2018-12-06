@@ -31,6 +31,7 @@ ul {
 
 li {
   margin-bottom: 2vh;
+  margin-left: -2vw;
   /* border-bottom: 1px solid #5A6978; */
 }
 
@@ -70,7 +71,7 @@ span:not(.close) {
   display: none;
 }
 
-.help, .complete {
+.help, .upload  {
   background-color: #F896EA;
   border: 0;
   border-radius: 40px;
@@ -91,7 +92,7 @@ span:not(.close) {
   padding: 1vw 2vw 1vw 2vw;
   width: 15vh;
 }
-.delete, .nav {
+.delete, .complete, .nav {
   background-color: #45CAA6;
   border: 0;
   border-radius: 40px;
@@ -100,4 +101,8 @@ span:not(.close) {
   margin: 1vh;
   padding: 1vw 2vw 1vw 2vw;
   width: 15vh;
+}
+
+.btn-info {
+  margin-left: 0;
 }

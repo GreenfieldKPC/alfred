@@ -69,7 +69,6 @@ export class JobComponent implements OnInit {
   imageFile: any;
   selectedFile:any;
   processFile() {
-    console.log('its firing')
     var files = (<HTMLInputElement>document.getElementById('photo')).files
     this.imageFile = files[0]
     var reader = new FileReader();
@@ -111,8 +110,7 @@ export class JobComponent implements OnInit {
       let radius = this.distance(chore.lat, chore.lon, this.lat, this.lon, "M");
       console.log(radius);
       if (radius > 2.5) {
-        alert('to far away');
-        
+        alert('to far away'); 
       }
       else {
         this._photoService.uploadPhoto(image)
@@ -122,7 +120,7 @@ export class JobComponent implements OnInit {
             console.log(this.imageUrl);
 
             this._jobService.updateJobId(chore, this.imageUrl)
-              .subscribe((data) => {
+              .then((data) => {
                 console.log(data);
               });
           });
@@ -130,8 +128,13 @@ export class JobComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this._jobService.getUserJobsTaken().then(data => { this.jobsTaken = data; });
-    this._jobService.getUserJobsPosted().then(data => { this.jobsPosted = data; });
+    this._jobService.getUserJobsTaken().then(data => { 
+      this.jobsTaken = data; 
+      
+    });
+    this._jobService.getUserJobsPosted().then(data => { 
+      this.jobsPosted = data; 
+    });
   }
 
   completeJob(job) {
@@ -139,23 +142,29 @@ export class JobComponent implements OnInit {
     if (job.photo_doer) {
       let payout = job.payment * .85;
       console.log(payout, " job line 80")
-      this._jobService.updateJobCompletion(job)
-        .then((bool) => {
-          if(bool === true) {
-            this._addService.payUser(payout)
-              .then((bool) => {
-                if(bool === true) {
-                  alert('Awesome! Job Completed!');
-                } else {
-                  alert('There was a problem completing this job!');
-                  // console.log(data);
-                }
-              })
-          } else {
-            alert('There was a problem completing this job!');
-            // console.log(data);
-          }
-        })
+
+      this._addService.payUser(payout).then((payment) => {
+        console.log(payment);
+        if (payment === true) {
+          //send message upon payment
+          alert('Awesome! Job Completed!');
+        } else {
+          alert('There was a problem completing this job!');
+          // console.log(data);
+        }
+        return this._jobService.updateJobCompletion(job);
+      }).then((job) => {
+        //notify both users of payment and completion
+        if (job === true) {
+          alert('Awesome! Job Completed!');
+        } else {
+          alert('There was a problem completing this job!');
+          console.log(job, '162');
+        }
+      }).catch((err) => {
+        alert('There was a problem completing this chore!');
+        console.log(err, 'problem completing this chore');
+      });
     } else {
       alert('Please upload photo');
     }  

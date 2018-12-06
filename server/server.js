@@ -309,16 +309,22 @@ app.get('/jobs', (req, res) => {
     });
   })
 
-})
+});
+
+app.get('/jobs/job/:id', (req, res) => {
+  console.log(req.params.id, 'job id');
+  db.sequelize.query(` SELECT * FROM jobs WHERE id='${req.params.id}';`).then((jobs) => {
+    console.log(jobs, 'job by id')
+    res.send(jobs[0])
+  });
+});
 
 
 //********* GET USER JOBS ENDPOINT ******/
 app.get('/jobs/taken', (req, res) => {
-  console.log(req.session.user, req.session.userId, 'jobs taken');
-  // change query to use req.session.userID when not testing on postman
+  // console.log(req.session.user, req.session.userId, 'jobs taken');
   const q = `SELECT * from jobs WHERE doer = ${req.session.userId}`
   db.sequelize.query(q).then((data) => {
-    // console.log(data[0]);
     res.json(data[0]);
   });
 });
@@ -335,32 +341,48 @@ app.get('/jobs/posted', (req, res) => {
     res.json(data[0]);
   });
 });
+
+app.get('/jobs/photos/:id', (req, res) => {
+  const q = `SELECT * from jobs WHERE id = '${req.params.id}';`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[0].photo_doer, 'job photo server 342');
+    res.send(data[0].photo_doer);
+  });
+});
 ///////////////////////////////////////////////////////
 
-app.patch('/jobs/:id', (req, res) => {
+app.patch('/jobs/photos/:id', (req, res) => {
   const { choreId, photoDoer, doer, poster, photoPoster } = req.body;
   const { userId } = req.session;
   if (Number(doer) === Number(userId)) {
     const q = `UPDATE jobs SET photo_doer='${photoDoer}' WHERE id=${choreId};`;
     db.sequelize.query(q)
       .then((data) => {
-        res.send();
+        console.log(data[1], 'server 361');
+        if (data[1].rowCount > 0) {
+          res.send(data);
+        } else {
+          res.send(false);
+        }
       });
-    }
-  // } else {
-  //   const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
-  //   db.sequelize.query(q)
-  //     .then((data) => {
-  //       res.send();
-  //     });
-  // }
+  } else {
+    const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
+    db.sequelize.query(q)
+      .then((data) => {
+        console.log(data[1], 'server 372');
+        if (data[1].rowCount > 0) {
+          res.send(data);
+        } else {
+          res.send(false);
+        }
+      });
+  }
 });
 
 
 app.patch('/jobs/complete', (req, res) => {
   const q = `UPDATE jobs SET completed=true WHERE id = ${req.body.choreId}`
   db.sequelize.query(q).then((data) => {
-    console.log(data[1].rowCount, 'complete');
     if (data[1].rowCount > 0) {
       res.send(true);
     } else {
@@ -380,51 +402,13 @@ app.post('/jobs/delete',(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //********************************* */
 
 
 //********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
-  console.log(req.body)
   db.sequelize.query(`SELECT * FROM jobs WHERE id=${req.body.choreId}`).then((data) =>{
-    console.log(data[0]);
     if(data[0][0].doer === 0){
-      console.log(req.body, '///', req.session.userId);
       const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
       db.sequelize.query(q, (err) => {
         if (err) {
@@ -450,13 +434,12 @@ app.patch("/dashboard/takeChore", (req, res) => {
       res.send({value: false});
     }
   })
- 
 });
 //***********************************************//
 //********************posting message to database*********//
 
 app.post("/message", (req, res) => {
-  console.log(req.body)
+  // console.log(req.body)
   db.sequelize.query(`INSERT INTO messages(text,id_from,id_to,read,created) VALUES('${req.body.message}','${req.session.userId}','${req.body.userid}','${false}','${Date.now()}')`)
   // res.send('message inserted')
   res.end();
@@ -926,6 +909,18 @@ app.get('/complaints', (req, res) => {
 
 })
 
+app.patch('/complaints/resolve', (req, res) => {
+  const q = `UPDATE complaints SET resolved=true WHERE id=${req.body.complaintId}`
+  db.sequelize.query(q).then((data) => {
+    console.log(data[1], 'server 876');
+    if (data[1].rowCount > 0) {
+      res.send(data);
+    } else {
+      res.send(false);
+    }
+  })
+    
+});
 
 
 
