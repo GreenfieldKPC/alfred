@@ -378,13 +378,13 @@ app.patch("/dashboard/takeChore", (req, res) => {
         // add check for doer id not assigned already
 
         if (data[1].rowCount > 0) {
-          res.send(true);
+          res.send({ value: true});
         } else {
-          res.send(false);
+          res.send({value: false});
         }
       }).catch((err) => console.log(err));
     }else{
-      res.send(false);
+      res.send({value: false});
     }
   })
  

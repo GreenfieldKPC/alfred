@@ -7,10 +7,7 @@ import { Observable, Observer, observable } from 'rxjs';
 import { DashboardService } from '../dashboard.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profile.service';
-
 declare var google: any;
-
-
 interface Marker {
   lat: number;
   lng: number;
@@ -69,6 +66,7 @@ export class DashboardComponent implements OnInit {
     lat: 12,
     lng: 12,
   }
+  data: any;
   searchJob: any;
   searchUser: any;
   selectedChore: any;
@@ -148,7 +146,12 @@ export class DashboardComponent implements OnInit {
 
   takeChore(job) {
     this.dashboardService.takeChore(job).subscribe((data) => {
+      this.data = data;
+      if(this.data.value === true){
       alert("Added to My Chores!");
+      }else{
+        alert("Sorry that job is no longer available");
+      }
     })
   }
 
@@ -179,14 +182,11 @@ export class DashboardComponent implements OnInit {
           this.location.marker.draggable = true;
           this.location.viewport = results[0].geometry.viewport;
         }
-
         this.map.triggerResize()
-
       } else {
         alert("Sorry, this search produced no results.");
       }
     })
-
   }
   logOut() {
     this.http.get("/logOut").subscribe((data) => {
@@ -258,21 +258,15 @@ export class DashboardComponent implements OnInit {
   }
 
   selectChore(chore) {
-    // display user photo, rating, username in job description
     this.selectedChore = chore;
     console.log('chore selected!');
-
     this._profileService.getUserName(chore.poster).then((username) => {
-      // display chore poster username on chore
-
       this.selectedChorePosterUsername = username.username;
       return this._profileService.getUserRating(chore.poster);
     }).then((rating) => {
-      // display chore poster rating on chore
       this.selectedChorePosterRating = rating.rating;
       return this._profileService.getUserPhoto(chore.poster);
     }).then((photo) => {
-      // display chore poster photo on chore
       if (photo.url !== undefined && photo.url !== 'undefined') {
         this.selectedChorePosterPhoto = photo.url;
       } else {
