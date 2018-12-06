@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     photo: DataTypes.STRING,
     resolved: DataTypes.BOOLEAN
   }, {});
-  complaint.associate = function(models) {
+  complaint.associate = function (models) {
     // associations can be defined here
   };
   return complaint;

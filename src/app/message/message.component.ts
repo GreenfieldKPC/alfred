@@ -64,7 +64,6 @@ export class MessageComponent {
     }
     this.sending = true;
     this.http.post('/message', this.chats).subscribe((data) => {
-      console.log(data);
     })
     this.message = '';
   }
