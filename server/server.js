@@ -377,13 +377,13 @@ app.patch("/dashboard/takeChore", (req, res) => {
         // add check for doer id not assigned already
 
         if (data[1].rowCount > 0) {
-          res.send(true);
+          res.send({ value: true});
         } else {
-          res.send(false);
+          res.send({value: false});
         }
       }).catch((err) => console.log(err));
     }else{
-      res.send(false);
+      res.send({value: false});
     }
   })
  
@@ -838,7 +838,8 @@ app.get('/oauth/callback', (req, res) => {
 app.post('/complaint', (req, res) => {
   console.log(req.session);
   console.log(req.body);
-  // db.sequelize.query(`INSERT INTO complaints(description,address,category,id_user,photo,created_at,resolved) VALUES('${req.body.description}','${req.body.addr}','${req.body.category}','${req.session.userId}','${req.body.image}','${Date.now()}','${false}')`)
+  db.sequelize.query(`INSERT INTO complaints(description,category,id_user, id_job,created_at,resolved) VALUES('${req.body.description}','${req.body.category}','${req.session.userId}','${req.body.id_job}','${Date.now()}','${false}')`)
+  res.end();
 })
 // {
 //   description: 'okfnb',
