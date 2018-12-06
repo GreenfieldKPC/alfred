@@ -136,33 +136,26 @@ export class JobComponent implements OnInit {
 
   completeJob(job) {
     // verify photo upload first
-    if (job.photo) {
+    if (job.photo_doer) {
       let payout = job.payment * .85;
       console.log(payout, " job line 80")
-
-      this._addService.payUser(payout).then((payment) => {
-        console.log(payment);
-        if (payment === true) {
-          //send message upon payment
-          alert('Awesome! Job Completed!');
-        } else {
-          alert('There was a problem completing this job!');
-          // console.log(data);
-        }
-
-        return this._jobService.updateJobCompletion(job);
-      }).then((job) => {
-        //notify both users of payment and completion
-        if (job === true) {
-          alert('Awesome! Job Completed!');
-        } else {
-          alert('There was a problem completing this job!');
-          // console.log(data);
-        }
-      }).catch((err) => {
-        alert('There was a problem completing this chore!');
-        console.log(err, 'problem completing this chore');
-      });
+      this._jobService.updateJobCompletion(job)
+        .then((bool) => {
+          if(bool === true) {
+            this._addService.payUser(payout)
+              .then((bool) => {
+                if(bool === true) {
+                  alert('Awesome! Job Completed!');
+                } else {
+                  alert('There was a problem completing this job!');
+                  // console.log(data);
+                }
+              })
+          } else {
+            alert('There was a problem completing this job!');
+            // console.log(data);
+          }
+        })
     } else {
       alert('Please upload photo');
     }  

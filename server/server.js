@@ -346,13 +346,14 @@ app.patch('/jobs/:id', (req, res) => {
       .then((data) => {
         res.send();
       });
-  } else {
-    const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
-    db.sequelize.query(q)
-      .then((data) => {
-        res.send();
-      });
-  }
+    }
+  // } else {
+  //   const q = `UPDATE jobs SET photo_poster='${photoPoster}' WHERE id=${choreId};`;
+  //   db.sequelize.query(q)
+  //     .then((data) => {
+  //       res.send();
+  //     });
+  // }
 });
 
 
@@ -796,13 +797,13 @@ app.post('/stripe/pay', (req, res) => {
     });
   }).then((transfer) => {
     console.log('transfer:', transfer)
-    res.send('true');
+    res.send(true);
   }).catch(err => {
     console.log(err)
     // res.send('false');
 
     //for testing purpose, send true for nsf charge
-    res.send('true');
+    res.send(true);
   });
 
 });
