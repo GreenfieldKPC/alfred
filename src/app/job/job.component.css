@@ -9,6 +9,9 @@
   flex-grow: 1;
 }
 
+#jobs-header {
+  margin-top: 5vh;
+}
 #jobs img {
   max-height: 15vw;
   width: auto;

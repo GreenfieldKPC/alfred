@@ -18,6 +18,12 @@ form {
   min-height: 75vh;
 }
 
+#add-header {
+  margin-top: 5vh;
+}
+.top {
+  margin-top: 1vh;
+}
 #add img {
   max-height: 15vw;
   width: auto;
@@ -35,6 +41,6 @@ h2, h1 {
   color: white; 
   font-family: 'Fjalla One', sans-serif;
   font-size: 4vh;
-  margin: 4vh;
+  margin: 3vh;
   padding: 1vw 6vw 1vw 4vw;
 }

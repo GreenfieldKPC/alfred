@@ -1,3 +1,15 @@
+#help-header {
+  margin-top: 5vh;
+}
+.top {
+  margin-top: 1vh;
+}
+
+h2, h1 {
+  color: #5A6978; 
+  font-family: 'Fjalla One', sans-serif;
+}
+
 .mytext{
     border:0;padding:10px;background:whitesmoke;
 }
