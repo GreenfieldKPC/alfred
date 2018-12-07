@@ -1,6 +1,11 @@
 <div>
+  <div id="dashboard-header" class="row text-center">
+    <div class="col-xs-12">
+      <h1>Dashboard</h1>
+    </div>
+  </div>
   <header>
-    <div class="col-md-12">
+    <div class="col-md-12" id="map-container">
       <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
         <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="" (markerClick)="addInfoWindow(job, job); selectChore(job)">
           <agm-info-window #infoWindow>

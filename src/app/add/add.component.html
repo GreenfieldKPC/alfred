@@ -1,7 +1,7 @@
 
 <div id="add" class="row"> 
   <div id="add-header" class="row text-center">
-    <div class="col-xs-7">
+    <div class="col-xs-12">
       <h1>New Chore</h1>
     </div>
     <!-- <div id="add-logo-container" class="col-xs-4">
@@ -10,7 +10,7 @@
   </div>
   
   <form [formGroup]="choreForm" (ngSubmit)="addChore()">
-  <div class="col-md-12">
+  <div class="col-md-12 top">
     <label for="cat">Category</label><br>
     <select class="form-control form-control-lg dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}" required>
       <option *ngFor="let list of categoryLists" [value]="list">
