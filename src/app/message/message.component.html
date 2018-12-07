@@ -8,6 +8,7 @@
           <div class="inbox_chat">
             <div class="chat_list" [class.active]="active === i" (click)="onClick(user)" *ngFor="let user of users; let i = index ">
               <div class="chat_people">
+                <div class="chat_img"> <img [src]="user.picture" alt="sunil"> </div>
                 <div class="chat_ib">
                   <h5>{{user.username}}</h5>
                 </div>
