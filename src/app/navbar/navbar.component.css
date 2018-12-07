@@ -7,8 +7,20 @@ nav {
   margin-right: 1vh;
 }
 
+.navbar-toggler-icon {
+  color: #5A6978; 
+}
+
 .btn-info {
   background-color: #45CAA6;
+  border-color: #5A6978;
+  /* border: none !important; */
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active:focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info {
+    color: white;
+    background-color: #F896EA;
+    border-color: #5A6978; /*set the color you want here*/
 }
 
 #nav-logo-container img {
