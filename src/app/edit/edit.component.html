@@ -1,0 +1,24 @@
+<div id="add" class="row" >
+  <div id="add-header" class="row text-center">
+    <div class="col-xs-7">
+      <h1>Edit Chore</h1>
+    </div>
+    <div id="add-logo-container" class="col-xs-4">
+      <img src="{{logo}}">
+    </div>
+  </div>
+  <form [formGroup]="editForm" (ngSubmit)="editChore()">
+
+    <div class="form-group col-md-12">
+      <label for="user">Title</label>
+      <input type="text" class="form-control form-control-lg" formControlName="title" placeholder="">
+    </div>
+    <div class="form-group col-md-12">
+      <label for="user">Description</label>
+      <input type="text" class="form-control form-control-lg" formControlName="description" placeholder="Description">
+    </div>
+    <div class="col-md-12 post-btn text-right">
+      <button type="submit" class="btn btn-primary">+Post</button>
+    </div>
+  </form>
+</div>

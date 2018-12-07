@@ -14,6 +14,7 @@ import { UploadComponent } from './upload/upload.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { HelpComponent } from './help/help.component';
 import { EmployeeLoginComponent } from './employee-login/employee-login.component';
+import { EditComponent } from './edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { EmployeeLoginComponent } from './employee-login/employee-login.componen
     UploadComponent,
     EmployeeComponent,
     HelpComponent,
-    EmployeeLoginComponent
+    EmployeeLoginComponent,
+    EditComponent
   ],
   imports:[
     BrowserModule,

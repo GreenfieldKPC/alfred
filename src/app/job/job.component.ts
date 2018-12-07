@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 import { JobService } from '../job.service'
 import { AddService } from '../add.service'
 import { MessageService } from '../message.service';
@@ -7,6 +8,7 @@ import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-boot
 import { ProfileService } from '../profile.service';
 import { HttpClient } from '@angular/common/http';
 import { any } from 'bluebird';
+import { Router } from '@angular/router';
 interface Message {
   userid: number;
   message: string;
@@ -20,6 +22,7 @@ interface Message {
 })
 
 export class JobComponent implements OnInit {
+  @Output() edited = new EventEmitter();
   private lat: any;
   private lon: any;
   public jobsTaken;
@@ -45,6 +48,7 @@ export class JobComponent implements OnInit {
     private _photoService: PhotoService,
     private _profileService: ProfileService,
     private http: HttpClient,
+    private router: Router,
   ) {
     config.max = 5;
     config.readonly = true;
@@ -187,7 +191,9 @@ export class JobComponent implements OnInit {
     // upen google maps with directions to chore address
   }
   edit(chore) {
-    // patch request to jobs endpoint with update of information
+   this._jobService.updateEditJob(chore);
+    this.router.navigateByUrl('/edit');
+
   }
 
   delete(chore) {

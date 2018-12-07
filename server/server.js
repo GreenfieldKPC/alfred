@@ -275,7 +275,7 @@ app.post("/add", (req, res) => {
   let profile;
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
     profile = user[0][0];
-    db.sequelize.query(` SELECT * FROM areas WHERE city = '${req.body.city}';`).then((area) => {
+    db.sequelize.query(` SELECT * FROM areas WHERE city = '${req.body.city.toLowerCase()}';`).then((area) => {
       if (area[0][0] === undefined || area[0][0].id === undefined) {
         db.sequelize.query(`INSERT INTO areas (city) VALUES ('${req.body.city.toLowerCase()}')`).then(() => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
@@ -379,7 +379,13 @@ app.post('/jobs/delete',(req,res)=>{
 
 
 
+app.patch('/edit',(req,res)=>{
+  console.log(req.body)
+db.sequelize.query(`UPDATE jobs SET description='${req.body.description}', title= '${req.body.title}' WHERE id='${req.body.id}'`).then(() =>{
+  res.end;
+})
 
+})
 
 
 
@@ -934,47 +940,27 @@ app.get('/complaints', (req, res) => {
 
 // ****************************************************//
 
-// **************************handling lex endpoint****//
-// app.post('/lex', (req, res) => {
-//   console.log('sending to lex')
-//   let opts = {
-//     service: 'lex',
-//     region: 'us-east-1',
-//     method: 'POST',
-//     Host: 'runtime.lex.us-east-1.amazonaws.com',
-//     'user-key': '50d9ef140f0ee28b3dd1beea2096b576',
-//     'Content-Type': 'application/json',
-//     Host: 'runtime.lex.us-east-1.amazonaws.com',
-//     url: process.env.lex_url,
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Host': 'runtime.lex.us-east-1.amazonaws.com',
-//     },
-//     body: req.body.title
-//   }
 
-//   return new Promise(resolve => {
-//     request(aws4.sign(opts, {
-//         accessKeyId: process.env.lex_secret_id,
-//         secretAccessKey: process.env.lex_key,
-//       }),
-//       function (error, response, body) {
-//         if (error) {
-//           console.log(error);
-//         }
-//         if (!error)
-//           resolve(response);
-//         console.log('this is the body', body)
-//       })
-//   }).then((data) => {
-//     console.log('this is the data', data)
-//   })
-// })
+/////////////updating job///////////////////////////
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////
 
 app.post('/lex', (req, res) => {
   body = JSON.stringify({
