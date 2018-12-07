@@ -8,14 +8,14 @@
     <div class="col-md-12" id="map-container">
       <agm-map [(latitude)]="lat" [(longitude)]="lng" [(zoom)]="location.zoom" [disableDefaultUI]="true" [zoomControl]="true">
         <agm-marker *ngFor="let job of jobs" [(latitude)]="job.lat" [(longitude)]="job.lon" label="" (markerClick)="addInfoWindow(job, job); selectChore(job)">
-          <agm-info-window #infoWindow>
+          <!-- <agm-info-window #infoWindow>
             <div>
               <a>Address: {{job.address}}</a><br>
               <a>Description: {{job.description}}</a><br>
               <a>Payment: ${{job.payment}}</a><br>
               <a>Category: {{categoryLists[job.category + 1]}}</a><br>
-              <!-- <ngb-rating [(rate)]="currentRate"></ngb-rating> -->
-            </div>
+              <ngb-rating [(rate)]="currentRate"></ngb-rating> -->
+            <!-- </div>
             <ng-template #content let-c="close" let-d="dismiss">
               <div class="modal-header">
                 <h4 class="modal-title" id="modal-basic-title">Message</h4>
@@ -28,34 +28,34 @@
                   <div *ngIf="sending">
                     {{chats.message}}
 
-                  </div>
+                  </div> -->
                   <!-- <div *ngFor="let chat of chats"> -->
                   <!-- </div> -->
-                </div>
+                <!-- </div>
               </div>
               <div class="modal-footer">
                 <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(job.poster)">
               </div>
               <button class="btn btn-primary" (click)="sendMessage(job.poster)">Send</button>
-            </ng-template>
+            </ng-template> -->
             <!-- <button class="btn btn-primary" (click)="open(content)">Send Message</button>
             <button class="btn btn-primary" (click)='takeChore(job)'>Add to My Chores</button> -->
-          </agm-info-window>
+          <!-- </agm-info-window> --> 
         </agm-marker>
         <agm-marker *ngFor="let search of searchJob" [(latitude)]="search.lat" [(longitude)]="search.lon" label=""
           (markerClick)="addInfoWindow(job, job); selectChore(search)">
-          <agm-info-window #infoWindow>
+          <!-- <agm-info-window #infoWindow>
             <div>
               <a>Address: {{search.address}}</a><br>
               <a>Description: {{search.description}}</a><br>
               <a>Payment: ${{search.payment}}</a><br>
               <a>Category: {{categoryLists[search.category]}}</a><br>
               <!-- <ngb-rating [(rate)]="currentRate"></ngb-rating> -->
-            </div>
+            <!-- </div> -->
 
             <!-- <button class="btn btn-primary" (click)="open(content)">Send Message</button>
             <button class="btn btn-primary" (click)='takeChore(search)'>Add to My Chores</button> -->
-          </agm-info-window>
+          <!-- </agm-info-window> -->
         </agm-marker>
       </agm-map>
     </div>
@@ -128,9 +128,9 @@
               </div>
             </div>
             <div class="modal-footer">
-              <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage(job.poster)">
+              <input class="form-control" [(ngModel)]="message" (keyup.enter)="sendMessage()">
             </div>
-            <button class="btn btn-primary send" (click)="sendMessage(job.poster)">Send</button>
+            <button class="btn btn-primary send" (click)="sendMessage()">Send</button>
           </ng-template>
         </div>  
         <div id="add-btn" class="col-xs-12">
