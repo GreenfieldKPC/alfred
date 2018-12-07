@@ -22,6 +22,7 @@ export class EmployeeLoginComponent {
         if (data === true) {
           this.router.navigateByUrl('/employee');
           this.authService.employeeLogin(true);
+          this.authService.login(true);
 
         } else {
           alert('User is not employee!')

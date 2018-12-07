@@ -2,10 +2,16 @@
 <nav class="navbutton" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="navbar-toggler-icon">=</span>
-      </button>
+      <div class="col-xs-8">
+        <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+          aria-controls="navbar">
+          <span class="navbar-toggler-icon">=</span>
+        </button>
+      </div>
       <!-- <a class="navbar-brand" href="">Alfred</a> -->
+      <div id="nav-logo-container" class="col-xs-4">
+        <img src="{{logo}}">
+      </div>
     </div>
   </div>
 
