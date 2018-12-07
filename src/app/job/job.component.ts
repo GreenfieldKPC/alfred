@@ -7,7 +7,6 @@ import { PhotoService } from '../photo.service';
 import { NgbModalConfig, NgbRatingConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileService } from '../profile.service';
 import { HttpClient } from '@angular/common/http';
-import { any } from 'bluebird';
 import { Router } from '@angular/router';
 interface Message {
   userid: number;

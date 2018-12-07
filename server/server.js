@@ -869,13 +869,13 @@ app.post('/stripe/pay', (req, res) => {
     });
   }).then((transfer) => {
     console.log('transfer:', transfer)
-    res.send('true');
+    res.send(true);
   }).catch(err => {
     console.log(err)
     // res.send('false');
 
     //for testing purpose, send true for nsf charge
-    res.send('true');
+    res.send(true);
   });
 
 });
