@@ -12,7 +12,10 @@ h1 {
 ngb-rating {
   font-size: 1.5rem;
   color: yellow;
-  
+}
+
+.buttons {
+  text-align: center;
 }
 
 /**************** Stripe button ****************/
