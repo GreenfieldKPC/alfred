@@ -147,6 +147,7 @@ export class DashboardComponent implements OnInit {
   takeChore(job) {
     this.dashboardService.takeChore(job).subscribe((data) => {
       this.data = data;
+      console.log(this.data);
       if(this.data.value === true){
       alert("Added to My Chores!");
       }else{
