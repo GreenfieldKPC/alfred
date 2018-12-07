@@ -90,3 +90,11 @@ span:not(.close) {
   max-width: 75vw;
   width: auto;
 }
+
+.complaint-photo-container {
+  text-align: center;
+}
+
+.send {
+  background-color: #969FAA;
+}

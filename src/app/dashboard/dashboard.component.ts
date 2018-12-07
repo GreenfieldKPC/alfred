@@ -249,7 +249,6 @@ export class DashboardComponent implements OnInit {
   getjob() {
     this.dashboardService.getJobs()
       .subscribe((jobs) => {
-        console.log(jobs);
         this.jobs = jobs;
         if(this.jobs[0]) {
           this.selectChore(this.jobs[0]);

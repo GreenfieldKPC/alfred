@@ -12,6 +12,7 @@ import { AuthService } from './../auth/auth.service';
 export class NavbarComponent implements OnInit {
   isVisable: boolean = false;
   public isCollapse: boolean = false;
+  public logo = "assets/images/logo.png";
   isLoggedIn$: Observable<boolean>;
 
   constructor(
