@@ -8,9 +8,21 @@
   /* z-index: -1; */
 }
 
+#map-container {
+ 
+}
+#dashboard-header {
+  margin-top: 5vh;
+}
+h1 {
+  color: #5A6978; 
+  font-family: 'Fjalla One', sans-serif;
+}
+
 #rating ngb-rating {
   font-size: 3vh;
   color: yellow;
+  margin-left: -2vw;
 }
 
 #searchbar {
@@ -30,7 +42,7 @@ border: 1px solid #5A6978;
 #info {
   border: 3px solid #5A6978;
   background-color: white;
-  min-height: 40vh;
+  min-height: 35vh;
   width: 90vw;
   max-width: 600px;
   margin: auto;
@@ -48,15 +60,15 @@ border: 1px solid #5A6978;
 }
 
 #choreImage {
-  height: 15vh;
+  height: 13vh;
   margin-bottom: 0;
   padding-bottom: 0;
 }
 
 .thumbnail {
   position: relative;
-  width: 15vh;
-  height: 15vh;
+  width: 13vh;
+  height: 13vh;
   border-radius: 50%;
   overflow: hidden;
   margin-bottom: 0;
@@ -107,13 +119,10 @@ border: 1px solid #5A6978;
   width: 15vh;
 }
 
-/* .modal-header, .modal-body, .modal-footer {
-  max-width: 80vw;
+#add-btn, #message-btn{
+  margin-left: -3vw;
 }
 
-.modal-window  {
-  max-width: 80vw;
-} */
 .send {
   background-color: #969FAA;
 }

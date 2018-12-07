@@ -1,52 +1,60 @@
-
-<form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
-  <body>
-<div>
-  <label for="cat">Select job title</label><br>
-  <!-- dropdown button "select" should not be styled like button -->
-  <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
-    required>
-    <option *ngFor="let list of jobsList" [value]="list">
-      {{list}}
-    </option>
-  </select>
-</div>
-    <div class="col-sm-3 col-sm-offset-4 frame">
-        <ul >
-
-            <li style="width:100%;" *ngFor="let b of bot; let even = even; let odd = odd" 
-      [ngClass]="{ odd: odd, even: even } " class='odd'>
-                <div class="msj-rta macro" >
-                  <div class="text text-l">
-                    <p>{{b}}</p>
-                  </div>
-                </div>
-              </li>
-              <!-- <li style="width:100%" class='even'>
-                  <div class="msj macro" >
-                    
-                    <div class="text text-r">
-                      <p> {{b}} </p>
-                    </div>
-                  </div>
-                </li> -->
-              
-        </ul>
-
-      <div>
-        <div class="msj-rta macro">
-          <div class="text text-r" style="background:whitesmoke !important">
-            <input type="text" class="form-control" formControlName="title" placeholder="Type a message"/>
-          </div>
-  
-        </div>
-        <div style="padding:10px;">
-          <span class="glyphicon glyphicon-share-alt"></span>
-        </div>
-      </div>
+  <div id="help-header" class="row text-center">
+    <div class="col-md-12">
+      <h1>Help</h1>
     </div>
-  </body>
-  <div class="col-md-12 post-btn text-right">
-    <button type="submit"  class="btn btn-primary">+Post</button>
   </div>
-</form>
+  <div class="col-md-12 top">
+    <form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
+    
+      <body>
+        <div>
+          <label for="cat">Select job title</label><br>
+          <!-- dropdown button "select" should not be styled like button -->
+          <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
+            required>
+            <option *ngFor="let list of jobsList" [value]="list">
+              {{list}}
+            </option>
+          </select>
+        </div>
+        <div class="col-sm-3 col-sm-offset-4 frame">
+          <ul>
+    
+            <li style="width:100%;" *ngFor="let b of bot; let even = even; let odd = odd" [ngClass]="{ odd: odd, even: even } "
+              class='odd'>
+              <div class="msj-rta macro">
+                <div class="text text-l">
+                  <p>{{b}}</p>
+                </div>
+              </div>
+            </li>
+            <!-- <li style="width:100%" class='even'>
+                        <div class="msj macro" >
+                          
+                          <div class="text text-r">
+                            <p> {{b}} </p>
+                          </div>
+                        </div>
+                      </li> -->
+    
+          </ul>
+    
+          <div>
+            <div class="msj-rta macro">
+              <div class="text text-r" style="background:whitesmoke !important">
+                <input type="text" class="form-control" formControlName="title" placeholder="Type a message" />
+              </div>
+    
+            </div>
+            <div style="padding:10px;">
+              <span class="glyphicon glyphicon-share-alt"></span>
+            </div>
+          </div>
+        </div>
+      </body>
+      <div class="col-md-12 post-btn text-right">
+        <button type="submit" class="btn btn-primary">+Post</button>
+      </div>
+    </form>
+  </div>
+  

@@ -1,7 +1,7 @@
 
-<nav class="navbutton" *ngIf="isLoggedIn$ | async">
+<nav class="navbutton navbar-fixed-top" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <div class="navbar-header navbar-fixed-top">
       <div class="col-xs-8">
         <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
           aria-controls="navbar">
@@ -16,7 +16,7 @@
   </div>
 
   <div class="collapse" id="navbar">
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav navbar-fixed-top">
       <li data-toggle="collapse" data-target="#navbar"><a class="btn btn-info" routerLink="/dashboard">Home</a></li>
       <li data-toggle="collapse" data-target="#navbar"><a class="btn btn-info" routerLink="/profile">Profile</a></li>
       <li data-toggle="collapse" data-target="#navbar"><a class="btn btn-info" routerLink="/job">My Chores</a></li>

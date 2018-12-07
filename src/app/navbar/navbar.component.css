@@ -2,6 +2,11 @@ nav {
   background-color: #C3F0DB;
 }
 
+.navbar-header {
+  margin-left: 1vh;
+  margin-right: 1vh;
+}
+
 .btn-info {
   background-color: #45CAA6;
 }
@@ -9,8 +14,13 @@ nav {
 #nav-logo-container img {
   max-height: 15vw;
   width: auto;
+  margin-top: 1vh;
 }
 
 #nav-logo-container {
   text-align: right;
+}
+
+.col-xs-8 {
+  margin-top: 3vh;
 }
