@@ -23,10 +23,6 @@ export class EditComponent  {
   chore: any;
   geocoder: any;
   editForm: FormGroup;
-  categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
-  selectedCategory: string;
-  suggestedPay = [15, 20, 30, 40, 50];
-  selectedPay: number;
   customer: any;
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
