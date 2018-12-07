@@ -1,58 +1,4 @@
-<!-- 
-  <div class="container">
-    <div [class.active]="active === i" (click)="onClick(i)" *ngFor="let user of users; let i = index " >
-        <h1 >{{user.username}}</h1>
-        <div *ngIf='i - 1'>
-          <div id="messagebox">
-            <div class="col-sm-3 col-sm-offset-4 frame">
-              <div *ngFor="let me of box">
-                    <div>
-                      {{me.text}}
 
-                    </div>
-                  
-                <div id="sender" *ngIf="sending">
-                <li>
-                  {{chats.message}}
-                </li>
-              </div>
-              </div>
-              <div>
-                <div class="msj-rta macro">
-                  <div class="text text-r" style="background:whitesmoke !important">
-                    <input class="mytext" [(ngModel)]="message" placeholder="Type a message" (keyup.enter)="sendMessage(user.id)"/>
-                  </div>
-            
-                </div>
-                <div style="padding:10px;">
-                  <span class="glyphicon glyphicon-share-alt" (click)="sendMessage(user.id)"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-          <!-- <ng-template #content let-c="close" let-d="dismiss">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">Message</h4>
-              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div *ngIf="sending">
-                {{chats.message}}
-              </div>
-            </div>
-            <div class="modal-footer">
-              <input class="form-control" [(ngModel)]="message">
-            </div>
-            <button class="btn btn-primary" (click)="sendMessage(user.id)">Send</button>
-          
-          </ng-template>
-          <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Send Message</button> -->
-        <!-- </div> 
-    
-  </div> -->
 <body>
   <div class="container">
     <h3 class=" text-center">Messaging</h3>
@@ -60,17 +6,7 @@
       <div class="inbox_msg">
         <div class="inbox_people">
           <div class="inbox_chat">
-            <!-- <div class="chat_list active_chat">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div> -->
-            <div class="chat_list" [class.active]="active === i" (click)="onClick(i)" *ngFor="let user of users; let i = index ">
+            <div class="chat_list" [class.active]="active === i" (click)="onClick(user)" *ngFor="let user of users; let i = index ">
               <div class="chat_people">
                 <div class="chat_ib">
                   <h5>{{user.username}}</h5>
@@ -81,63 +17,23 @@
           </div>
         </div>
         <div class="mesgs">
-          <div class="msg_history">
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-              </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>Test which is a new approach to have all
-                    solutions</p>
-                  <span class="time_date"> 11:01 AM | June 9</span>
-                </div>
-              </div>
-            </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Test which is a new approach to have all
-                  solutions</p>
-                <span class="time_date"> 11:01 AM | June 9</span>
-              </div>
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-              </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>Test, which is a new approach to have</p>
-                  <span class="time_date"> 11:01 AM | Yesterday</span>
-                </div>
-              </div>
-            </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Apollo University, Delhi, India Test</p>
-                <span class="time_date"> 11:01 AM | Today</span>
-              </div>
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-              </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>We work directly with our designers and suppliers,
-                    and sell direct to you, which means quality, exclusive
-                    products, at a price anyone can afford.</p>
-                  <span class="time_date"> 11:01 AM | Today</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="type_msg">
-            <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+          <div class="msg_history" >
+          <div class="type_msg" *ngFor="let me of box">
+            <div [innerHtml]="me.text">
+
             </div>
           </div>
         </div>
-      </div>
+        <div class="input_msg_write">
+          <div>
+            <input type="text" class="write_msg" [(ngModel)]="message" placeholder="Type a message" (keyup.enter)="sendMessage()"/>
+            <button class="msg_send_btn" (click)="sendMessage()" type="button"><i class='msg_send_btn'></i></button>
 
+          </div>
+      </div>
     </div>
+    
+  </div>
+  </div>
   </div>
 </body>
