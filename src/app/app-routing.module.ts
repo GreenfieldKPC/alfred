@@ -15,7 +15,7 @@ import { JobComponent } from './job/job.component';
 import { HelpComponent } from './help/help.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { EmployeeLoginComponent } from './employee-login/employee-login.component';
-
+import { EditComponent } from './edit/edit.component';
 const routes: Routes = [
   { path: '', component: SplashComponent },
   { path: 'login', component: LogInComponent },
@@ -29,9 +29,9 @@ const routes: Routes = [
   { path: 'message', component: MessageComponent },
   { path: 'job', component: JobComponent },
   { path: 'help', component: HelpComponent },
-  { path: 'employee', component: EmployeeComponent },
+  { path: 'employee', component: EmployeeComponent }, 
   { path: 'employee-login', component: EmployeeLoginComponent },
-
+  { path: 'edit', component: EditComponent }
 ];
 
 @NgModule({
@@ -39,4 +39,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [SplashComponent, LogInComponent, SignUpComponent, DashboardComponent, NavbarComponent, AddComponent, ProfileComponent, TakenComponent, PostedComponent, MessageComponent, JobComponent, HelpComponent, EmployeeComponent];
+export const routingComponents = [SplashComponent, LogInComponent, SignUpComponent, DashboardComponent, NavbarComponent, AddComponent, ProfileComponent, TakenComponent, PostedComponent, MessageComponent, JobComponent, HelpComponent, EmployeeComponent, EditComponent];
