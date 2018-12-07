@@ -5,3 +5,12 @@ nav {
 .btn-info {
   background-color: #45CAA6;
 }
+
+#nav-logo-container img {
+  max-height: 15vw;
+  width: auto;
+}
+
+#nav-logo-container {
+  text-align: right;
+}

@@ -125,6 +125,11 @@ export class JobComponent implements OnInit {
             this._jobService.updateJobId(chore, this.imageUrl)
               .then((data) => {
                 console.log(data);
+                if(data[1].rowCount > 0) {
+                  alert('Successful upload!');
+                } else {
+                  alert('Error uploading photo');
+                }
               });
           });
       }
@@ -142,6 +147,7 @@ export class JobComponent implements OnInit {
 
   completeJob(job) {
     // verify photo upload first
+    console.log(job, 'completed');
     if (job.photo_doer) {
       let payout = job.payment * .85;
       console.log(payout, " job line 80")

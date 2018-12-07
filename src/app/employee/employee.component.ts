@@ -47,8 +47,8 @@ export class EmployeeComponent implements OnInit {
 
   ngOnInit() {
     this._complaintService.getComplaints().then((complaints) => {
-      console.log(complaints);
       this.issues = complaints;
+      console.log(this.issues)
     });
 
   }
@@ -73,13 +73,8 @@ export class EmployeeComponent implements OnInit {
       this.complaintUsername = username.username;
       return this._jobService.getJob(complaint.id_job);
     }).then((job) => {
-      console.log(job, 'job employee 76')
-      this.job = job;
-      if(job.url) {
-        this.jobPhoto = job.url;
-      } else {
-        this.jobPhoto = "assets/images/default.png";
-      }  
+      this.job = job[0];
+      console.log(this.job, 'job to complaint')
     }).catch((err) => {
       console.log(err);
     });
