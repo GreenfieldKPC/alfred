@@ -101,7 +101,6 @@ passport.deserializeUser((function (id, done) {
 //*****  HANDELING SIGN UP******//
 app.post('/signUp', (req, res) => {
 
-  var picture;
 
   var area_id;
   var generateHash = function (password) {
@@ -204,6 +203,7 @@ app.post('/login', function (req, res, next) {
         req.session.passport = temp;
         req.session.user = user.username;
         req.session.userId = user.id;
+        req.session.area = user.id_area;
         res.send('true');
       });;
     });
@@ -416,8 +416,9 @@ db.sequelize.query(`UPDATE jobs SET description='${req.body.description}', title
 
 //********* USER TAKE JOB ******/
 app.patch("/dashboard/takeChore", (req, res) => {
+
   db.sequelize.query(`SELECT * FROM jobs WHERE id=${req.body.choreId}`).then((data) =>{
-    if(data[0][0].doer === 0){
+    if(data[0][0].doer === 0 &&){
       const q = `UPDATE jobs SET doer=${req.session.userId} WHERE id=${req.body.choreId}`
       db.sequelize.query(q, (err) => {
         if (err) {
