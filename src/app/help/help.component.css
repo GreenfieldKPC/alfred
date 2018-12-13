@@ -138,7 +138,7 @@ input:focus{
 :-ms-input-placeholder { /* IE 10+ */
     color: #d4d4d4;
 }
-:-moz-placeholder { /* Firefox 18- */
+:-moz-placeholder { /* Firefox 18-*/
     color: #d4d4d4;
 }
 
