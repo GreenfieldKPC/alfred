@@ -15,12 +15,29 @@ body{
   background-color: #C3F0DB;
   padding: 1vh;
   font-family: 'Fjalla One', sans-serif;
+  text-align: center;
 }
-/* body > * {
-  flex-shrink: 0;
+
+.btn-info {
+  background-color: #45CAA6;
+  border: none !important;
 }
-#app-body, #app-root, #app-root *, #splash {
-  height: 100%;
-  min-height: 100%;
-  flex-grow: 1;
-} */
+
+.btn-info:hover, .btn-info:focus, .btn-info:active:focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info {
+    color: white;
+    background-color: #F896EA;
+    border-color: #45CAA6; /*set the color you want here*/
+}
+
+#app-body {
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+}
+
+#app-root {
+  max-width: 700px;
+  text-align: center;
+  margin: auto;
+}
+

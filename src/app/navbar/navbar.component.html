@@ -2,11 +2,13 @@
 <nav class="navbutton navbar-fixed-top" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <div class="navbar-header navbar-fixed-top">
-      <div class="col-xs-8">
-        <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+      <div class="col-xs-8 span-holder">
+        <!-- <button class="btn btn-info navbar-btn" type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
           aria-controls="navbar">
-          <span class="navbar-toggler-icon">=</span>
-        </button>
+          
+        </button> -->
+        <span class="navbar-toggler-icon" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars fa-3x"
+            aria-hidden="true"></i></span>
       </div>
       <!-- <a class="navbar-brand" href="">Alfred</a> -->
       <div id="nav-logo-container" class="col-xs-4">

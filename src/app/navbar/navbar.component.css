@@ -1,18 +1,39 @@
 nav {
   background-color: #C3F0DB;
+  max-width: 700px;
+  margin: auto;
+}
+
+.span-holder {
+  text-align: left;
 }
 
 .navbar-header {
   margin-left: 1vh;
   margin-right: 1vh;
+  max-width: 700px;
+  margin: auto;
+}
+
+.navbar-toggler-icon {
+  color: #5A6978; 
+  text-align: left;
 }
 
 .btn-info {
   background-color: #45CAA6;
+  border-color: #5A6978;
+  /* border: none !important; */
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active:focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info {
+    color: white;
+    background-color: #F896EA;
+    border-color: #5A6978; /*set the color you want here*/
 }
 
 #nav-logo-container img {
-  max-height: 15vw;
+  max-height: 10vh;
   width: auto;
   margin-top: 1vh;
 }
