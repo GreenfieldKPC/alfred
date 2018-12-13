@@ -1,14 +1,23 @@
 nav {
   background-color: #C3F0DB;
+  max-width: 700px;
+  margin: auto;
+}
+
+.span-holder {
+  text-align: left;
 }
 
 .navbar-header {
   margin-left: 1vh;
   margin-right: 1vh;
+  max-width: 700px;
+  margin: auto;
 }
 
 .navbar-toggler-icon {
   color: #5A6978; 
+  text-align: left;
 }
 
 .btn-info {
@@ -24,7 +33,7 @@ nav {
 }
 
 #nav-logo-container img {
-  max-height: 15vw;
+  max-height: 10vh;
   width: auto;
   margin-top: 1vh;
 }
