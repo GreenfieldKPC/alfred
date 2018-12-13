@@ -79,6 +79,7 @@ export class DashboardComponent implements OnInit {
   infoWindow = new google.maps.InfoWindow();
   public defaultPhoto = "assets/images/non.png";
   @ViewChild(AgmMap) map: AgmMap;
+  
   constructor(
     config: NgbModalConfig,
     rateConfig: NgbRatingConfig,
@@ -262,8 +263,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getuser();
     this.getjob();
+    setInterval(() => {
+      this.getjob();
+    }, 100000);
   }
-  
   selectChore(chore) {
     this.selectedChore = chore;
     this.posterUserId = this.selectedChore.poster;

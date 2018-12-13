@@ -19,6 +19,13 @@
         </div>
         <div class="col-sm-3 col-sm-offset-4 frame">
           <ul>
+            <li style="width:100%;">
+              <div class="msj-rta macro">
+                <div class="text text-l">
+                  <p>Hello</p>
+                </div>
+              </div>
+            </li>
     
             <li style="width:100%;" *ngFor="let b of bot; let even = even; let odd = odd" [ngClass]="{ odd: odd, even: even } "
               class='odd'>
@@ -47,14 +54,14 @@
     
             </div>
             <div style="padding:10px;">
-              <span class="glyphicon glyphicon-share-alt"></span>
+              <span type="submit" class="glyphicon glyphicon-share-alt"></span>
             </div>
           </div>
         </div>
       </body>
-      <div class="col-md-12 post-btn text-right">
+      <!-- <div class="col-md-12 post-btn text-right">
         <button type="submit" class="btn btn-primary">+Post</button>
-      </div>
+      </div> -->
     </form>
   </div>
   

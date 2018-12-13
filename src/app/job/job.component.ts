@@ -116,22 +116,23 @@ export class JobComponent implements OnInit {
         alert('to far away'); 
       }
       else {
-        this._photoService.uploadPhoto(image)
-          .then((data) => {
-            this.selectedFile = data;
-            this.imageUrl = this.selectedFile.url;
-            console.log(this.imageUrl);
+        alert('complete');
+        // this._photoService.uploadPhoto(image)
+        //   .then((data) => {
+        //     this.selectedFile = data;
+        //     this.imageUrl = this.selectedFile.url;
+        //     console.log(this.imageUrl);
 
-            this._jobService.updateJobId(chore, this.imageUrl)
-              .then((data) => {
-                console.log(data);
-                if(data[1].rowCount > 0) {
-                  alert('Successful upload!');
-                } else {
-                  alert('Error uploading photo');
-                }
-              });
-          });
+        //     this._jobService.updateJobId(chore, this.imageUrl)
+        //       .then((data) => {
+        //         console.log(data);
+        //         if(data[1].rowCount > 0) {
+        //           alert('Successful upload!');
+        //         } else {
+        //           alert('Error uploading photo');
+        //         }
+        //       });
+        //   });
       }
     });
   }
@@ -148,7 +149,7 @@ export class JobComponent implements OnInit {
   completeJob(job) {
     // verify photo upload first
     console.log(job, 'completed');
-    if (job.photo_doer) {
+    if (job) {
       let payout = job.payment * .85;
       console.log(payout, " job line 80")
 
