@@ -7,7 +7,7 @@
     <form [formGroup]="complaintForm" (ngSubmit)="addComplaint()">
     
       <body>
-        <div>
+        <div class="col-md-12">
           <label for="cat">Select job title</label><br>
           <!-- dropdown button "select" should not be styled like button -->
           <select class="btn btn-default dropdown-toggle" name="priority" [(ngModel)]="selectedCategory" [ngModelOptions]="{standalone: true}"
@@ -17,16 +17,15 @@
             </option>
           </select>
         </div>
-        <div class="col-sm-3 col-sm-offset-4 frame">
+        <div class="col-xs-12 frame">
           <ul>
-            <li style="width:100%;">
+            <li style="width:100%;" class='odd'>
               <div class="msj-rta macro">
-                <div class="text text-l">
+                <div class="text text-r">
                   <p>Hello</p>
                 </div>
               </div>
             </li>
-    
             <li style="width:100%;" *ngFor="let b of bot; let even = even; let odd = odd" [ngClass]="{ odd: odd, even: even } "
               class='odd'>
               <div class="msj-rta macro">
@@ -45,23 +44,14 @@
                       </li> -->
     
           </ul>
-    
-          <div>
             <div class="msj-rta macro">
               <div class="text text-r" style="background:whitesmoke !important">
                 <input type="text" class="form-control" formControlName="title" placeholder="Type a message" />
               </div>
     
             </div>
-            <div style="padding:10px;">
-              <span type="submit" class="glyphicon glyphicon-share-alt"></span>
-            </div>
-          </div>
         </div>
       </body>
-      <!-- <div class="col-md-12 post-btn text-right">
-        <button type="submit" class="btn btn-primary">+Post</button>
-      </div> -->
     </form>
   </div>
   

@@ -6,6 +6,7 @@
   flex-direction: column;
   height: 100%;
   min-height: 100%;
+  max-width: 700px;
   flex-grow: 1;
 }
 
@@ -16,13 +17,14 @@
 form {
   background-color: white;
   min-height: 75vh;
+  margin-top: 2vh;
 }
 
 #add-header {
   margin-top: 5vh;
 }
 .top {
-  margin-top: 1vh;
+  margin-top: 2vh;
 }
 #add img {
   max-height: 15vw;

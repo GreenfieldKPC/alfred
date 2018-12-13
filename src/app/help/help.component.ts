@@ -114,7 +114,7 @@ export class HelpComponent {
       if (this.al.dialogState !== 'ReadyForFulfillment'){
         this.bot.push(this.al.message);
       } else {
-        let complaint = 'Thnak you ,your complaint has been filed one of our staff will be in touch soon.';
+        let complaint = 'Thank you, your complaint has been filed one of our staff will be in touch soon.';
         console.log(this.jobs);
         this.jobs.forEach((job) =>{
           if (job.title === this.selectedCategory ){
