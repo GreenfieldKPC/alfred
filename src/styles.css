@@ -15,6 +15,7 @@ body{
   background-color: #C3F0DB;
   padding: 1vh;
   font-family: 'Fjalla One', sans-serif;
+  text-align: center;
 }
 
 .btn-info {
@@ -26,5 +27,17 @@ body{
     color: white;
     background-color: #F896EA;
     border-color: #45CAA6; /*set the color you want here*/
+}
+
+#app-body {
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+}
+
+#app-root {
+  max-width: 700px;
+  text-align: center;
+  margin: auto;
 }
 

@@ -2,6 +2,9 @@
   height: 100%;
   position: absolute;
 } */
+#dash, #map-container, #dashboard {
+  max-width: 700px;
+}
 
 .sebm-google-map-container {
   height: 300px !important;
