@@ -39,6 +39,7 @@ interface Message {
 
 
 export class DashboardComponent implements OnInit {
+  posterUserId: any;
   chats: Message;
   message: string;
   sending: boolean;
@@ -106,15 +107,18 @@ export class DashboardComponent implements OnInit {
   open(content) {
     this.modalService.open(content);
   }
-  sendMessage(id) {
+  sendMessage() {
+    console.log(this.posterUserId);
+    if (this.posterUserId) {
 
-    this.chats = {
-      userid: id,
-      message: this.message,
+      this.chats = {
+        userid: this.posterUserId,
+        message: this.message,
+      }
+      this.sending = true;
+      this.http.post('/message', this.chats).subscribe((data) => {
+      })
     }
-    this.sending = true;
-    this.http.post('/message', this.chats).subscribe((data) => {
-    })
     this.message = '';
   }
   addInfoWindow(marker, content, markerIndex) {
@@ -259,9 +263,10 @@ export class DashboardComponent implements OnInit {
     this.getuser();
     this.getjob();
   }
-
+  
   selectChore(chore) {
     this.selectedChore = chore;
+    this.posterUserId = this.selectedChore.poster;
     this._profileService.getUserName(chore.poster).then((username) => {
       this.selectedChorePosterUsername = username.username;
       return this._profileService.getUserRating(chore.poster);
