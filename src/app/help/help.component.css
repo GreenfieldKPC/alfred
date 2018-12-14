@@ -13,6 +13,10 @@ h2, h1 {
   font-family: 'Fjalla One', sans-serif;
 }
 
+select .btn {
+    width: 75vw;
+}
+
 /* .mytext{
     border:0;
     background:whitesmoke;
