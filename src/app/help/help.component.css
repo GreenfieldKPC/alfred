@@ -5,6 +5,7 @@
 .top {
   margin-top: 1vh;
   max-width: 700px;
+  color: #5A6978; 
 }
 
 h2, h1 {
@@ -12,19 +13,33 @@ h2, h1 {
   font-family: 'Fjalla One', sans-serif;
 }
 
-.mytext{
+/* .mytext{
     border:0;
-    /* padding:10px; */
     background:whitesmoke;
-}
+} */
 .text{
-    width:75%;
+    color: #5A6978; 
+    width:100%;
     display:flex;
+    font-size: 2vh;
     flex-direction:column;
     padding: 2vh;
+    /* margin: 1vh; */
     background-color: transparent;
 }
-.text > p:first-of-type{
+
+input {
+    border: 3px #5A6978;
+}
+
+.input {
+    margin-top: 3vh;
+}
+
+.hide {
+    display:none;
+}
+/* .text > p:first-of-type{
     width:100%;
     margin-top:0;
     margin-bottom:auto;
@@ -37,7 +52,7 @@ h2, h1 {
     color:black;
     margin-bottom:-7px;
     margin-top:auto;
-}
+} */
 /* .text-l{
     float:left;
     padding-right:10px;
@@ -71,18 +86,21 @@ h2, h1 {
     background:white;
 }
 .frame{
-    background:#e0e0de;
+    background:white;
     height:65vh;
-    overflow:hidden;
+    /* overflow:hidden; */
+    overflow:auto; 
+    display:flex; 
+    flex-direction:column-reverse;
     padding:0;
 }
-.frame > div:last-of-type{
+/* .frame > div:last-of-type{
     position:absolute;
     bottom:0;
     width:100%;
     display:flex;
-}
-body > div > div > div:nth-child(2) > span{
+} */
+/* body > div > div > div:nth-child(2) > span{
     background: whitesmoke;
     padding: 10px;
     font-size: 21px;
@@ -91,20 +109,24 @@ body > div > div > div:nth-child(2) > span{
 body > div > div > div.msj-rta.macro{
     margin:auto;
     margin-left:1%;
-}
+} */
 ul {
-    max-width:600px;
+    width: 100%;
     list-style-type: none;
     position:absolute;
     bottom:47px;
     display:flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     top:0;
     overflow-y:scroll;
-    padding: 1vh, 0, 0, 0;
+    padding: 0;
     margin: 0;
 }
-.msj:before{
+
+li {
+    margin-top: 1vh;
+}
+/* .msj:before{
     width: 0;
     height: 0;
     content:"";
@@ -125,7 +147,7 @@ ul {
     border-style: solid;
     border-width: 13px 13px 0 0;
     border-color: whitesmoke transparent transparent transparent;           
-}  
+}   */
 input:focus{
     outline: none;
 }        
@@ -144,23 +166,26 @@ input:focus{
 
 .odd > div.msj-rta.macro{
     background-color: #F896EA;
+    border-radius: 15px;
     width: 50vw;
-    
+    max-width: 300px;
 } 
 
 .even > div.msj-rta.macro{
     background-color: #45CAA6;
+    border-radius: 15px;
     width: 50vw;
+    max-width: 300px;
 }  
 
-.odd {
+.odd:not(.input) {
     float:left;
-    padding-right:20vw;
+    padding-left: 2vw;
     margin-left: 0;
 }
 
 .even {
     float:right;
-    padding-left:5vw;
+    padding-left:33vw;
     margin-right: 0;
 }

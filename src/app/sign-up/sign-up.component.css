@@ -42,13 +42,16 @@ input {
   padding: 1vw 3vw 1vw 3vw;
 }
 
-h2, p{
+h2 {
   color: #5A6978; 
   font-family: 'Fjalla One', sans-serif;
 }
 
 p {
   margin-bottom: 0;
+  color: #F896EA; 
+  font-size: 3vh;
+  text-shadow: 1px 2px #5A6978;
 }
 
 /**
@@ -59,27 +62,24 @@ form.checkout {
   max-height: 20vh;
   margin: .25vh auto;
   text-align: center;
-  border: 2px solid #eee;
-  border-radius: 8px;
+  /* border-radius: 8px; */
   padding: .25vh .5vh;
-  background: white;
-
-  font-family: monospace;
-  color: #525252;
+  background: #C3F0DB;
+  color: #5A6978;
   font-size: 2vh;
 }
 
 form.checkout button {
   padding: .25vh .5vh;
   color: white;
-  background: coral;
+  background: #F896EA;
   border: none;
   border-radius: 4px;
   margin-top: .5vh;
 }
 
 form.checkout button:active {
-  background: rgb(165, 76, 43);
+  background: #F896EA;
 }
 
 .StripeElement {
