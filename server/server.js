@@ -272,6 +272,7 @@ app.post('/areas', (req, res) => {
 
 //*********HANDELING ADDING A JOB*******//
 app.post("/add", (req, res) => {
+  console.log(req.body)
   let profile;
   db.sequelize.query(` SELECT * FROM users WHERE username = '${req.session.user}';`).then((user) => {
     profile = user[0][0];
@@ -289,7 +290,7 @@ app.post("/add", (req, res) => {
         })
       } else {
         profile.area = area[0][0].id;
-        db.sequelize.query(`INSERT INTO jobs (poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+        db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
           // res.send("job added")
           res.end()
         })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,6 +19,8 @@ interface LatLng {
   styleUrls: ['./add.component.css']
 })
 export class AddComponent {
+  @Output() addJob = new EventEmitter();
+  boolean: boolean;
   geocoder: any;
   choreForm: FormGroup;
   categoryLists = ['House Hold', 'Lawn Care', 'Pet Care'];
@@ -37,7 +39,10 @@ export class AddComponent {
 
     });
   }
-
+  adding() {
+    this.boolean = true;
+    this.addJob.emit(this.boolean);
+  }
   ngOnInit(e) {
 
     this.choreForm = this.formBuilder.group({
@@ -100,5 +105,6 @@ export class AddComponent {
           console.log('Something is wrong:', data);
         }
       });
+      
   }
 }
