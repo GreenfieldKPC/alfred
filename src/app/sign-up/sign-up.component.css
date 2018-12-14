@@ -62,12 +62,9 @@ form.checkout {
   max-height: 20vh;
   margin: .25vh auto;
   text-align: center;
-  /* border: 2px solid #eee; */
-  border-radius: 8px;
+  /* border-radius: 8px; */
   padding: .25vh .5vh;
   background: #C3F0DB;
-
-  font-family: monospace;
   color: #5A6978;
   font-size: 2vh;
 }

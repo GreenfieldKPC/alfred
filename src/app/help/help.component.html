@@ -17,10 +17,16 @@
             </option>
           </select>
         </div>
-        <div class="col-xs-12 frame">
+        <div class="col-md-12 frame">
           <ul id="scroll">
-            
-            <li style="width:100%;" *ngFor="let b of bot.slice().reverse(); let even = even; let odd = odd" [ngClass]="{ odd: odd, even: even } "
+            <li class='even hide'>
+              <div class="msj-rta macro">
+                <div class="text text-r">
+                  <!-- <p>Hello</p> -->
+                </div>
+              </div>
+            </li>
+            <li *ngFor="let b of bot.slice().reverse(); let even = even; let odd = odd" [ngClass]="{ odd: odd, even: even } "
               class='odd'>
               <div class="msj-rta macro">
                 <div class="text text-l">
@@ -28,20 +34,11 @@
                 </div>
               </div>
             </li>
-            <li style="width:100%;" class='even'>
-              <div class="msj-rta macro">
-                <div class="text text-r">
-                  <p>Hello</p>
-                </div>
-              </div>
-            </li>
-    
           </ul>
-            <div class="msj-rta macro">
-              <div class="text text-r" style="background:whitesmoke !important">
-                <input type="text" class="form-control" formControlName="title" placeholder="Type a message" />
+            <div class="msj-rta macro input">
+              <div class="text text-r " style="background:#45CAA6 !important">
+                <input type="text" class="form-control form-control-lg" formControlName="title" placeholder="Type a message" />
               </div>
-    
             </div>
         </div>
       </body>
