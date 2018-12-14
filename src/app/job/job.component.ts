@@ -167,7 +167,7 @@ export class JobComponent implements OnInit {
         //notify both users of payment and completion
         if (job === true) {
           alert('Awesome! Job Completed!');
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/dashboard');
         } else {
           alert('There was a problem completing this job!');
           console.log(job, '162');
