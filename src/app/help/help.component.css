@@ -73,7 +73,10 @@ h2, h1 {
 .frame{
     background:#e0e0de;
     height:65vh;
-    overflow:hidden;
+    /* overflow:hidden; */
+    overflow:auto; 
+    display:flex; 
+    flex-direction:column-reverse;
     padding:0;
 }
 .frame > div:last-of-type{

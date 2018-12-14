@@ -20,7 +20,8 @@ h1 {
 
 ngb-rating {
   font-size: 1.5rem;
-  color: yellow;
+  color: #F896EA;
+  text-shadow: 1px 2px #5A6978;
 }
 
 .buttons {

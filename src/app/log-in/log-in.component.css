@@ -45,11 +45,14 @@ input {
   padding: 1vw 3vw 1vw 3vw;
 }
 
-h2, p{
+h2{
   color: #5A6978; 
   font-family: 'Fjalla One', sans-serif;
 }
 
 p {
   margin-bottom: 0;
+  color: #F896EA;
+  font-size: 3vh;
+  text-shadow: 1px 2px #5A6978;
 }

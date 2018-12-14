@@ -34,6 +34,10 @@ ul {
   margin-top: 3vh;
 }
 
+.card-header {
+  border: none;
+}
+
 li {
   margin-bottom: 2vh;
   margin-left: -2vw;
@@ -49,10 +53,15 @@ h3 {
   text-align: center;
 }
 
-span:not(.close) {
+span:not(.close, .money) {
   display: inline-block;
   width: 80vw;
   border: 2px solid #45CAA6;
+}
+
+.money {
+  color: #45CAA6;
+  font-size: 2vh;
 }
 
 .chore .col-md-12{
@@ -64,8 +73,9 @@ span:not(.close) {
 }
 
 #rating ngb-rating {
-  /* font-size: 1.5rem; */
-  color: yellow;
+  color: #F896EA;
+  font-size: 2vh;
+  text-shadow: 1px 2px #5A6978;
 }
 
 .profile {
