@@ -41,3 +41,7 @@ body{
   margin: auto;
 }
 
+.form-control {
+  box-shadow: none;
+}
+

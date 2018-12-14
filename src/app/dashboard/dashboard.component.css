@@ -21,13 +21,12 @@ h1 {
 
 #rating ngb-rating {
   font-size: 3vh;
-  color: yellow;
+  color: #F896EA;
+  text-shadow: 1px 2px #5A6978;
   margin-left: -2vw;
 }
 
-#searchbar {
-  /* background-color: white; */
-}
+
 #searchbtn {
 background-color: #45CAA6;
 border: 0;
@@ -36,11 +35,10 @@ color: white;
 font-size: 2vh;
 margin-top: 2.25vh;
 padding: 1vw 2vw 1vw 2vw;
-border: 1px solid #5A6978;
 }
 
 #info {
-  border: 3px solid #5A6978;
+  border: 3px solid #45CAA6;
   background-color: white;
   min-height: 35vh;
   width: 90vw;

@@ -28,7 +28,7 @@
                       <p>{{ chore.address }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p class="payment">Available pay: ${{ chore.payment }}</p>
+                      <p class="payment">Available pay:<span class="money"> ${{ chore.payment }}</span></p>
                     </div>
                   </div>
                 </button>
@@ -110,7 +110,7 @@
                       <p>{{ chore.address }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p class="payment">Amount earned: ${{ chore.payment }}</p>
+                      <p class="payment">Amount earned: <span class="money">${{ chore.payment }}</span></p>
                     </div>
                   </div>
                 </button>
@@ -155,7 +155,7 @@
                 </div>
                 <div class="col-md-12">
                   <div class="col-xs-8">
-                    <p class="payment">Amount paid: ${{ chore.payment }}</p>
+                    <p class="payment">Amount paid: <br><span class="money">${{ chore.payment }}</span></p>
                   </div>
                   <div class="col-xs-4">
                     <div *ngIf="chore.completed">
