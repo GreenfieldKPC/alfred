@@ -6,6 +6,8 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
 import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 declare var google: any;
 declare var stripe: any;
 
@@ -33,6 +35,8 @@ export class AddComponent {
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document,
   ) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -44,6 +48,17 @@ export class AddComponent {
     this.addJob.emit(this.boolean);
   }
   ngOnInit(e) {
+
+    //******** code for calender */
+    const s = this.renderer2.createElement('script');
+    s.type = 'text/javascript';
+    s.text = `
+          ${$(function () {
+          $('#datetimepicker1').datetimepicker();
+        })}
+      `;
+    this.renderer2.appendChild(this._document.body, s);
+    //****************** */
 
     this.choreForm = this.formBuilder.group({
       // category: [''],
