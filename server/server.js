@@ -976,7 +976,7 @@ app.post('/lex', (req, res) => {
   })
   var lexruntime = new AWS.LexRuntime();
   var params = {
-    botName: 'Alfred',
+    botName: 'Albot',
     botAlias: '$LATEST',
     userId: req.session.user,
     inputText: req.body.title,
