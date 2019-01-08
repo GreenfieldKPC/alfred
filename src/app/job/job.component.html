@@ -20,7 +20,7 @@
                       <a>{{ chore.title }}</a>
                     </div>
                     <div class="col-xs-4">
-                      Date Posted
+                      <p>{{ chore.start_time | date: 'meduim' }}</p>
                     </div>
                   </div>
                   <div *ngIf="!chore.completed" class="col-md-12">
@@ -28,7 +28,7 @@
                       <p>{{ chore.address }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p class="payment">Available pay:<span class="money"> ${{ chore.payment }}</span></p>
+                      <p class="payment">Available pay:<span class="money"> ${{ chore.payment*.85 }}</span></p>
                     </div>
                   </div>
                 </button>
@@ -102,7 +102,7 @@
                       <p>{{ chore.title }}</p>
                     </div>
                     <div class="col-xs-4">
-                      <p>Date Posted</p>
+                      <p>{{ chore.start_time | date: 'medium' }}</p>
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -150,7 +150,7 @@
                     <p>{{ chore.title }}</p>
                   </div>
                   <div class="col-xs-4">
-                    <p>Date Posted</p>
+                    <p>{{ chore.start_time | date: 'medium' }}</p>
                   </div>
                 </div>
                 <div class="col-md-12">

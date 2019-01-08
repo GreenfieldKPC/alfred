@@ -22,7 +22,7 @@
                   <p>Job Id# {{ complaint.id_job }}</p>
                 </div>
                 <div class="col-xs-4">
-                  Date Posted: {{ complaint.created_at }}
+                  Date Posted: {{ complaint.created_at | date}}
                   <button type="button" class="btn btn-info review" (click)='getUserInfo(complaint)'>Review!</button>
                 </div>
               </div>
