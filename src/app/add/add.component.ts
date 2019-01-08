@@ -6,6 +6,9 @@ import { GoogleMapsAPIWrapper } from '@agm/core/services';
 import { MapsAPILoader } from '@agm/core';
 import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
+import { Renderer2, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
+import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 declare var google: any;
 declare var stripe: any;
 
@@ -27,12 +30,16 @@ export class AddComponent {
   selectedCategory: string;
   suggestedPay = [15, 20, 30, 40, 50];
   selectedPay: number;
+  startTime: string;
   customer: any;
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+    private DlDateTimePickerDateModule: DlDateTimePickerDateModule,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document,
   ) {
     this.mapsApiLoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
@@ -43,6 +50,7 @@ export class AddComponent {
     this.boolean = true;
     this.addJob.emit(this.boolean);
   }
+
   ngOnInit(e) {
 
     this.choreForm = this.formBuilder.group({
@@ -54,10 +62,11 @@ export class AddComponent {
       zipcode: [''],
       // suggestedPay: [''],
       //time needs to be converted to timestamp
-      startTime: ['']
+      // startTime: ['']
     })
     this.selectedCategory = e;
     this.selectedPay = e;
+    this.startTime = e;
   }
   getlatlng(address: string) {
     return new Promise((resolve, reject) => {
@@ -77,6 +86,7 @@ export class AddComponent {
     console.log(this.choreForm.value.title)   
     this.choreForm.value.electedCategory = this.selectedCategory
     this.choreForm.value.suggestedPay = this.selectedPay
+    this.choreForm.value.startTime = this.startTime
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
 
     this.getlatlng(addr).then(() => {
