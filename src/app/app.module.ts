@@ -15,6 +15,7 @@ import { EmployeeComponent } from './employee/employee.component';
 import { HelpComponent } from './help/help.component';
 import { EmployeeLoginComponent } from './employee-login/employee-login.component';
 import { EditComponent } from './edit/edit.component';
+import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,14 @@ import { EditComponent } from './edit/edit.component';
     AppRoutingModule,
     AlertModule.forRoot(),
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DlDateTimePickerDateModule,
   ],
   providers: [
     GoogleMapsAPIWrapper,
-    JobService
+    JobService,
+    FormsModule
   ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

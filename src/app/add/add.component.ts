@@ -8,6 +8,7 @@ import { AddService } from '../add.service';
 import { DashboardService } from '../dashboard.service';
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 declare var google: any;
 declare var stripe: any;
 
@@ -29,12 +30,14 @@ export class AddComponent {
   selectedCategory: string;
   suggestedPay = [15, 20, 30, 40, 50];
   selectedPay: number;
+  startTime: string;
   customer: any;
   public logo = "assets/images/logo.png";
   constructor(private addService: AddService,
     private dashboardService: DashboardService,
     public mapsApiLoader: MapsAPILoader,
     private formBuilder: FormBuilder, private http: HttpClient, private router: Router,
+    private DlDateTimePickerDateModule: DlDateTimePickerDateModule,
     private renderer2: Renderer2,
     @Inject(DOCUMENT) private _document,
   ) {
@@ -47,18 +50,8 @@ export class AddComponent {
     this.boolean = true;
     this.addJob.emit(this.boolean);
   }
-  ngOnInit(e) {
 
-    //******** code for calender */
-    const s = this.renderer2.createElement('script');
-    s.type = 'text/javascript';
-    s.text = `
-          ${$(function () {
-          $('#datetimepicker1').datetimepicker();
-        })}
-      `;
-    this.renderer2.appendChild(this._document.body, s);
-    //****************** */
+  ngOnInit(e) {
 
     this.choreForm = this.formBuilder.group({
       // category: [''],
@@ -69,10 +62,11 @@ export class AddComponent {
       zipcode: [''],
       // suggestedPay: [''],
       //time needs to be converted to timestamp
-      startTime: ['']
+      // startTime: ['']
     })
     this.selectedCategory = e;
     this.selectedPay = e;
+    this.startTime = e;
   }
   getlatlng(address: string) {
     return new Promise((resolve, reject) => {
@@ -92,6 +86,7 @@ export class AddComponent {
     console.log(this.choreForm.value.title)   
     this.choreForm.value.electedCategory = this.selectedCategory
     this.choreForm.value.suggestedPay = this.selectedPay
+    this.choreForm.value.startTime = this.startTime
     var addr = this.choreForm.value.address + "," + this.choreForm.value.city + "," + this.choreForm.value.zipcode
 
     this.getlatlng(addr).then(() => {

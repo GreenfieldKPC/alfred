@@ -32,6 +32,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const request = require('request');
+const moment = require('moment');
+
+moment().format();
 
 cloudinary.config({
   cloud_name: process.env.cloud_name,
@@ -282,7 +285,7 @@ app.post("/add", (req, res) => {
           db.sequelize.query(`SELECT * FROM areas WHERE city ='${req.body.city.toLowerCase()}' `).then((area) => {
             profile.area = area[0][0].id;
           }).then(() => {
-            db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}', '${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+            db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, start_time, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}', '${req.body.startTime}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
               // res.send("job added")
               res.end()
             })
@@ -290,7 +293,7 @@ app.post("/add", (req, res) => {
         })
       } else {
         profile.area = area[0][0].id;
-        db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, created_at, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${Date.now()}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
+        db.sequelize.query(`INSERT INTO jobs (title,poster, doer, category, description, start_time, payment, id_area, address, zip, lat, lon, completed ) Values('${req.body.title}','${profile.id}','${0}','${req.body.category}','${req.body.description}' ,'${req.body.startTime}','${req.body.suggestedPay}','${profile.area}','${req.body.address}','${req.body.zipcode}','${req.body.lat}','${req.body.lng}','${false}')`).then((data) => {
           // res.send("job added")
           res.end()
         })
@@ -976,7 +979,7 @@ app.post('/lex', (req, res) => {
   })
   var lexruntime = new AWS.LexRuntime();
   var params = {
-    botName: 'Alfred',
+    botName: 'Albot',
     botAlias: '$LATEST',
     userId: req.session.user,
     inputText: req.body.title,
